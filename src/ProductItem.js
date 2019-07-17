@@ -1,5 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+
+const ProductItem = () => {
+  return (
+    <ItemContainer>
+      <Description>
+        <ProductName>Atoms Shoes</ProductName>
+        <ProductDescription>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore,
+          mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores
+          numquam neque
+        </ProductDescription>
+      </Description>
+      <ProductImage />
+      <Button>Visit Site</Button>
+    </ItemContainer>
+  );
+}
+
+export default ProductItem;
 
 const ItemContainer = styled.div`
   display: flex;
@@ -9,6 +28,25 @@ const ItemContainer = styled.div`
   position: relative;
   &: hover {
     cursor: pointer;
+  }
+  
+  &:nth-child(even) {
+    flex-direction: row-reverse;
+    & button {
+      right: 0;
+      left: 25px;
+      text-align: right;
+      &:hover {
+        ::after {
+          left: 70px;
+        }
+      }
+      &::after {
+        left: 225px;
+        transform: rotate(45deg);
+        transition: left .3s;
+      }
+    }
   }
 `;
 
@@ -42,7 +80,7 @@ const ProductImage = styled.div`
   z-index: -100;
 
   ${ItemContainer}:hover & {
-    transform: scale(1.3);
+    transform: scale(1.2);
     transition: transform 15s, filter 1s;
     filter: brightness(0.8);
   }
@@ -65,9 +103,10 @@ const Button = styled.button`
   transform: translate(0, 75px);
   transition: border-bottom-width .3s, transform .5s, color .3s;
   &:hover {
-    color: #333;
+    color: #000;
+    
     ::after {
-      right: -10px;
+      right: 70px;
     }
   }
   ${ItemContainer}:hover & {
@@ -77,34 +116,14 @@ const Button = styled.button`
   &::after {
     content: '';
     position: absolute;
-    width: 100px;
+    width: 180px;
     height: 220px;
     top: -55px;
-    right: -111px;
+    right: 225px;
     background-color: #fff;
-    transform: rotate(45deg);
+    transform: rotate(-45deg);
     transition: right .3s;
+    z-index: -100;
   }
 }
 `;
-
-class ProductItem extends Component {
-  render() {
-    return (
-      <ItemContainer>
-        <Description>
-          <ProductName>Atoms Shoes</ProductName>
-          <ProductDescription>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore,
-            mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores
-            numquam neque
-          </ProductDescription>
-        </Description>
-        <ProductImage />
-        <Button>Visit Site</Button>
-      </ItemContainer>
-    );
-  }
-}
-
-export default ProductItem;
