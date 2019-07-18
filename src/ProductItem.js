@@ -1,22 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ProductItem = () => {
+const ProductItem = ({ prodName, prodImg, shortDescription, siteUrl }) => {
   return (
     <ItemContainer>
       <Description>
-        <ProductName>Atoms Shoes</ProductName>
-        <ProductDescription>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore,
-          mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores
-          numquam neque
-        </ProductDescription>
+        <ProductName>{prodName}</ProductName>
+        <ProductDescription>{shortDescription}</ProductDescription>
       </Description>
       <ProductImage />
-      <Button>Visit Site</Button>
+      <a href={siteUrl} target="_blank">
+        <Button>
+          <span>Visit Site</span>
+        </Button>
+      </a>
     </ItemContainer>
   );
-}
+};
 
 export default ProductItem;
 
@@ -38,13 +38,23 @@ const ItemContainer = styled.div`
       text-align: right;
       &:hover {
         ::after {
-          left: 70px;
+          left: -25px;
+        }
+        & span {
+          transform: translate(-95px,-10px);
         }
       }
       &::after {
-        left: 225px;
+        top: -145px;
+        left: -205px
         transform: rotate(45deg);
         transition: left .3s;
+      }
+      & span {
+        position: absolute;
+        right: 17px;
+        transform: translate(0,-10px);
+        word-break: keep-all;
       }
     }
   }
@@ -76,12 +86,12 @@ const ProductImage = styled.div`
   background-position: center;
   background-size: cover;
   transform: scale(1);
-  transition: transform 5s, filter 1s;
+  transition: transform 10s, filter 1s;
   z-index: -100;
 
   ${ItemContainer}:hover & {
-    transform: scale(1.2);
-    transition: transform 15s, filter 1s;
+    transform: scale(1.1);
+    transition: transform 10s, filter 1s;
     filter: brightness(0.8);
   }
 `;
@@ -104,13 +114,22 @@ const Button = styled.button`
   transition: border-bottom-width .3s, transform .5s, color .3s;
   &:hover {
     color: #000;
-    
+    & span {
+      transform: translate(95px, -9px);
+      transition: transform .3s;
+    }
     ::after {
-      right: 70px;
+      left: 70px;
     }
   }
   ${ItemContainer}:hover & {
     transform: translate(0, 0);
+  }
+
+  & span {
+    transform: translate(0, -9px);
+    position: absolute;
+    transition: transform .3s;
   }
 
   &::after {
@@ -118,11 +137,11 @@ const Button = styled.button`
     position: absolute;
     width: 180px;
     height: 220px;
-    top: -55px;
-    right: 225px;
+    top: -145px;
+    left: 225px;
     background-color: #fff;
-    transform: rotate(-45deg);
-    transition: right .3s;
+    transform: rotate(45deg);
+    transition: .3s;
     z-index: -100;
   }
 }
