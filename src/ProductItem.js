@@ -1,26 +1,52 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ProductItem = ({ prodName, prodImg, shortDescription, siteUrl }) => {
+const ProductItem = ({ prodName, headImg, shortDescription, fullDescription, siteUrl, gallery }) => {
+  const renderImg = gallery.map(img => {
+    return (
+      <img src={img}/>
+    )
+  })
   return (
-    <ItemContainer>
-      <Description>
-        <ProductName>{prodName}</ProductName>
-        <ProductDescription>{shortDescription}</ProductDescription>
-      </Description>
-      <ProductImage />
-      <a href={siteUrl} target="_blank">
-        <Button>
-          <span>Visit Site</span>
-        </Button>
-      </a>
-    </ItemContainer>
+    <div>
+      <Wrapper>  
+        <ItemHeader>
+          <Description>
+            <ProductName>{prodName}</ProductName>
+            <ProductDescription>{shortDescription}</ProductDescription>
+          </Description>
+          <ProductImage />
+          <a href="{siteUrl}" target="_blank">
+            <Button>
+              <span>Visit Site</span>
+            </Button>
+          </a>
+        </ItemHeader>
+        <Content>
+          <p>{fullDescription}</p>
+        </Content>
+        <SideName>
+          <h1>{prodName}</h1>
+        </SideName>
+      </Wrapper>
+      <Gallery>
+        {renderImg}
+      </Gallery>
+      <Footer>
+        <p>All rights reserved 2019</p>
+      </Footer>
+    </div>
+      
   );
 };
 
 export default ProductItem;
 
-const ItemContainer = styled.div`
+const Wrapper = styled.div`
+  position: relative;
+`
+
+const ItemHeader = styled.div`
   display: flex;
   width: 100%;
   height: 300px;
@@ -89,7 +115,7 @@ const ProductImage = styled.div`
   transition: transform 10s, filter 1s;
   z-index: -100;
 
-  ${ItemContainer}:hover & {
+  ${ItemHeader}:hover & {
     transform: scale(1.1);
     transition: transform 10s, filter 1s;
     filter: brightness(0.8);
@@ -122,7 +148,7 @@ const Button = styled.button`
       left: 70px;
     }
   }
-  ${ItemContainer}:hover & {
+  ${ItemHeader}:hover & {
     transform: translate(0, 0);
   }
 
@@ -146,3 +172,78 @@ const Button = styled.button`
   }
 }
 `;
+
+const Content = styled.div`
+  display: flex;
+  min-height: 300px;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto;
+  font-size: 20px;
+  background-color: #fff;
+`;
+
+const SideName = styled.div`
+  display: flex;
+  position: absolute;
+  height: 100%;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  box-sizing: border-box;
+  right: 50px;
+  top: 0;
+  max-height: 1000px;
+
+
+  h1 {
+    writing-mode: vertical-lr;
+    font-size: 60px;
+    margin: 0;
+  }
+
+`
+
+const Gallery = styled.div`
+  display: flex;
+  width: 100%;
+  overflow: overlay;
+  align-items: baseline;
+  img {
+    margin: 0 30px 25px 0;
+    max-height: 830px;
+    width: auto;
+    -webkit-user-drag: none;
+    
+    :last-child {
+      margin-right: 0;
+    }
+  }
+  ::-webkit-scrollbar {   
+    height: .5em;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #333;
+    border-radius: 50px;
+    margin: 5px;
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  
+`;
+
+const Footer = styled.footer`
+  display: flex;
+  justify-content: center;
+  padding: 25px;
+
+  p {
+    font-size: 20px;
+  }
+`
