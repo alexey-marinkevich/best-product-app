@@ -15,10 +15,10 @@ const ProductItem = ({ prodName, headImg, shortDescription, fullDescription, sit
             <ProductName>{prodName}</ProductName>
             <ProductDescription>{shortDescription}</ProductDescription>
           </Description>
-          <ProductImage />
+          <ProductImage img={headImg}/>
           <a href="{siteUrl}" target="_blank">
             <Button>
-              <span>Visit Site</span>
+              <span>Get More</span>
             </Button>
           </a>
         </ItemHeader>
@@ -107,7 +107,7 @@ const ProductDescription = styled.p`
 
 const ProductImage = styled.div`
   width: 100%;
-  background-image: url('https://cdn2.shopify.com/s/files/1/0231/2060/9358/files/Home_Packaging_1024x.jpg?v=1556841297');
+  background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -195,6 +195,7 @@ const SideName = styled.div`
   align-items: center;
   padding: 30px;
   box-sizing: border-box;
+  user-select: none;
   right: 50px;
   top: 0;
   max-height: 1000px;
