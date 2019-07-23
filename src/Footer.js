@@ -10,6 +10,8 @@ const Footer = () => {
   );
 };
 
+export default Footer;
+
 const StyledFooter = styled.footer`
   display: flex;
   justify-content: center;
@@ -20,6 +22,5 @@ const StyledFooter = styled.footer`
   }
 `;
 
-export default Footer;
 
 

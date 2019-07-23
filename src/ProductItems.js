@@ -7,6 +7,7 @@ class ProductItems extends Component {
   state = {
     products: [
       {
+        id: 123,
         isItemActive: false,
         prodName: 'Atoms shoes',
         headImg:
@@ -23,6 +24,7 @@ class ProductItems extends Component {
         ],
       },
       {
+        id: 123,
         isItemActive: false,
         prodName: 'Atoms shoes',
         headImg:
@@ -39,6 +41,7 @@ class ProductItems extends Component {
         ],
       },
       {
+        id: 123,
         isItemActive: false,
         prodName: 'Atoms shoes',
         headImg:
@@ -54,20 +57,25 @@ class ProductItems extends Component {
           'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_White_Wide_1024x.jpg?v=1556563138',
         ],
       },
+      
     ],
   };
 
-  renderContent = () => {
-    this.setState({
-      isItemActive: true,
-    });
-    console.log('hi');
+  renderContent = (idx) => {
+    this.setState(({products}) => {
+      const editableProduct = [...products];
+      editableProduct[idx].isItemActive = true; 
+      return {
+        products : editableProduct
+      }
+    })
   };
-
+  
   render() {
-    const renderElems = this.state.products.map(product => {
+    const renderElems = this.state.products.map((product, idx) => {
       return (
         <ProductItem
+          idx={idx}
           prodName={product.prodName}
           headImg={product.headImg}
           shortDescription={product.shortDescription}

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ProductItem = ({
+  idx,
   prodName,
   headImg,
   shortDescription,
@@ -15,8 +16,8 @@ const ProductItem = ({
     return <img src={img} />;
   });
 
-  const handleClick = e => {
-    renderContent();
+  const handleClick = () => {
+    renderContent(idx);
   };
 
   if (!isItemActive) {
@@ -203,10 +204,13 @@ const Content = styled.div`
   align-items: center;
   padding: 50px 0;
   text-align: center;
-  max-width: 750px;
   margin: 0 auto;
-  font-size: 20px;
-  background-color: #fff;
+  & p {
+    max-width: 750px;
+    font-size: 20px;
+    background-color: #fff;
+    z-index: 100;
+  }
 `;
 
 const SideName = styled.div`
@@ -257,5 +261,3 @@ const Gallery = styled.div`
     display: none;
   }
 `;
-
-
