@@ -1,0 +1,25 @@
+import React from 'react';
+
+import styled from 'styled-components';
+
+const Footer = () => {
+  return (
+    <StyledFooter>
+      <p>All rights reserved 2019</p>
+    </StyledFooter>
+  );
+};
+
+const StyledFooter = styled.footer`
+  display: flex;
+  justify-content: center;
+  padding: 25px;
+
+  p {
+    font-size: 20px;
+  }
+`;
+
+export default Footer;
+
+
