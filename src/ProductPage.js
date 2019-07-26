@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
 
+import ProductProposalForm from './ProductProposalForm';
+
+
 class ProductPage extends Component {
   render () {
     return (
-      <h1>app</h1>
+      <div>
+        <ProductProposalForm/>
+      </div>
     )
   }
 }
