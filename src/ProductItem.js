@@ -1,24 +1,54 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ProductItem = ({ prodName, headImg, shortDescription, fullDescription, siteUrl, gallery }) => {
+const ProductItem = ({
+  idx,
+  prodName,
+  headImg,
+  shortDescription,
+  fullDescription,
+  siteUrl,
+  gallery,
+  isItemActive,
+  renderContent,
+}) => {
   const renderImg = gallery.map(img => {
+    return <img src={img} />;
+  });
+
+  const handleClick = () => {
+    renderContent(idx);
+  };
+
+  if (!isItemActive) {
     return (
-      <img src={img}/>
-    )
-  })
+      <ItemHeader onClick={handleClick}>
+        <Description>
+          <ProductName>{prodName}</ProductName>
+          <ProductDescription>{shortDescription}</ProductDescription>
+        </Description>
+        <ProductImage img={headImg} />
+        <a href={siteUrl} target="_blank">
+          <Button>
+            <span>Get More</span>
+          </Button>
+        </a>
+      </ItemHeader>
+    );
+  }
+
   return (
     <div>
-      <Wrapper>  
+      <Wrapper>
         <ItemHeader>
           <Description>
             <ProductName>{prodName}</ProductName>
             <ProductDescription>{shortDescription}</ProductDescription>
           </Description>
-          <ProductImage />
-          <a href="{siteUrl}" target="_blank">
+          <ProductImage img={headImg} />
+          <a href={siteUrl} target="_blank">
             <Button>
-              <span>Visit Site</span>
+              <span>Get More</span>
             </Button>
           </a>
         </ItemHeader>
@@ -29,14 +59,8 @@ const ProductItem = ({ prodName, headImg, shortDescription, fullDescription, sit
           <h1>{prodName}</h1>
         </SideName>
       </Wrapper>
-      <Gallery>
-        {renderImg}
-      </Gallery>
-      <Footer>
-        <p>All rights reserved 2019</p>
-      </Footer>
+      <Gallery>{renderImg}</Gallery>
     </div>
-      
   );
 };
 
@@ -44,7 +68,7 @@ export default ProductItem;
 
 const Wrapper = styled.div`
   position: relative;
-`
+`;
 
 const ItemHeader = styled.div`
   display: flex;
@@ -56,7 +80,7 @@ const ItemHeader = styled.div`
     cursor: pointer;
   }
   
-  &:nth-child(even) {
+  :nth-child(even) {
     flex-direction: row-reverse;
     & button {
       right: 0;
@@ -107,7 +131,7 @@ const ProductDescription = styled.p`
 
 const ProductImage = styled.div`
   width: 100%;
-  background-image: url('https://cdn2.shopify.com/s/files/1/0231/2060/9358/files/Home_Packaging_1024x.jpg?v=1556841297');
+  background-image: url(${props => props.img});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -180,10 +204,13 @@ const Content = styled.div`
   align-items: center;
   padding: 50px 0;
   text-align: center;
-  max-width: 750px;
   margin: 0 auto;
-  font-size: 20px;
-  background-color: #fff;
+  & p {
+    max-width: 750px;
+    font-size: 20px;
+    background-color: #fff;
+    z-index: 100;
+  }
 `;
 
 const SideName = styled.div`
@@ -195,18 +222,17 @@ const SideName = styled.div`
   align-items: center;
   padding: 30px;
   box-sizing: border-box;
+  user-select: none;
   right: 50px;
   top: 0;
   max-height: 1000px;
-
 
   h1 {
     writing-mode: vertical-lr;
     font-size: 60px;
     margin: 0;
   }
-
-`
+`;
 
 const Gallery = styled.div`
   display: flex;
@@ -218,13 +244,13 @@ const Gallery = styled.div`
     max-height: 830px;
     width: auto;
     -webkit-user-drag: none;
-    
+
     :last-child {
       margin-right: 0;
     }
   }
-  ::-webkit-scrollbar {   
-    height: .5em;
+  ::-webkit-scrollbar {
+    height: 0.5em;
   }
   ::-webkit-scrollbar-thumb {
     background-color: #333;
@@ -234,16 +260,4 @@ const Gallery = styled.div`
   ::-webkit-scrollbar-button {
     display: none;
   }
-
-  
 `;
-
-const Footer = styled.footer`
-  display: flex;
-  justify-content: center;
-  padding: 25px;
-
-  p {
-    font-size: 20px;
-  }
-`
