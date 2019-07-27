@@ -10,10 +10,13 @@ class ProductProposalForm extends Component {
   render() {
     return (
       <Container>
-        <LeadText>
-          Place where you can suggest interest and good quality products of small or less popular
-          companies, to share with other people and get to know about it more range of pepople
-        </LeadText>
+        <ContainerTopSection>
+          <CloseButton>🠐</CloseButton>
+          <LeadText>
+            Place where you can suggest interest and good quality products of small or less popular
+            companies, to share with other people and get to know about it more range of pepople
+          </LeadText>
+        </ContainerTopSection>
         <Form>
           <MainData>
             <h2>Main Data</h2>
@@ -38,10 +41,11 @@ class ProductProposalForm extends Component {
             <TextField
               required
               multiline
-              id="short-sescr"
+              id="short-descr"
               label="Short Description"
               defaultValue=""
               margin="normal"
+              placeholder="100 symbols max"
               helperText="Will be available in product preview"
               inputProps={{
                 maxLength: 100,
@@ -73,6 +77,7 @@ class ProductProposalForm extends Component {
               helperText=""
             />
           </ImageGallery>
+          <Button>Send</Button>
         </Form>
       </Container>
     );
@@ -94,6 +99,28 @@ const Container = styled.div`
     margin: 0;
   }
 `;
+
+const ContainerTopSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`
+
+const CloseButton = styled.button`
+  font-size: 70px;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 30px;
+  cursor: pointer;
+  transition: .3s;
+  color: #333
+
+  :hover {
+    padding: 30px 30px 30px 20px;
+  }
+`
 
 const LeadText = styled.h1`
   font-size: 20px;
@@ -142,6 +169,7 @@ const ImageGallery = styled.div`
   flex-direction: column;
   width: 100%;
   padding-top: 30px;
+  margin-bottom: 30px;
 
   & p {
     margin: 0;
@@ -149,3 +177,19 @@ const ImageGallery = styled.div`
     font-size: 14px;
   }
 `;
+
+const Button = styled.button`
+  width: 250px;
+  height: 50px;
+  background-color: transparent;
+  border: 1px solid #333;
+  color: #333;
+  font-size: 18px;
+  cursor: pointer;
+  transition: .3s;
+  
+  : hover {
+    background-color: #333;
+    color: #fff;
+  }
+`
