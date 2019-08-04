@@ -7,7 +7,6 @@ class ProductItems extends Component {
   state = {
     products: [
       {
-        id: 123,
         isItemActive: false,
         prodName: 'Atoms shoes',
         headImg:
@@ -24,7 +23,6 @@ class ProductItems extends Component {
         ],
       },
       {
-        id: 123,
         isItemActive: false,
         prodName: 'Atoms shoes',
         headImg:
@@ -41,7 +39,6 @@ class ProductItems extends Component {
         ],
       },
       {
-        id: 123,
         isItemActive: false,
         prodName: 'Atoms shoes',
         headImg:
