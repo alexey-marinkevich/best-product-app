@@ -5,34 +5,60 @@ import TextField from '@material-ui/core/TextField';
 
 class ProductProposalForm extends Component {
   state = {
-    usersSuggestions: [],
+    productName: '',
+    productHeadImage: '',
+    shortDescription: '',
+    fullDescription: '',
+    galleryField: '',
   };
+
+  handleInput = e => {
+    const eventId = e.target.id;
+    const value = e.target.value;
+
+    this.setState({
+      [eventId]: value,
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+  };
+
   render() {
+    const {
+      productName,
+      productHeadImage,
+      shortDescription,
+      fullDescription,
+      galleryField,
+    } = this.state;
+    
     return (
       <Container>
         <ContainerTopSection>
           <CloseButton>🠐</CloseButton>
           <LeadText>
             Place where you can suggest interest and good quality products of small or less popular
-            companies, to share with other people and get to know about it more range of pepople
+            companies to share with other people and get to know about it more range of pepople
           </LeadText>
         </ContainerTopSection>
-        <Form>
+        <Form onChange={this.handleInput} onSubmit={this.handleSubmit}>
           <MainData>
             <h2>Main Data</h2>
             <MainDataTopSection>
               <TextField
                 required
-                id="product-name"
+                id="productName"
                 label="Product Name"
-                defaultValue=""
+                defaultValue={productName}
                 margin="normal"
               />
               <TextField
                 required
-                id="product-head-img"
+                id="productHeadImage"
                 label="Main Image"
-                defaultValue=""
+                defaultValue={productHeadImage}
                 margin="normal"
                 placeholder="Paste URL"
                 helperText="Add image that clearly shows what the product is"
@@ -41,9 +67,9 @@ class ProductProposalForm extends Component {
             <TextField
               required
               multiline
-              id="short-descr"
+              id="shortDescription"
               label="Short Description"
-              defaultValue=""
+              defaultValue={shortDescription}
               margin="normal"
               placeholder="100 symbols max"
               helperText="Will be available in product preview"
@@ -54,11 +80,11 @@ class ProductProposalForm extends Component {
             <TextField
               required
               multiline
-              id="full-description"
-              label="Content"
-              defaultValue=""
+              id="fullDescription"
+              label="Full Description"
+              defaultValue={fullDescription}
               margin="normal"
-              helperText=""
+              helperText="Provide full description here"
             />
           </MainData>
           <ImageGallery>
@@ -69,15 +95,15 @@ class ProductProposalForm extends Component {
             </p>
             <TextField
               required
-              id="gallery-field"
-              label="Gallery Img"
-              defaultValue=""
+              id="galleryField"
+              label="Gallery Image"
+              defaultValue={galleryField}
               placeholder="Paste URL"
               margin="normal"
               helperText=""
             />
           </ImageGallery>
-          <Button>Send</Button>
+          <Button>Submit</Button>
         </Form>
       </Container>
     );
@@ -91,7 +117,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   align-self: center;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
 
   & h2 {
@@ -105,22 +131,22 @@ const ContainerTopSection = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-`
+`;
 
 const CloseButton = styled.button`
   font-size: 70px;
   background: none;
   border: none;
   outline: none;
-  padding: 30px;
+  padding: 0 30px 30px 30px;
   cursor: pointer;
-  transition: .3s;
+  transition: 0.3s;
   color: #333
 
   :hover {
-    padding: 30px 30px 30px 20px;
+    transform: translate(-10px, 0);
   }
-`
+`;
 
 const LeadText = styled.h1`
   font-size: 20px;
@@ -168,7 +194,7 @@ const ImageGallery = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-top: 30px;
+  padding-top: 50px;
   margin-bottom: 30px;
 
   & p {
@@ -186,10 +212,10 @@ const Button = styled.button`
   color: #333;
   font-size: 18px;
   cursor: pointer;
-  transition: .3s;
-  
+  transition: 0.3s;
+
   : hover {
     background-color: #333;
     color: #fff;
   }
-`
+`;
