@@ -41,16 +41,7 @@ const ProductItem = ({
     <div>
       <Wrapper>
         <ItemHeader>
-          <Description>
-            <ProductName>{prodName}</ProductName>
-            <ProductDescription>{shortDescription}</ProductDescription>
-          </Description>
           <ProductImage img={headImg} />
-          <a href={siteUrl} target="_blank">
-            <Button>
-              <span>Get More</span>
-            </Button>
-          </a>
         </ItemHeader>
         <Content>
           <p>{fullDescription}</p>
@@ -202,7 +193,7 @@ const Content = styled.div`
   min-height: 300px;
   justify-content: center;
   align-items: center;
-  padding: 50px 0;
+  padding: 50px 25px;
   text-align: center;
   margin: 0 auto;
   & p {
@@ -226,6 +217,7 @@ const SideName = styled.div`
   right: 50px;
   top: 0;
   max-height: 1000px;
+  max-width: 140px;
 
   h1 {
     writing-mode: vertical-lr;
