@@ -134,7 +134,7 @@ const ContainerTopSection = styled.div`
 `;
 
 const CloseButton = styled.button`
-  font-size: 70px;
+  font-size: 60px;
   background: none;
   border: none;
   outline: none;

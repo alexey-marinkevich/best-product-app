@@ -18,7 +18,7 @@ const StyledFooter = styled.footer`
   padding: 25px;
 
   p {
-    font-size: 20px;
+    font-size: 16px;
   }
 `;
 
