@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Link } from "react-router-dom";
 
 import TextField from '@material-ui/core/TextField';
 
@@ -37,7 +38,9 @@ class ProductProposalForm extends Component {
     return (
       <Container>
         <ContainerTopSection>
-          <CloseButton>🠐</CloseButton>
+          <Link to="/">
+            <CloseButton>🠐</CloseButton>
+          </Link>
           <LeadText>
             Place where you can suggest interest and good quality products of small or less popular
             companies to share with other people and get to know about it more range of pepople
@@ -61,7 +64,7 @@ class ProductProposalForm extends Component {
                 defaultValue={productHeadImage}
                 margin="normal"
                 placeholder="Paste URL"
-                helperText="Add image that clearly shows what the product is"
+                helperText="Add image that clearly shows the product is"
               />
             </MainDataTopSection>
             <TextField
@@ -134,7 +137,7 @@ const ContainerTopSection = styled.div`
 `;
 
 const CloseButton = styled.button`
-  font-size: 70px;
+  font-size: 60px;
   background: none;
   border: none;
   outline: none;

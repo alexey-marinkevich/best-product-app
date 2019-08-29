@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import ProductPage from './ProductPage';
+
 const ProductItem = ({
   idx,
   prodName,
@@ -16,13 +18,13 @@ const ProductItem = ({
     return <img src={img} />;
   });
 
-  const handleClick = () => {
+  const handleClose = () => {
     renderContent(idx);
   };
 
   if (!isItemActive) {
     return (
-      <ItemHeader onClick={handleClick}>
+      <ItemHeader onClick={handleClose}>
         <Description>
           <ProductName>{prodName}</ProductName>
           <ProductDescription>{shortDescription}</ProductDescription>
@@ -36,30 +38,18 @@ const ProductItem = ({
       </ItemHeader>
     );
   }
-
   return (
-    <div>
-      <Wrapper>
-        <ItemHeader>
-          <ProductImage img={headImg} />
-        </ItemHeader>
-        <Content>
-          <p>{fullDescription}</p>
-        </Content>
-        <SideName>
-          <h1>{prodName}</h1>
-        </SideName>
-      </Wrapper>
-      <Gallery>{renderImg}</Gallery>
-    </div>
+    <ProductPage
+      headImg={headImg}
+      fullDescription={fullDescription}
+      prodName={prodName}
+      renderImg={renderImg}
+      handleClose={handleClose}
+    />
   );
 };
 
 export default ProductItem;
-
-const Wrapper = styled.div`
-  position: relative;
-`;
 
 const ItemHeader = styled.div`
   display: flex;
@@ -94,7 +84,7 @@ const ItemHeader = styled.div`
       & span {
         position: absolute;
         right: 17px;
-        transform: translate(0,-10px);
+        transform: translate(0,-9px);
         word-break: keep-all;
       }
     }
@@ -104,19 +94,19 @@ const ItemHeader = styled.div`
 const Description = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 40%;
   padding: 20px;
   background-color: #fff;
 `;
 
 const ProductName = styled.h2`
-  font-size: 42px;
+  font-size: 32px;
   color: #333;
   margin: 0;
 `;
 
 const ProductDescription = styled.p`
-  font-size: 18px;
+  font-size: 16px;
   color: #333;
 `;
 
@@ -140,32 +130,19 @@ const ProductImage = styled.div`
 const Button = styled.button`
   position: absolute;
   right: 25px;
-  bottom: 25px;
+  bottom: 20px;
   width: 200px;
-  height: 50px;
+  height: 40px;
   padding: 15px;
   background: none;
   border: 2px solid white;
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   text-align: left;
   overflow: hidden;
   cursor: pointer;
   transform: translate(0, 75px);
   transition: border-bottom-width .3s, transform .5s, color .3s;
-  &:hover {
-    color: #000;
-    & span {
-      transform: translate(95px, -9px);
-      transition: transform .3s;
-    }
-    ::after {
-      left: 70px;
-    }
-  }
-  ${ItemHeader}:hover & {
-    transform: translate(0, 0);
-  }
 
   & span {
     transform: translate(0, -9px);
@@ -179,77 +156,26 @@ const Button = styled.button`
     width: 180px;
     height: 220px;
     top: -145px;
-    left: 225px;
+    left: 230px;
     background-color: #fff;
     transform: rotate(45deg);
     transition: .3s;
     z-index: -100;
   }
-}
-`;
 
-const Content = styled.div`
-  display: flex;
-  min-height: 300px;
-  justify-content: center;
-  align-items: center;
-  padding: 50px 25px;
-  text-align: center;
-  margin: 0 auto;
-  & p {
-    max-width: 750px;
-    font-size: 20px;
-    background-color: #fff;
-    z-index: 100;
-  }
-`;
-
-const SideName = styled.div`
-  display: flex;
-  position: absolute;
-  height: 100%;
-  background-color: #fff;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-  box-sizing: border-box;
-  user-select: none;
-  right: 50px;
-  top: 0;
-  max-height: 1000px;
-  max-width: 140px;
-
-  h1 {
-    writing-mode: vertical-lr;
-    font-size: 60px;
-    margin: 0;
-  }
-`;
-
-const Gallery = styled.div`
-  display: flex;
-  width: 100%;
-  overflow: overlay;
-  align-items: baseline;
-  img {
-    margin: 0 30px 25px 0;
-    max-height: 830px;
-    width: auto;
-    -webkit-user-drag: none;
-
-    :last-child {
-      margin-right: 0;
+  &:hover {
+    color: #000;
+    & span {
+      transform: translate(95px, -9px);
+      transition: transform .3s;
+    }
+    ::after {
+      left: 70px;
     }
   }
-  ::-webkit-scrollbar {
-    height: 0.5em;
+
+  ${ItemHeader}:hover & {
+    transform: translate(0, 0);
   }
-  ::-webkit-scrollbar-thumb {
-    background-color: #333;
-    border-radius: 50px;
-    margin: 5px;
-  }
-  ::-webkit-scrollbar-button {
-    display: none;
-  }
+}
 `;
