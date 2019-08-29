@@ -24,20 +24,18 @@ const ProductItem = ({
 
   if (!isItemActive) {
     return (
-      <div>
-        <ItemHeader onClick={handleClose}>
-          <Description>
-            <ProductName>{prodName}</ProductName>
-            <ProductDescription>{shortDescription}</ProductDescription>
-          </Description>
-          <ProductImage img={headImg} />
-          <a href={siteUrl} target="_blank">
-            <Button>
-              <span>Get More</span>
-            </Button>
-          </a>
-        </ItemHeader>
-      </div>
+      <ItemHeader onClick={handleClose}>
+        <Description>
+          <ProductName>{prodName}</ProductName>
+          <ProductDescription>{shortDescription}</ProductDescription>
+        </Description>
+        <ProductImage img={headImg} />
+        <a href={siteUrl} target="_blank">
+          <Button>
+            <span>Get More</span>
+          </Button>
+        </a>
+      </ItemHeader>
     );
   }
   return (
@@ -56,7 +54,7 @@ export default ProductItem;
 const ItemHeader = styled.div`
   display: flex;
   width: 100%;
-  height: 250px;
+  height: 300px;
   overflow: hidden;
   position: relative;
   &: hover {
