@@ -84,7 +84,7 @@ const ItemHeader = styled.div`
       & span {
         position: absolute;
         right: 17px;
-        transform: translate(0,-10px);
+        transform: translate(0,-9px);
         word-break: keep-all;
       }
     }
@@ -94,7 +94,7 @@ const ItemHeader = styled.div`
 const Description = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 40%;
   padding: 20px;
   background-color: #fff;
 `;
@@ -130,32 +130,19 @@ const ProductImage = styled.div`
 const Button = styled.button`
   position: absolute;
   right: 25px;
-  bottom: 25px;
+  bottom: 20px;
   width: 200px;
-  height: 50px;
+  height: 40px;
   padding: 15px;
   background: none;
   border: 2px solid white;
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   text-align: left;
   overflow: hidden;
   cursor: pointer;
   transform: translate(0, 75px);
   transition: border-bottom-width .3s, transform .5s, color .3s;
-  &:hover {
-    color: #000;
-    & span {
-      transform: translate(95px, -9px);
-      transition: transform .3s;
-    }
-    ::after {
-      left: 70px;
-    }
-  }
-  ${ItemHeader}:hover & {
-    transform: translate(0, 0);
-  }
 
   & span {
     transform: translate(0, -9px);
@@ -169,11 +156,26 @@ const Button = styled.button`
     width: 180px;
     height: 220px;
     top: -145px;
-    left: 225px;
+    left: 230px;
     background-color: #fff;
     transform: rotate(45deg);
     transition: .3s;
     z-index: -100;
+  }
+
+  &:hover {
+    color: #000;
+    & span {
+      transform: translate(95px, -9px);
+      transition: transform .3s;
+    }
+    ::after {
+      left: 70px;
+    }
+  }
+
+  ${ItemHeader}:hover & {
+    transform: translate(0, 0);
   }
 }
 `;
