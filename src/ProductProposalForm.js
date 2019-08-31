@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
@@ -7,18 +7,45 @@ import TextField from '@material-ui/core/TextField';
 import ImageGallery from './ImageGallery';
 
 const ProductProposalForm = () => {
-  const [productName, setProductName] = useState('');
-  const [productHeadImage, setProductHeadImage] = useState('');
-  const [shortDescription, setShortDescription] = useState('');
-  const [fullDescription, setFullDescription] = useState('');
-  const [imageGalleryInput, setImageGalleryInput] = useState('');
-  const [imageGallery, setImageGallery] = useState([
-    'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_Gray_Loft_600x.jpg?v=1557771826',
-    'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_Gray_Stairs_600x.jpg?v=1556563189',
+  const initialProductName = JSON.parse(localStorage.getItem('productName'));
+  const initialProductHeadImage = JSON.parse(localStorage.getItem('productHeadImage'));
+  const initialShortDescription = JSON.parse(localStorage.getItem('shortDescription'));
+  const initialFullDescription = JSON.parse(localStorage.getItem('fullDescription'));
+  const initialImageGalleryInput = JSON.parse(localStorage.getItem('imageGalleryInput'));
+  const initialImageGallery = JSON.parse(localStorage.getItem('imageGallery'));
+
+  const [productName, setProductName] = useState(initialProductName || '');
+  const [productHeadImage, setProductHeadImage] = useState(initialProductHeadImage || '');
+  const [shortDescription, setShortDescription] = useState(initialShortDescription || '');
+  const [fullDescription, setFullDescription] = useState(initialFullDescription || '');
+  const [imageGalleryInput, setImageGalleryInput] = useState(initialImageGalleryInput || '');
+  const [imageGallery, setImageGallery] = useState(initialImageGallery || []);
+
+  useEffect(() => {
+    localStorage.setItem('productName', JSON.stringify(productName));
+    localStorage.setItem('productHeadImage', JSON.stringify(productHeadImage));
+    localStorage.setItem('shortDescription', JSON.stringify(shortDescription));
+    localStorage.setItem('fullDescription', JSON.stringify(fullDescription));
+    localStorage.setItem('imageGalleryInput', JSON.stringify(imageGalleryInput));
+    localStorage.setItem('imageGallery', JSON.stringify(imageGallery));
+  }, [
+    productName,
+    productHeadImage,
+    shortDescription,
+    fullDescription,
+    imageGalleryInput,
+    imageGallery,
   ]);
 
   const handleSubmit = e => {
     e.preventDefault();
+    localStorage.clear();
+    setProductName('');
+    setProductHeadImage('');
+    setShortDescription('');
+    setFullDescription('');
+    setImageGalleryInput('');
+    setImageGallery([]);
   };
 
   const handleAddImage = e => {
@@ -29,17 +56,27 @@ const ProductProposalForm = () => {
     }
   };
 
-  const handleDeleteImage = e => {
-    const selectedElementId = e.target.id;
-    imageGallery.splice(selectedElementId, 1);
-    setImageGallery(imageGallery);
+  const handleDeleteImage = id => {
+    const modGallery = [...imageGallery];
+    modGallery.splice(id, 1);
+    setImageGallery(modGallery);
+  };
+
+  const handlePageClose = () => {
+    localStorage.clear();
+    setProductName('');
+    setProductHeadImage('');
+    setShortDescription('');
+    setFullDescription('');
+    setImageGalleryInput('');
+    setImageGallery([]);
   };
 
   return (
     <Container>
       <ContainerTopSection>
         <Link to="/">
-          <CloseButton>🠐</CloseButton>
+          <CloseButton onClick={handlePageClose}>🠐</CloseButton>
         </Link>
         <LeadText>
           Place where you can suggest interest and good quality products of small or less popular
@@ -107,8 +144,8 @@ const ProductProposalForm = () => {
           <Button onClick={handleAddImage}>Add</Button>
           <StyledImageGallery>
             {imageGallery.map((image, idx) => (
-              <ImageWrapper>
-                <img src={image} key={idx} id={idx} onClick={handleDeleteImage} />
+              <ImageWrapper onClick={() => handleDeleteImage(idx)}>
+                <img src={image} key={idx} />
               </ImageWrapper>
             ))}
           </StyledImageGallery>
