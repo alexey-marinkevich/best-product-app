@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ImageGallery from './ImageGallery';
 
 const ProductPage = ({ headImg, fullDescription, prodName, renderImg, handleClose }) => {
 
@@ -17,7 +18,7 @@ const ProductPage = ({ headImg, fullDescription, prodName, renderImg, handleClos
           <h1>{prodName}</h1>
         </SideName>
       </ContentWrapper>
-      <Gallery>{renderImg}</Gallery>
+      <ImageGallery>{renderImg}</ImageGallery>
     </Container>
   );
 };
@@ -114,30 +115,4 @@ const SideName = styled.div`
   }
 `;
 
-const Gallery = styled.div`
-  display: flex;
-  width: 100%;
-  overflow: overlay;
-  align-items: baseline;
-  img {
-    margin: 0 30px 25px 0;
-    max-height: 700px;
-    width: auto;
-    -webkit-user-drag: none;
 
-    :last-child {
-      margin-right: 0;
-    }
-  }
-  ::-webkit-scrollbar {
-    height: 0.5em;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: #333;
-    border-radius: 50px;
-    margin: 5px;
-  }
-  ::-webkit-scrollbar-button {
-    display: none;
-  }
-`;

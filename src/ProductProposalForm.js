@@ -1,117 +1,123 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
+import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 
-class ProductProposalForm extends Component {
-  state = {
-    productName: '',
-    productHeadImage: '',
-    shortDescription: '',
-    fullDescription: '',
-    galleryField: '',
-  };
+import ImageGallery from './ImageGallery';
 
-  handleInput = e => {
-    const eventId = e.target.id;
-    const value = e.target.value;
+const ProductProposalForm = () => {
+  const [productName, setProductName] = useState('');
+  const [productHeadImage, setProductHeadImage] = useState('');
+  const [shortDescription, setShortDescription] = useState('');
+  const [fullDescription, setFullDescription] = useState('');
+  const [imageGalleryInput, setImageGalleryInput] = useState('');
+  const [imageGallery, setImageGallery] = useState([
+    'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_Gray_Loft_600x.jpg?v=1557771826',
+    'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_Gray_Stairs_600x.jpg?v=1556563189',
+  ]);
 
-    this.setState({
-      [eventId]: value,
-    });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
   };
 
-  render() {
-    const {
-      productName,
-      productHeadImage,
-      shortDescription,
-      fullDescription,
-      galleryField,
-    } = this.state;
-    
-    return (
-      <Container>
-        <ContainerTopSection>
-          <Link to="/">
-            <CloseButton>🠐</CloseButton>
-          </Link>
-          <LeadText>
-            Place where you can suggest interest and good quality products of small or less popular
-            companies to share with other people and get to know about it more range of pepople
-          </LeadText>
-        </ContainerTopSection>
-        <Form onChange={this.handleInput} onSubmit={this.handleSubmit}>
-          <MainData>
-            <h2>Main Data</h2>
-            <MainDataTopSection>
-              <TextField
-                required
-                id="productName"
-                label="Product Name"
-                defaultValue={productName}
-                margin="normal"
-              />
-              <TextField
-                required
-                id="productHeadImage"
-                label="Main Image"
-                defaultValue={productHeadImage}
-                margin="normal"
-                placeholder="Paste URL"
-                helperText="Add image that clearly shows the product is"
-              />
-            </MainDataTopSection>
+  const handleAddImage = e => {
+    e.preventDefault();
+    if (imageGalleryInput !== '') {
+      setImageGallery([...imageGallery, imageGalleryInput]);
+      setImageGalleryInput('');
+    }
+  };
+
+  const handleDeleteImage = e => {
+    const selectedElementId = e.target.id;
+    imageGallery.splice(selectedElementId, 1);
+    setImageGallery(imageGallery);
+  };
+
+  return (
+    <Container>
+      <ContainerTopSection>
+        <Link to="/">
+          <CloseButton>🠐</CloseButton>
+        </Link>
+        <LeadText>
+          Place where you can suggest interest and good quality products of small or less popular
+          companies to share with other people and get to know about it more range of pepople
+        </LeadText>
+      </ContainerTopSection>
+      <Form onSubmit={handleSubmit}>
+        <MainData>
+          <h2>Main Data</h2>
+          <MainDataTopSection>
             <TextField
               required
-              multiline
-              id="shortDescription"
-              label="Short Description"
-              defaultValue={shortDescription}
+              label="Product Name"
+              value={productName}
               margin="normal"
-              placeholder="100 symbols max"
-              helperText="Will be available in product preview"
-              inputProps={{
-                maxLength: 100,
-              }}
+              onChange={({ target }) => setProductName(target.value)}
             />
             <TextField
               required
-              multiline
-              id="fullDescription"
-              label="Full Description"
-              defaultValue={fullDescription}
+              label="Main Image"
+              value={productHeadImage}
               margin="normal"
-              helperText="Provide full description here"
-            />
-          </MainData>
-          <ImageGallery>
-            <h2>Image Gallery</h2>
-            <p>
-              Additional images to show more about product. Recomend to paste image url from this
-              product site or other high quality site
-            </p>
-            <TextField
-              required
-              id="galleryField"
-              label="Gallery Image"
-              defaultValue={galleryField}
               placeholder="Paste URL"
-              margin="normal"
-              helperText=""
+              helperText="Add image that clearly shows the product is"
+              onChange={({ target }) => setProductHeadImage(target.value)}
             />
-          </ImageGallery>
-          <Button>Submit</Button>
-        </Form>
-      </Container>
-    );
-  }
-}
+          </MainDataTopSection>
+          <TextField
+            required
+            multiline
+            label="Short Description"
+            value={shortDescription}
+            margin="normal"
+            placeholder="100 symbols max"
+            helperText="Will be available in product preview"
+            inputProps={{
+              maxLength: 100,
+            }}
+            onChange={({ target }) => setShortDescription(target.value)}
+          />
+          <TextField
+            required
+            multiline
+            label="Full Description"
+            value={fullDescription}
+            margin="normal"
+            helperText="Provide full description here"
+            onChange={({ target }) => setFullDescription(target.value)}
+          />
+        </MainData>
+        <Gallery>
+          <h2>Image Gallery</h2>
+          <p>
+            Additional images to show more about product. Recomend to paste image url directly from
+            the product site or other high quality site
+          </p>
+          <TextField
+            label="Gallery Image"
+            value={imageGalleryInput}
+            placeholder="Paste URL"
+            margin="normal"
+            helperText=""
+            onChange={({ target }) => setImageGalleryInput(target.value)}
+          />
+          <Button onClick={handleAddImage}>Add</Button>
+          <StyledImageGallery>
+            {imageGallery.map((image, idx) => (
+              <ImageWrapper>
+                <img src={image} key={idx} id={idx} onClick={handleDeleteImage} />
+              </ImageWrapper>
+            ))}
+          </StyledImageGallery>
+        </Gallery>
+        <Button type="submit">Submit</Button>
+      </Form>
+    </Container>
+  );
+};
 
 export default ProductProposalForm;
 
@@ -193,7 +199,7 @@ const MainDataTopSection = styled.div`
   justify-content: space-between;
 `;
 
-const ImageGallery = styled.div`
+const Gallery = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -204,6 +210,42 @@ const ImageGallery = styled.div`
     margin: 0;
     max-width: 400px;
     font-size: 14px;
+  }
+`;
+
+const StyledImageGallery = styled(ImageGallery)`
+  padding: 25px 0;
+  & img {
+    max-height: 200px;
+  }
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
+  margin-right: 25px;
+  cursor: pointer;
+
+  &:last-child {
+    margin-right: 0px;
+  }
+
+  &::after {
+    content: 'Remove';
+    opacity: 0;
+    font-size: 25px;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -100%);
+    text-shadow: 1px 1px #808080, 1px 0px #808080, 0px 0 #808080, -1px 1px #808080;
+    transition: 0.3s;
+    -webkit-user-select: none;
+  }
+  &:hover {
+    &::after {
+      opacity: 1;
+    }
   }
 `;
 
