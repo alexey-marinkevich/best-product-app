@@ -16,10 +16,7 @@ const Header = () => {
           <Link href="#">Categories</Link>
         </li>
       </NavBar> */}
-
-      <ProposalFormLink>
-        <Link to="/proposal-form">Suggest Product</Link>
-      </ProposalFormLink>
+      <StyledLink to="/proposal-form">Suggest Product</StyledLink>
     </NavBarContainer>
   );
 };
@@ -36,7 +33,7 @@ const Logo = styled.a`
   font-size: 20px;
 `;
 
-const ProposalFormLink = styled.a`
+const StyledLink = styled(Link)`
   text-decoration: none;
   color: #333;
   font-size: 16px;
