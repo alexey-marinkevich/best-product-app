@@ -1,21 +1,36 @@
 import React from 'react';
+import {connect} from 'react-redux'
+import {Link, withRouter} from 'react-router-dom'
+
 import styled from 'styled-components';
 import ImageGallery from './ImageGallery';
 
-const ProductPage = ({ headImg, fullDescription, prodName, renderImg, handleClose }) => {
+const ProductPage = ({ product, match }) => {
+  const currProduct = product[match.params.id];
+
+  if (!currProduct) {
+    return 'NOTHING FOUND'
+  }
+
+  const renderImg = currProduct.gallery.map(img => {
+    return <img src={img} />;
+  });
+
 
   return (
     <Container>
       <ContentWrapper>
         <ItemHeader>
-          <CloseButton onClick={handleClose}>🠐</CloseButton>
-          <ProductImage img={headImg} />
+          <Link to='/'>
+            <CloseButton>🠐</CloseButton>
+          </Link>
+          <ProductImage img={currProduct.headImg} />
         </ItemHeader>
         <Content>
-          <p>{fullDescription}</p>
+          <p>{currProduct.fullDescription}</p>
         </Content>
         <SideName>
-          <h1>{prodName}</h1>
+          <h1>{currProduct.prodName}</h1>
         </SideName>
       </ContentWrapper>
       <ImageGallery>{renderImg}</ImageGallery>
@@ -23,12 +38,16 @@ const ProductPage = ({ headImg, fullDescription, prodName, renderImg, handleClos
   );
 };
 
-export default ProductPage;
+const mapStateToProps = (state) => {
+  return {
+    product: state.products,
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(ProductPage));
 
 const Container = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
+  position: relative;
   background-color: #fff;
   z-index: 99999;
   

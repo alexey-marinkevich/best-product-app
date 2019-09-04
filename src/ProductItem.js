@@ -1,58 +1,28 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
 import styled from 'styled-components';
 
-import ProductPage from './ProductPage';
-
-const ProductItem = ({
-  idx,
-  prodName,
-  headImg,
-  shortDescription,
-  fullDescription,
-  siteUrl,
-  gallery,
-  isItemActive,
-  renderContent,
-}) => {
-  const renderImg = gallery.map(img => {
-    return <img src={img} />;
-  });
-
-  const handleClose = () => {
-    renderContent(idx);
-  };
-
-  if (!isItemActive) {
-    return (
-      <ItemHeader onClick={handleClose}>
-        <Description>
-          <ProductName>{prodName}</ProductName>
-          <ProductDescription>{shortDescription}</ProductDescription>
-        </Description>
-        <ProductImage img={headImg} />
-        <a href={siteUrl} target="_blank">
-          <Button>
-            <span>Get More</span>
-          </Button>
-        </a>
-      </ItemHeader>
-    );
-  }
+const ProductItem = ({ idx, prodName, headImg, shortDescription}) => {
   return (
-    <ProductPage
-      headImg={headImg}
-      fullDescription={fullDescription}
-      prodName={prodName}
-      renderImg={renderImg}
-      handleClose={handleClose}
-    />
+    <ItemHeader to={`/product/${idx}`}>
+      <Description>
+        <ProductName>{prodName}</ProductName>
+        <ProductDescription>{shortDescription}</ProductDescription>
+      </Description>
+      <ProductImage img={headImg} />
+      <Button>
+        <span>Get More</span>
+      </Button>
+    </ItemHeader>
   );
 };
 
 export default ProductItem;
 
-const ItemHeader = styled.div`
+const ItemHeader = styled(Link)`
   display: flex;
+  text-decoration: none;
   width: 100%;
   height: 300px;
   overflow: hidden;
@@ -95,6 +65,7 @@ const Description = styled.div`
   display: flex;
   flex-direction: column;
   width: 40%;
+  max-width: 300px;
   padding: 20px;
   background-color: #fff;
 `;
