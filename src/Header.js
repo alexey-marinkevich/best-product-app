@@ -24,7 +24,7 @@ const Header = () => {
 export default Header;
 
 const OpenSpace = styled.div`
-  width: 20%;
+  width: 10%;
 `;
 
 const Logo = styled.a`
