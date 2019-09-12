@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-const ProductItem = ({ idx, prodName, headImg, shortDescription}) => {
+const ProductItem = ({ idx, prodName, headImg, shortDescription, isPreview }) => {
   return (
-    <ItemHeader to={`/product/${idx}`}>
+    <ItemHeader to={isPreview ? null : `/product/${idx}`}>
       <Description>
         <ProductName>{prodName}</ProductName>
         <ProductDescription>{shortDescription}</ProductDescription>
