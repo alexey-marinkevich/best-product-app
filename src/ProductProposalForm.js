@@ -1,75 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 
+import { updateFormField, flushFields } from './actions/form.actions';
+
 import ImageGallery from './ImageGallery';
 
-const ProductProposalForm = () => {
-  const initialProductName = JSON.parse(localStorage.getItem('productName'));
-  const initialProductHeadImage = JSON.parse(localStorage.getItem('productHeadImage'));
-  const initialShortDescription = JSON.parse(localStorage.getItem('shortDescription'));
-  const initialFullDescription = JSON.parse(localStorage.getItem('fullDescription'));
-  const initialImageGalleryInput = JSON.parse(localStorage.getItem('imageGalleryInput'));
-  const initialImageGallery = JSON.parse(localStorage.getItem('imageGallery'));
-
-  const [productName, setProductName] = useState(initialProductName || '');
-  const [productHeadImage, setProductHeadImage] = useState(initialProductHeadImage || '');
-  const [shortDescription, setShortDescription] = useState(initialShortDescription || '');
-  const [fullDescription, setFullDescription] = useState(initialFullDescription || '');
-  const [imageGalleryInput, setImageGalleryInput] = useState(initialImageGalleryInput || '');
-  const [imageGallery, setImageGallery] = useState(initialImageGallery || []);
-
-  useEffect(() => {
-    localStorage.setItem('productName', JSON.stringify(productName));
-    localStorage.setItem('productHeadImage', JSON.stringify(productHeadImage));
-    localStorage.setItem('shortDescription', JSON.stringify(shortDescription));
-    localStorage.setItem('fullDescription', JSON.stringify(fullDescription));
-    localStorage.setItem('imageGalleryInput', JSON.stringify(imageGalleryInput));
-    localStorage.setItem('imageGallery', JSON.stringify(imageGallery));
-  }, [
-    productName,
-    productHeadImage,
-    shortDescription,
-    fullDescription,
-    imageGalleryInput,
-    imageGallery,
-  ]);
-
+const ProductProposalForm = ({
+  updateField,
+  flush,
+  productName,
+  productHeadImage,
+  shortDescription,
+  fullDescription,
+  gallery,
+  imageGalleryInput,
+}) => {
+  console.log(productName);
   const handleSubmit = e => {
     e.preventDefault();
-    localStorage.clear();
-    setProductName('');
-    setProductHeadImage('');
-    setShortDescription('');
-    setFullDescription('');
-    setImageGalleryInput('');
-    setImageGallery([]);
+    flush();
   };
 
   const handleAddImage = e => {
     e.preventDefault();
     if (imageGalleryInput !== '') {
-      setImageGallery([...imageGallery, imageGalleryInput]);
-      setImageGalleryInput('');
+      updateField('gallery', [...gallery, imageGalleryInput]);
+      updateField('imageGalleryInput', '');
     }
   };
 
   const handleDeleteImage = id => {
-    const modGallery = [...imageGallery];
+    const modGallery = [...gallery];
     modGallery.splice(id, 1);
-    setImageGallery(modGallery);
+    updateField('gallery', modGallery);
   };
 
-  const handlePageClose = () => {
-    localStorage.clear();
-    setProductName('');
-    setProductHeadImage('');
-    setShortDescription('');
-    setFullDescription('');
-    setImageGalleryInput('');
-    setImageGallery([]);
+  const handlePageClose = () => flush();
+
+  const handleShowPreview = () => {
+    console.log('hi');
   };
 
   return (
@@ -92,7 +65,7 @@ const ProductProposalForm = () => {
               label="Product Name"
               value={productName}
               margin="normal"
-              onChange={({ target }) => setProductName(target.value)}
+              onChange={({ target }) => updateField('productName', target.value)}
             />
             <TextField
               required
@@ -101,7 +74,7 @@ const ProductProposalForm = () => {
               margin="normal"
               placeholder="Paste URL"
               helperText="Add image that clearly shows the product is"
-              onChange={({ target }) => setProductHeadImage(target.value)}
+              onChange={({ target }) => updateField('productHeadImage', target.value)}
             />
           </MainDataTopSection>
           <TextField
@@ -115,7 +88,7 @@ const ProductProposalForm = () => {
             inputProps={{
               maxLength: 100,
             }}
-            onChange={({ target }) => setShortDescription(target.value)}
+            onChange={({ target }) => updateField('shortDescription', target.value)}
           />
           <TextField
             required
@@ -124,7 +97,7 @@ const ProductProposalForm = () => {
             value={fullDescription}
             margin="normal"
             helperText="Provide full description here"
-            onChange={({ target }) => setFullDescription(target.value)}
+            onChange={({ target }) => updateField('fullDescription', target.value)}
           />
         </MainData>
         <Gallery>
@@ -139,11 +112,11 @@ const ProductProposalForm = () => {
             placeholder="Paste URL"
             margin="normal"
             helperText=""
-            onChange={({ target }) => setImageGalleryInput(target.value)}
+            onChange={({ target }) => updateField('imageGalleryInput', target.value)}
           />
           <Button onClick={handleAddImage}>Add</Button>
           <StyledImageGallery>
-            {imageGallery.map((image, idx) => (
+            {gallery.map((image, idx) => (
               <ImageWrapper onClick={() => handleDeleteImage(idx)}>
                 <img src={image} key={idx} />
               </ImageWrapper>
@@ -151,12 +124,29 @@ const ProductProposalForm = () => {
           </StyledImageGallery>
         </Gallery>
         <Button type="submit">Submit</Button>
+        <Link to="/proposal-form/product-preview">
+        <Button>Show Preview</Button>
+        </Link>
       </Form>
     </Container>
   );
 };
 
-export default ProductProposalForm;
+const mapStateToProps = state => {
+  return state.form;
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateField: (fieldName, value) => dispatch(updateFormField(fieldName, value)),
+    flush: () => dispatch(flushFields()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ProductProposalForm);
 
 const Container = styled.div`
   display: flex;

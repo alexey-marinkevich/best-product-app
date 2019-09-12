@@ -5,8 +5,9 @@ import {Link, withRouter} from 'react-router-dom'
 import styled from 'styled-components';
 import ImageGallery from './ImageGallery';
 
-const ProductPage = ({ product, match }) => {
-  const currProduct = product[match.params.id];
+const ProductPage = ({ product, match, formFields, isPreview }) => {
+  const currProduct = isPreview ? formFields : product[match.params.id];
+  console.log(currProduct)
 
   if (!currProduct) {
     return 'NOTHING FOUND'
@@ -16,7 +17,6 @@ const ProductPage = ({ product, match }) => {
     return <img src={img} />;
   });
 
-
   return (
     <Container>
       <ContentWrapper>
@@ -24,13 +24,13 @@ const ProductPage = ({ product, match }) => {
           <Link to='/'>
             <CloseButton>🠐</CloseButton>
           </Link>
-          <ProductImage img={currProduct.headImg} />
+          <ProductImage img={currProduct.productHeadImage} />
         </ItemHeader>
         <Content>
           <p>{currProduct.fullDescription}</p>
         </Content>
         <SideName>
-          <h1>{currProduct.prodName}</h1>
+          <h1>{currProduct.productName}</h1>
         </SideName>
       </ContentWrapper>
       <ImageGallery>{renderImg}</ImageGallery>
@@ -41,6 +41,7 @@ const ProductPage = ({ product, match }) => {
 const mapStateToProps = (state) => {
   return {
     product: state.products,
+    formFields: state.form,
   }
 }
 

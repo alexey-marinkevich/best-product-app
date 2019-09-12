@@ -5,7 +5,6 @@ export const TOGGLE_LOADING_PRODUCTS = 'TOGGLE_LOADING_PRODUCTS';
 
 export const updateProducts = (products = []) => ({ type: SET_PRODUCTS, payload: products });
 export const toggleLoadingProducts = status => ({ type: TOGGLE_LOADING_PRODUCTS, payload: status });
-
 export const setProducts = () => async dispatch => {
   // enable loader
   dispatch(toggleLoadingProducts(true));
