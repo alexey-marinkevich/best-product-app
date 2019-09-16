@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 
-import { updateFormField, flushFields } from './actions/form.actions';
+import { updateFormField, submitForm, flushFields } from './actions/form.actions';
 
 import ImageGallery from './ImageGallery';
 
 const ProductProposalForm = ({
   updateField,
-  flush,
   productName,
   productHeadImage,
   shortDescription,
   fullDescription,
   gallery,
+  submit,
+  flush,
+  isLoading,
   imageGalleryInput,
+  error,
+  history
 }) => {
-  console.log(productName);
   const handleSubmit = e => {
     e.preventDefault();
-    flush();
+    submit();
   };
 
   const handleAddImage = e => {
@@ -39,18 +43,19 @@ const ProductProposalForm = ({
     updateField('gallery', modGallery);
   };
 
-  const handlePageClose = () => flush();
+  const handlePageClose = () => { 
+    flush();
+    history.push('/');
+  };
 
   const handleShowPreview = () => {
-    console.log('hi');
+    history.push('/proposal-form/product-preview')
   };
 
   return (
     <Container>
       <ContainerTopSection>
-        <Link to="/">
-          <CloseButton onClick={handlePageClose}>🠐</CloseButton>
-        </Link>
+        <CloseButton onClick={handlePageClose}>🠐</CloseButton>
         <LeadText>
           Place where you can suggest interest and good quality products of small or less popular
           companies to share with other people and get to know about it more range of pepople
@@ -66,6 +71,7 @@ const ProductProposalForm = ({
               value={productName}
               margin="normal"
               onChange={({ target }) => updateField('productName', target.value)}
+              disabled={isLoading}
             />
             <TextField
               required
@@ -75,6 +81,7 @@ const ProductProposalForm = ({
               placeholder="Paste URL"
               helperText="Add image that clearly shows the product is"
               onChange={({ target }) => updateField('productHeadImage', target.value)}
+              disabled={isLoading}
             />
           </MainDataTopSection>
           <TextField
@@ -89,6 +96,7 @@ const ProductProposalForm = ({
               maxLength: 100,
             }}
             onChange={({ target }) => updateField('shortDescription', target.value)}
+            disabled={isLoading}
           />
           <TextField
             required
@@ -98,6 +106,7 @@ const ProductProposalForm = ({
             margin="normal"
             helperText="Provide full description here"
             onChange={({ target }) => updateField('fullDescription', target.value)}
+            disabled={isLoading}
           />
         </MainData>
         <Gallery>
@@ -113,8 +122,9 @@ const ProductProposalForm = ({
             margin="normal"
             helperText=""
             onChange={({ target }) => updateField('imageGalleryInput', target.value)}
+            disabled={isLoading}
           />
-          <Button onClick={handleAddImage}>Add</Button>
+          <Button onClick={handleAddImage} disabled={isLoading}>Add</Button>
           <StyledImageGallery>
             {gallery.map((image, idx) => (
               <ImageWrapper onClick={() => handleDeleteImage(idx)}>
@@ -123,10 +133,10 @@ const ProductProposalForm = ({
             ))}
           </StyledImageGallery>
         </Gallery>
-        <Button type="submit">Submit</Button>
-        <Link to="/proposal-form/product-preview">
-        <Button>Show Preview</Button>
-        </Link>
+        {!!error && <div style={{ color: 'red' }}>{error}</div>}
+        <Button type="submit" disabled={isLoading}>{isLoading ? 'Submitting...' : 'Submit'}</Button>
+        
+        <Button onClick={handleShowPreview} disabled={isLoading}>Show Preview</Button>
       </Form>
     </Container>
   );
@@ -138,14 +148,18 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateField: (fieldName, value) => dispatch(updateFormField(fieldName, value)),
+    updateField: (fieldName, value) => dispatch(updateFormFielad(fieldName, value)),
+    submit: () => dispatch(submitForm()),
     flush: () => dispatch(flushFields()),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  withRouter,
 )(ProductProposalForm);
 
 const Container = styled.div`
@@ -241,7 +255,7 @@ const Gallery = styled.div`
 `;
 
 const StyledImageGallery = styled(ImageGallery)`
-  padding: 25px 0;
+  padding: 25px 0 0 0;
   & img {
     max-height: 200px;
   }
