@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import ProductItem from './ProductItem';
-import { setProducts } from './actions/core.actions';
+import { setProducts } from './reducers/coreReducer';
 
 class ProductItems extends Component {
   componentDidMount() {

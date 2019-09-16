@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 
-import { updateFormField, submitForm, flushFields } from './actions/form.actions';
+import { updateFormField, submitForm, flushFields } from './reducers/formReducer';
 
 import ImageGallery from './ImageGallery';
 
@@ -148,7 +148,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateField: (fieldName, value) => dispatch(updateFormFielad(fieldName, value)),
+    updateField: (fieldName, value) => dispatch(updateFormField(fieldName, value)),
     submit: () => dispatch(submitForm()),
     flush: () => dispatch(flushFields()),
   };
