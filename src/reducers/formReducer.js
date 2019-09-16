@@ -1,6 +1,8 @@
-import { UPDATE_FORM_FIELD, FLUSH_FORM_FIELD } from '../actions/form.actions';
+import { UPDATE_FORM_FIELD, FLUSH_FORM_FIELD, SET_LOADING_STATUS, SET_ERROR } from '../actions/form.actions';
 
 const initState = {
+  error: null,
+  isLoading: false,
   productName: 'Monument Valley',
   productHeadImage:
     'https://images.ctfassets.net/gw5wr8vzz44g/5GtxNkxKOCScNl9ybSl3lG/477f02ca7e20c94c257449bb7582cbce/ustwo-casestudy-monument-valley-games.jpg?w=4000&q=70&fm=jpg',
@@ -21,6 +23,16 @@ export default (state = initState, action) => {
       };
     case FLUSH_FORM_FIELD:
       return initState;
+    case SET_LOADING_STATUS:
+      return {
+        ...state,
+        isLoading: action.payload,
+      }
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      }
     default:
       return state;
   }

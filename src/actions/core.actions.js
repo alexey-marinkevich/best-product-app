@@ -1,4 +1,4 @@
-import productsMock from '../fixture/products.json';
+import axios from 'axios';
 
 export const SET_PRODUCTS = 'SET_PRODUCTS';
 export const TOGGLE_LOADING_PRODUCTS = 'TOGGLE_LOADING_PRODUCTS';
@@ -13,16 +13,19 @@ export const setProducts = () => async dispatch => {
   const products = await getProdsFromServer();
 
   // set products to store
-  dispatch(updateProducts(products.data));
+  dispatch(updateProducts(products));
 
   // disable loader
   dispatch(toggleLoadingProducts(false));
 };
 
 async function getProdsFromServer() {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(productsMock);
-    }, 4000);
+  const response = await axios.get('http://localhost:3001/products', {
+    params: {
+      page: 1,
+      perPage: 5,
+    },
   });
+  
+  return response.data.data;
 }
