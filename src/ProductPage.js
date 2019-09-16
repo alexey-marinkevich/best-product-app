@@ -1,29 +1,29 @@
 import React from 'react';
-import {connect} from 'react-redux'
-import {Link, withRouter} from 'react-router-dom'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import styled from 'styled-components';
 import ImageGallery from './ImageGallery';
 
-const ProductPage = ({ product, match, formFields, isPreview }) => {
+const ProductPage = ({ product, match, formFields, isPreview, history }) => {
   const currProduct = isPreview ? formFields : product[match.params.id];
-  console.log(currProduct)
+  console.log(currProduct);
 
   if (!currProduct) {
-    return 'NOTHING FOUND'
+    return 'NOTHING FOUND';
   }
 
   const renderImg = currProduct.gallery.map(img => {
     return <img src={img} />;
   });
 
+  const handleClose = () => !isPreview ? history.push('/') : history.push('/proposal-form');
+  
   return (
     <Container>
       <ContentWrapper>
         <ItemHeader>
-          <Link to='/'>
-            <CloseButton>🠐</CloseButton>
-          </Link>
+          <CloseButton onClick={handleClose}>🠐</CloseButton>
           <ProductImage img={currProduct.productHeadImage} />
         </ItemHeader>
         <Content>
@@ -38,12 +38,12 @@ const ProductPage = ({ product, match, formFields, isPreview }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     product: state.products,
     formFields: state.form,
-  }
-}
+  };
+};
 
 export default withRouter(connect(mapStateToProps)(ProductPage));
 
@@ -51,7 +51,6 @@ const Container = styled.div`
   position: relative;
   background-color: #fff;
   z-index: 99999;
-  
 `;
 
 const ContentWrapper = styled.div`
@@ -134,5 +133,3 @@ const SideName = styled.div`
     margin: 0;
   }
 `;
-
-
