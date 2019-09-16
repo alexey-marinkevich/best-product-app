@@ -1,41 +1,37 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import ProductItem from './ProductItem';
 import { setProducts } from './reducers/coreReducer';
 
-class ProductItems extends Component {
-  componentDidMount() {
-    this.props.initPage();
+const ProductItems = ({ products, isProductsLoadoing, initPage }) => {
+  useEffect(() => {
+    initPage();
+  }, []);
+
+  if (isProductsLoadoing) {
+    return 'LOADING...';
   }
 
-  render() {
-    const { products, isProductsLoadoing } = this.props;
-
-    if (isProductsLoadoing) {
-      return 'LOADING...';
-    }
-
-    if (Array.isArray(products) && !products.length) {
-      return 'NO PRODUCTS FOUND';
-    }
-
-    return (
-      <div>
-        {products.map((product, idx) => {
-          return (
-            <ProductItem
-              idx={idx}
-              prodName={product.prodName}
-              headImg={product.headImg}
-              shortDescription={product.shortDescription}
-            />
-          );
-        })}
-      </div>
-    );
+  if (Array.isArray(products) && !products.length) {
+    return 'NO PRODUCTS FOUND';
   }
-}
+
+  return (
+    <div>
+      {products.map((product, id) => {
+        return (
+          <ProductItem
+            idx={id}
+            prodName={product.productName}
+            headImg={product.headImg}
+            shortDescription={product.shortDescription}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 const mapStateToProps = state => {
   return {
