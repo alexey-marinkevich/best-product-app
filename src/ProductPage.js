@@ -7,7 +7,6 @@ import ImageGallery from './ImageGallery';
 
 const ProductPage = ({ product, match, formFields, isPreview, history }) => {
   const currProduct = isPreview ? formFields : product[match.params.id];
-  console.log(currProduct);
 
   if (!currProduct) {
     return 'NOTHING FOUND';
@@ -40,7 +39,7 @@ const ProductPage = ({ product, match, formFields, isPreview, history }) => {
 
 const mapStateToProps = state => {
   return {
-    product: state.products,
+    product: state.core.products,
     formFields: state.form,
   };
 };

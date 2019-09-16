@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import ProductItem from './ProductItem';
 import { setProducts } from './reducers/coreReducer';
 
-const ProductItems = ({ products, isProductsLoadoing, initPage }) => {
+const ProductItems = ({ products, isProductsLoading, initPage }) => {
   useEffect(() => {
     initPage();
   }, []);
 
-  if (isProductsLoadoing) {
+  if (isProductsLoading) {
     return 'LOADING...';
   }
 
@@ -22,9 +22,9 @@ const ProductItems = ({ products, isProductsLoadoing, initPage }) => {
       {products.map((product, id) => {
         return (
           <ProductItem
-            idx={id}
-            prodName={product.productName}
-            headImg={product.headImg}
+            id={id}
+            productName={product.productName}
+            productHeadImage={product.productHeadImage}
             shortDescription={product.shortDescription}
           />
         );
@@ -36,7 +36,7 @@ const ProductItems = ({ products, isProductsLoadoing, initPage }) => {
 const mapStateToProps = state => {
   return {
     products: state.core.products,
-    isProductsLoadoing: state.core.isProductsLoadoing,
+    isProductsLoading: state.core.isProductsLoading,
   };
 };
 
