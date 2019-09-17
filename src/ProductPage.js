@@ -6,9 +6,10 @@ import styled from 'styled-components';
 import ImageGallery from './ImageGallery';
 
 const ProductPage = ({ product, match, formFields, isPreview, history }) => {
-  const currProduct = isPreview ? formFields : product[match.params.id];
-  console.log(currProduct);
+  const matchId = match.params.id
+  const currProduct = isPreview ? formFields : product[matchId];
 
+  
   if (!currProduct) {
     return 'NOTHING FOUND';
   }
@@ -17,8 +18,8 @@ const ProductPage = ({ product, match, formFields, isPreview, history }) => {
     return <img src={img} />;
   });
 
-  const handleClose = () => !isPreview ? history.push('/') : history.push('/proposal-form');
-  
+  const handleClose = () => (!isPreview ? history.push('/') : history.push('/proposal-form'));
+
   return (
     <Container>
       <ContentWrapper>
@@ -40,7 +41,7 @@ const ProductPage = ({ product, match, formFields, isPreview, history }) => {
 
 const mapStateToProps = state => {
   return {
-    product: state.products,
+    product: state.core.products,
     formFields: state.form,
   };
 };
@@ -60,7 +61,7 @@ const ContentWrapper = styled.div`
 const ItemHeader = styled.div`
   display: flex;
   width: 100%;
-  height: 400px;
+  height: 500px;
   overflow: hidden;
   position: relative;
   }
@@ -92,7 +93,7 @@ const ProductImage = styled.div`
   background-size: cover;
   transform: scale(1);
   transition: transform 10s, filter 1s;
-  filter: brightness(0.8);
+  filter: brightness(0.9);
   z-index: -100;
 `;
 

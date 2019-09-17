@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-const ProductItem = ({ idx, prodName, headImg, shortDescription, isPreview }) => {
+const ProductItem = ({ id, productName, productHeadImage, shortDescription }) => {
   return (
-    <ItemHeader to={isPreview ? null : `/product/${idx}`}>
+    <ItemHeader to={`/product/${id}`}>
       <Description>
-        <ProductName>{prodName}</ProductName>
+        <ProductName>{productName}</ProductName>
         <ProductDescription>{shortDescription}</ProductDescription>
       </Description>
-      <ProductImage img={headImg} />
+      <ProductImage img={productHeadImage} />
       <Button>
         <span>Get More</span>
       </Button>
@@ -24,7 +24,7 @@ const ItemHeader = styled(Link)`
   display: flex;
   text-decoration: none;
   width: 100%;
-  height: 300px;
+  height: 400px;
   overflow: hidden;
   position: relative;
   &: hover {
@@ -42,7 +42,7 @@ const ItemHeader = styled(Link)`
           left: -25px;
         }
         & span {
-          transform: translate(-95px,-10px);
+          transform: translate(-88px,-8px);
         }
       }
       &::after {
@@ -54,7 +54,7 @@ const ItemHeader = styled(Link)`
       & span {
         position: absolute;
         right: 17px;
-        transform: translate(0,-9px);
+        transform: translate(0,-8px);
         word-break: keep-all;
       }
     }
@@ -102,7 +102,7 @@ const Button = styled.button`
   position: absolute;
   right: 25px;
   bottom: 20px;
-  width: 200px;
+  width: 190px;
   height: 40px;
   padding: 15px;
   background: none;
@@ -115,8 +115,19 @@ const Button = styled.button`
   transform: translate(0, 75px);
   transition: border-bottom-width .3s, transform .5s, color .3s;
 
+  &:hover {
+    color: #000;
+    & span {
+      transform: translate(88px,-8px);
+      transition: transform .3s;
+    }
+    ::after {
+      left: 70px;
+    }
+  }
+
   & span {
-    transform: translate(0, -9px);
+    transform: translate(0, -8px);
     position: absolute;
     transition: transform .3s;
   }
@@ -132,17 +143,6 @@ const Button = styled.button`
     transform: rotate(45deg);
     transition: .3s;
     z-index: -100;
-  }
-
-  &:hover {
-    color: #000;
-    & span {
-      transform: translate(95px, -9px);
-      transition: transform .3s;
-    }
-    ::after {
-      left: 70px;
-    }
   }
 
   ${ItemHeader}:hover & {

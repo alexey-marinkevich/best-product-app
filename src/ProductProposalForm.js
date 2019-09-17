@@ -90,10 +90,10 @@ const ProductProposalForm = ({
             label="Short Description"
             value={shortDescription}
             margin="normal"
-            placeholder="100 symbols max"
+            placeholder="150 symbols max"
             helperText="Will be available in product preview"
             inputProps={{
-              maxLength: 100,
+              maxLength: 150,
             }}
             onChange={({ target }) => updateField('shortDescription', target.value)}
             disabled={isLoading}
