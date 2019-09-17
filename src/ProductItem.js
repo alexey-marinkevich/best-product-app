@@ -24,7 +24,7 @@ const ItemHeader = styled(Link)`
   display: flex;
   text-decoration: none;
   width: 100%;
-  height: 350px;
+  height: 400px;
   overflow: hidden;
   position: relative;
   &: hover {
