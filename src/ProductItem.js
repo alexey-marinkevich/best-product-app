@@ -10,7 +10,7 @@ const ProductItem = ({ id, productName, productHeadImage, shortDescription }) =>
         <ProductName>{productName}</ProductName>
         <ProductDescription>{shortDescription}</ProductDescription>
       </Description>
-      <ProductImage img={productHeadImage} />
+      <ProductImage img={productHeadImage} /> 
       <Button>
         <span>Get More</span>
       </Button>

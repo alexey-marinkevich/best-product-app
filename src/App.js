@@ -11,9 +11,9 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/product/:id" component={ProductPage} />
-        <Route exact path="/proposal-form" component={ProductProposalForm}/>
-        <Route exact path="/proposal-form/product-preview" component={FullProductPreviewPage} />
+        <Route path="/product/:id" component={ProductPage} />
+        <Route path="/proposal-form" component={ProductProposalForm}/>
+        <Route path="/proposal-form/product-preview" component={FullProductPreviewPage} />
       </Switch>
     </div>
   );

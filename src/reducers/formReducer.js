@@ -18,10 +18,10 @@ const initState = {
   ],
 };
 
-export const UPDATE_FORM_FIELD = 'UPDATE_FORM_FIELD';
-export const FLUSH_FORM_FIELD = 'FLUSH_FORM_FIELD';
-export const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
-export const SET_ERROR = 'SET_ERROR';
+const UPDATE_FORM_FIELD = 'UPDATE_FORM_FIELD';
+const FLUSH_FORM_FIELD = 'FLUSH_FORM_FIELD';
+const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
+const SET_ERROR = 'SET_ERROR';
 
 export const updateFormField = (fieldName, value) => ({
   type: UPDATE_FORM_FIELD,

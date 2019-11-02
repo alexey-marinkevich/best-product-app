@@ -126,9 +126,9 @@ const ProductProposalForm = ({
           />
           <Button onClick={handleAddImage} disabled={isLoading}>Add</Button>
           <StyledImageGallery>
-            {gallery.map((image, idx) => (
-              <ImageWrapper onClick={() => handleDeleteImage(idx)}>
-                <img src={image} key={idx} />
+            {gallery.map((image, id) => (
+              <ImageWrapper onClick={() => handleDeleteImage(id)}>
+                <img src={image} key={id} />
               </ImageWrapper>
             ))}
           </StyledImageGallery>
