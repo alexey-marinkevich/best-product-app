@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -9,6 +9,9 @@ const ProductPage = ({ product, match, formFields, isPreview, history }) => {
   const matchId = match.params.id
   const currProduct = isPreview ? formFields : product[matchId];
 
+  useEffect(() => { 
+    window.scrollTo(0, 0);
+  }, []);
   
   if (!currProduct) {
     return 'NOTHING FOUND';
