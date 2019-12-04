@@ -65,11 +65,11 @@ const NavBarContainer = styled.div`
   overflow: hidden;
 `;
 
-const NavBar = styled.ul`
-  display: flex;
-  justify-content: space-between;
-  width: 200px;
-  & li {
-    display: flex;
-  }
-`;
+// const NavBar = styled.ul`
+//   display: flex;
+//   justify-content: space-between;
+//   width: 200px;
+//   & li {
+//     display: flex;
+//   }
+// `;

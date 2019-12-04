@@ -1,14 +1,14 @@
 import React from 'react';
 
 import Header from '../components/Header';
-import ProductItems from '../components/ProductItems';
+import ProductsList from '../components/ProductsList';
 import Footer from '../components/Footer';
 
 const HomePage = () => {
   return (
     <div>
       <Header />
-      <ProductItems />
+      <ProductsList />
       <Footer />
     </div>
   );

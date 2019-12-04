@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import { updateFormField, flushFields, suggestProductAction } from '../reducers/formReducer';
 import ImageGallery from '../components/ImageGallery';
 
-const ProductProposalForm = ({
+const SuggestProductPage = ({
   updateFormField,
   suggestProduct,
   prodName,
@@ -128,7 +128,7 @@ const ProductProposalForm = ({
           <StyledImageGallery>
             {gallery.map((image, id) => (
               <ImageWrapper onClick={() => handleDeleteImage(id)}>
-                <img src={image} key={id} />
+                <img src={image} key={id} alt="Gallery photo item" />
               </ImageWrapper>
             ))}
           </StyledImageGallery>
@@ -161,7 +161,7 @@ const mapDispatchToProps = dispatch => {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withRouter,
-)(ProductProposalForm);
+)(SuggestProductPage);
 
 const Container = styled.div`
   display: flex;

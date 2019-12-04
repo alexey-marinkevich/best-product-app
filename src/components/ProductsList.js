@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components'
 
-import ProductItem from './ProductItem';
+import Product from './Product';
 import { setProducts } from '../reducers/coreReducer';
 
-const ProductItems = ({ products, isProductsLoading, initPage }) => {
+const ProductsList = ({ products, isProductsLoading, initPage }) => {
   useEffect(() => {
     initPage();
   }, []);
@@ -22,7 +22,7 @@ const ProductItems = ({ products, isProductsLoading, initPage }) => {
     <Wrapper>
       {products.map(product => {
         return (
-          <ProductItem
+          <Product
             id={product.id}
             prodName={product.prodName}
             headImg={product.headImg}
@@ -50,7 +50,7 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProductItems);
+)(ProductsList);
 
 const Wrapper = styled.div`
   display: flex;

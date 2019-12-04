@@ -30,8 +30,8 @@ const ProductPage = ({
     return 'NOTHING FOUND';
   }
 
-  const renderImg = currProduct.gallery.map(img => {
-    return <img src={img} />;
+  const renderImg = currProduct.gallery.map((img, id) => {
+    return <img src={img} key={id} alt="Product Gallery Item" />;
   });
 
   const handleClose = () => (!isPreview ? history.push('/') : history.push('/proposal-form'));
