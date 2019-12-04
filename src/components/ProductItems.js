@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components'
 
 import ProductItem from './ProductItem';
 import { setProducts } from '../reducers/coreReducer';
@@ -18,7 +19,7 @@ const ProductItems = ({ products, isProductsLoading, initPage }) => {
   // }
 
   return (
-    <div>
+    <Wrapper>
       {products.map(product => {
         return (
           <ProductItem
@@ -29,7 +30,7 @@ const ProductItems = ({ products, isProductsLoading, initPage }) => {
           />
         );
       })}
-    </div>
+    </Wrapper>
   );
 };
 
@@ -50,3 +51,8 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ProductItems);
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`

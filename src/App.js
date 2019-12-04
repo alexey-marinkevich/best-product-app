@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import HomePage from './HomePage';
-import ProductPage from './ProductPage';
-import ProductProposalForm from './ProductProposalForm';
-import FullProductPreviewPage from './FullProductPreviewPage';
+import HomePage from './pages/HomePage';
+import ProductPage from './pages/ProductPage';
+import ProductProposalForm from './pages/ProductProposalForm';
+import FullProductPreviewPage from './pages/FullProductPreviewPage';
 
 function App() {
   return (
