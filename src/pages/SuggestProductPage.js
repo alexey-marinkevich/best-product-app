@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 
-import { updateFormField, flushFields, suggestProductAction } from '../reducers/formReducer';
+import { updateFormFieldAction, flushFieldsAction, suggestProductAction } from '../reducers/formReducer';
 import ImageGallery from '../components/ImageGallery';
 
 const SuggestProductPage = ({
@@ -152,8 +152,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateFormField: (fieldName, value) => dispatch(updateFormField(fieldName, value)),
-    flushFields: () => dispatch(flushFields()),
+    updateFormField: (fieldName, value) => dispatch(updateFormFieldAction(fieldName, value)),
+    flushFields: () => dispatch(flushFieldsAction()),
     suggestProduct: () => dispatch(suggestProductAction()),
   };
 };

@@ -4,10 +4,10 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router';
 import styled from 'styled-components';
 
-import { loadProductById } from '../reducers/coreReducer';
+import { loadProductByIdAction } from '../reducers/coreReducer';
 import ImageGallery from '../components/ImageGallery';
 
-const ProductPage = ({
+const ProductDetailsPage = ({
   match,
   formFields,
   isPreview,
@@ -65,11 +65,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadProductById: id => dispatch(loadProductById(id)),
+    loadProductById: id => dispatch(loadProductByIdAction(id)),
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), withRouter)(ProductPage);
+export default compose(connect(mapStateToProps, mapDispatchToProps), withRouter)(ProductDetailsPage);
 
 const Container = styled.div`
   position: relative;

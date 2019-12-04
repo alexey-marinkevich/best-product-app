@@ -26,31 +26,31 @@ const TOGGLE_LOADING_PRODUCTS = 'TOGGLE_LOADING_PRODUCTS';
 const SET_ACTIVE_PRODUCT_LOADING_STATUS = 'SET_ACTIVE_PRODUCT_LOADING_STATUS';
 const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
 
-export const updateProducts = (products = []) => ({ type: SET_PRODUCTS, payload: products });
-export const toggleLoadingProducts = status => ({ type: TOGGLE_LOADING_PRODUCTS, payload: status });
-export const setActiveProductLoadingStatus = status => ({
+export const updateProductsAction = (products = []) => ({ type: SET_PRODUCTS, payload: products });
+export const toggleLoadingProductsAction = status => ({ type: TOGGLE_LOADING_PRODUCTS, payload: status });
+export const setActiveProductLoadingStatusAction = status => ({
   type: SET_ACTIVE_PRODUCT_LOADING_STATUS,
   payload: status,
 });
-export const setActiveProduct = product => ({ type: SET_ACTIVE_PRODUCT, payload: product });
+export const setActiveProductAction = product => ({ type: SET_ACTIVE_PRODUCT, payload: product });
 
-export const loadProductById = id => async dispatch => {
-  dispatch(setActiveProductLoadingStatus(true));
+export const loadProductByIdAction = id => async dispatch => {
+  dispatch(setActiveProductLoadingStatusAction(true));
   try {
     // const res = await API.get('products', `/product/${id}`);
-    // dispatch(setActiveProduct(res));
+    // dispatch(setActiveProductAction(res));
   } catch (e) {
     console.log(e);
   }
 
-  dispatch(setActiveProductLoadingStatus(false));
+  dispatch(setActiveProductLoadingStatusAction(false));
 };
 
-export const setProducts = () => async dispatch => {
-  dispatch(toggleLoadingProducts(true));
+export const setProductsAction = () => async dispatch => {
+  dispatch(toggleLoadingProductsAction(true));
   // const res = await API.get('products', '/product');
-  // dispatch(updateProducts(res));
-  dispatch(toggleLoadingProducts(false));
+  // dispatch(updateProductsAction(res));
+  dispatch(toggleLoadingProductsAction(false));
 };
 
 export default (state = initState, action) => {

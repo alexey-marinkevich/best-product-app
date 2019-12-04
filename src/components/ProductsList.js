@@ -2,21 +2,17 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components'
 
-import Product from './Product';
-import { setProducts } from '../reducers/coreReducer';
+import Product from '../components/Product';
+import { setProductsAction } from '../reducers/coreReducer';
 
-const ProductsList = ({ products, isProductsLoading, initPage }) => {
+const ProductsList = ({ products, isProductsLoading, setProducts }) => {
   useEffect(() => {
-    initPage();
+    setProducts();
   }, []);
 
   if (isProductsLoading) {
     return 'LOADING...';
   }
-
-  // if (Array.isArray(products) && !products.length) {
-  //   return 'NO PRODUCTS FOUND';
-  // }
 
   return (
     <Wrapper>
@@ -43,7 +39,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    initPage: () => dispatch(setProducts()),
+    setProducts: () => dispatch(setProductsAction()),
   };
 };
 

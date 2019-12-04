@@ -23,20 +23,20 @@ const FLUSH_FORM_FIELD = 'FLUSH_FORM_FIELD';
 const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
 const SET_ERROR = 'SET_ERROR';
 
-export const updateFormField = (fieldName, value) => ({
+export const updateFormFieldAction = (fieldName, value) => ({
   type: UPDATE_FORM_FIELD,
   payload: {
     [fieldName]: value,
   },
 });
 
-export const flushFields = () => ({ type: FLUSH_FORM_FIELD });
-export const setLoadingStatus = status => ({ type: SET_LOADING_STATUS, payload: status });
-export const setError = error => ({ type: SET_ERROR, payload: error });
+export const flushFieldsAction = () => ({ type: FLUSH_FORM_FIELD });
+export const setLoadingStatusAction = status => ({ type: SET_LOADING_STATUS, payload: status });
+export const setErrorAction = error => ({ type: SET_ERROR, payload: error });
 
 export const suggestProductAction = () => async (dispatch, getState) => {
   try {
-    dispatch(setLoadingStatus(true));
+    dispatch(setLoadingStatusAction(true));
     const state = getState();
     const product = state.form;
     const apiName = 'products';
@@ -46,10 +46,10 @@ export const suggestProductAction = () => async (dispatch, getState) => {
     };
     const req = await API.post(apiName, path, myInit);
     console.log(req);
-    dispatch(setLoadingStatus(false));
+    dispatch(setLoadingStatusAction(false));
   } catch (err) {
     console.log(err);
-    dispatch(setLoadingStatus(false));
+    dispatch(setLoadingStatusAction(false));
   }
 };
 

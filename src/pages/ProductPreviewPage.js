@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
-import ProductPreviewPage from './ProductPreviewPage';
+import ProductDetailsPage from './ProductDetailsPage';
 
-const ProductPreview = ({ form }) => {
+const ProductPreviewPage = ({ form }) => {
   const { prodName, headImg, fullDescription } = form;
 
   if (!prodName || !headImg || !fullDescription) {
@@ -13,7 +13,7 @@ const ProductPreview = ({ form }) => {
   }
   return (
     <Container>
-      <ProductPreviewPage isPreview />
+      <ProductDetailsPage isPreview />
     </Container>
   );
 };
@@ -25,7 +25,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ProductPreview);
+export default connect(mapStateToProps)(ProductPreviewPage);
 
 const Container = styled.div`
   display: flex;

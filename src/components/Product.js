@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import styled from 'styled-components';
 
 const Product = ({ id, prodName, headImg, shortDescription }) => {
@@ -10,7 +9,7 @@ const Product = ({ id, prodName, headImg, shortDescription }) => {
         <ProductName>{prodName}</ProductName>
         <ProductDescription>{shortDescription}</ProductDescription>
       </Description>
-      <ProductImage img={headImg} /> 
+      <ProductImage img={headImg} />
       <Button>
         <span>Get More</span>
       </Button>
