@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ProductDetailsPage from './pages/ProductDetailsPage';
 import SuggestProductPage from './pages/SuggestProductPage';
-import ProductPreviewPage from './pages/ProductPreviewPage';
+import PreviewProductPage from './pages/PreviewProductPage';
 
 function App() {
   return (
@@ -13,8 +13,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/product/:id" component={ProductDetailsPage} />
-          <Route exact path="/proposal-form" component={SuggestProductPage} />
-          <Route path="/proposal-form/product-preview" component={ProductPreviewPage} />
+          <Route exact path="/suggest-form" component={SuggestProductPage} />
+          <Route path="/suggest-form/product-preview" component={PreviewProductPage} />
         </Switch>
       </div>
     </BrowserRouter>

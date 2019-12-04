@@ -47,7 +47,7 @@ const SuggestProductPage = ({
   };
 
   const handleShowPreview = () => {
-    history.push('/proposal-form/product-preview');
+    history.push('/suggest-form/product-preview');
   };
 
   return (

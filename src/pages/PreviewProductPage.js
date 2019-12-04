@@ -5,11 +5,11 @@ import styled from 'styled-components';
 
 import ProductDetailsPage from './ProductDetailsPage';
 
-const ProductPreviewPage = ({ form }) => {
+const PreviewProductPage = ({ form }) => {
   const { prodName, headImg, fullDescription } = form;
 
   if (!prodName || !headImg || !fullDescription) {
-    return <Redirect to="/proposal-form" />;
+    return <Redirect to="/suggest-form" />;
   }
   return (
     <Container>
@@ -25,7 +25,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ProductPreviewPage);
+export default connect(mapStateToProps)(PreviewProductPage);
 
 const Container = styled.div`
   display: flex;

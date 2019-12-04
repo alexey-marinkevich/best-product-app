@@ -34,7 +34,7 @@ const ProductDetailsPage = ({
     return <img src={img} key={id} alt="Product Gallery Item" />;
   });
 
-  const handleClose = () => (!isPreview ? history.push('/') : history.push('/proposal-form'));
+  const handleClose = () => (!isPreview ? history.push('/') : history.push('/suggest-form'));
 
   return (
     <Container>

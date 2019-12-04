@@ -16,7 +16,7 @@ const Header = () => {
           <Link href="#">Categories</Link>
         </li>
       </NavBar> */}
-      <StyledLink to="/proposal-form">Suggest Product</StyledLink>
+      <StyledLink to="/suggest-form">Suggest Product</StyledLink>
     </NavBarContainer>
   );
 };
