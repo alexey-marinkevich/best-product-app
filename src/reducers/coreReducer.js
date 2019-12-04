@@ -1,39 +1,57 @@
-import axios from 'axios';
+import { API } from 'aws-amplify';
 
 const initState = {
-  products: [],
+  products: [
+    {
+      "id": "bp-prod-12345",
+      "prodName": "Atoms shoes",
+      "headImg": "https: //cdn2.shopify.com/s/files/1/0231/2060/9358/files/Home_Packaging_1024x.jpg?v=1556841297",
+      "shortDescription": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque",
+      "fullDescription": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque",
+      "siteUrl": "https: //atoms.com/",
+      "gallery": [
+        "https: //cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_BW_Closeup_1024x.jpg?v=1556563118",
+        "https: //cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_Gray_Loft_600x.jpg?v=1557771826",
+        "https: //cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_White_Wide_1024x.jpg?v=1556563138"
+      ]
+    }
+  ],
+  activeProduct: null,
+  isActiveProductLoading: false,
   isProductsLoadoing: false,
 };
 
 const SET_PRODUCTS = 'SET_PRODUCTS';
 const TOGGLE_LOADING_PRODUCTS = 'TOGGLE_LOADING_PRODUCTS';
+const SET_ACTIVE_PRODUCT_LOADING_STATUS = 'SET_ACTIVE_PRODUCT_LOADING_STATUS';
+const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
 
-export const updateProducts = (products=[]) => ({ type: SET_PRODUCTS, payload: products });
+export const updateProducts = (products = []) => ({ type: SET_PRODUCTS, payload: products });
 export const toggleLoadingProducts = status => ({ type: TOGGLE_LOADING_PRODUCTS, payload: status });
-export const setProducts = () => async dispatch => {
-  // enable loader
-  dispatch(toggleLoadingProducts(true));
+export const setActiveProductLoadingStatus = status => ({
+  type: SET_ACTIVE_PRODUCT_LOADING_STATUS,
+  payload: status,
+});
+export const setActiveProduct = product => ({ type: SET_ACTIVE_PRODUCT, payload: product });
 
-  // get products from "server"
-  const products = await getProdsFromServer(1, 5);
+export const loadProductById = id => async dispatch => {
+  dispatch(setActiveProductLoadingStatus(true));
+  try {
+    // const res = await API.get('products', `/product/${id}`);
+    // dispatch(setActiveProduct(res));
+  } catch (e) {
+    console.log(e);
+  }
 
-  // set products to store
-  dispatch(updateProducts(products));
-
-  // disable loader
-  dispatch(toggleLoadingProducts(false));
+  dispatch(setActiveProductLoadingStatus(false));
 };
 
-async function getProdsFromServer(page, perPage) {
-  const response = await axios.get('http://localhost:3001/products', {
-    params: {
-      page: page,
-      perPage: perPage,
-    },
-  });
-
-  return response.data.data;
-}
+export const setProducts = () => async dispatch => {
+  dispatch(toggleLoadingProducts(true));
+  // const res = await API.get('products', '/product');
+  // dispatch(updateProducts(res));
+  dispatch(toggleLoadingProducts(false));
+};
 
 export default (state = initState, action) => {
   switch (action.type) {
@@ -46,6 +64,16 @@ export default (state = initState, action) => {
       return {
         ...state,
         isProductsLoadoing: action.payload,
+      };
+    case SET_ACTIVE_PRODUCT_LOADING_STATUS:
+      return {
+        ...state,
+        isActiveProductLoading: action.payload,
+      };
+    case SET_ACTIVE_PRODUCT:
+      return {
+        ...state,
+        activeProduct: action.payload,
       };
     default:
       return state;

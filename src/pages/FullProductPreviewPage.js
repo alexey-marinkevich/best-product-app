@@ -1,15 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-
 import styled from 'styled-components';
 
-import ProductPage from './ProductPage';
+import ProductPage from '../pages/ProductPage';
 
 const FullProductPreviewPage = ({ form }) => {
-  const { productName, productHeadImage, fullDescription } = form;
+  const { prodName, headImg, fullDescription } = form;
 
-  if (!productName || !productHeadImage || !fullDescription) {
+  if (!prodName || !headImg || !fullDescription) {
     return <Redirect to="/proposal-form" />;
   }
   return (

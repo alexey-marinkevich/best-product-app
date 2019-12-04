@@ -1,10 +1,10 @@
-import axios from 'axios';
+import { API } from 'aws-amplify';
 
 const initState = {
   error: null,
   isLoading: false,
-  productName: 'Monument Valley',
-  productHeadImage:
+  prodName: 'Monument Valley',
+  headImg:
     'https://images.ctfassets.net/gw5wr8vzz44g/5GtxNkxKOCScNl9ybSl3lG/477f02ca7e20c94c257449bb7582cbce/ustwo-casestudy-monument-valley-games.jpg?w=4000&q=70&fm=jpg',
   shortDescription:
     'Feel good, from the ground up. Atoms are designed to be your ideal everyday shoes. They are beautiful in their simplicity, with clean lines and thoughtful details.',
@@ -20,6 +20,7 @@ const initState = {
 
 const UPDATE_FORM_FIELD = 'UPDATE_FORM_FIELD';
 const FLUSH_FORM_FIELD = 'FLUSH_FORM_FIELD';
+const SUGGEST_PRODUCT = 'SUGGEST_PRODUCT';
 const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
 const SET_ERROR = 'SET_ERROR';
 
@@ -34,32 +35,23 @@ export const flushFields = () => ({ type: FLUSH_FORM_FIELD });
 export const setLoadingStatus = status => ({ type: SET_LOADING_STATUS, payload: status });
 export const setError = error => ({ type: SET_ERROR, payload: error });
 
-export const submitForm = () => async (dispatch, getState) => {
-  dispatch(setError(null));
-  dispatch(setLoadingStatus(true));
-
+export const suggestProductAction = () => async (dispatch, getState) => {
   try {
-    const { form } = getState();
-    const { fullDescription, gallery, productHeadImage, productName, shortDescription } = form;
-
-    const body = {
-      fullDescription,
-      gallery,
-      productHeadImage,
-      productName,
-      shortDescription,
+    dispatch(setLoadingStatus(true));
+    const state = getState();
+    const product = state.form;
+    const apiName = 'products';
+    const path = '/product';
+    const myInit = {
+      body: product,
     };
-
-    const response = await axios.post('http://localhost:3001/create-product', body);
-
-    console.log(response);
-
-    dispatch(flushFields());
-  } catch (e) {
-    dispatch(setError('Failed to submit form'));
+    const req = await API.post(apiName, path, myInit);
+    console.log(req);
+    dispatch(setLoadingStatus(false));
+  } catch (err) {
+    console.log(err);
+    dispatch(setLoadingStatus(false));
   }
-
-  dispatch(setLoadingStatus(false));
 };
 
 export default (state = initState, action) => {

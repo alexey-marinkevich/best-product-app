@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import ProductItem from './ProductItem';
-import { setProducts } from './reducers/coreReducer';
+import { setProducts } from '../reducers/coreReducer';
 
 const ProductItems = ({ products, isProductsLoading, initPage }) => {
   useEffect(() => {
@@ -13,18 +13,18 @@ const ProductItems = ({ products, isProductsLoading, initPage }) => {
     return 'LOADING...';
   }
 
-  if (Array.isArray(products) && !products.length) {
-    return 'NO PRODUCTS FOUND';
-  }
+  // if (Array.isArray(products) && !products.length) {
+  //   return 'NO PRODUCTS FOUND';
+  // }
 
   return (
     <div>
-      {products.map((product, id) => {
+      {products.map(product => {
         return (
           <ProductItem
-            id={id}
-            productName={product.productName}
-            productHeadImage={product.productHeadImage}
+            id={product.id}
+            prodName={product.prodName}
+            headImg={product.headImg}
             shortDescription={product.shortDescription}
           />
         );

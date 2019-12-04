@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-const ProductItem = ({ id, productName, productHeadImage, shortDescription }) => {
+const ProductItem = ({ id, prodName, headImg, shortDescription }) => {
   return (
     <ItemHeader to={`/product/${id}`}>
       <Description>
-        <ProductName>{productName}</ProductName>
+        <ProductName>{prodName}</ProductName>
         <ProductDescription>{shortDescription}</ProductDescription>
       </Description>
-      <ProductImage img={productHeadImage} /> 
+      <ProductImage img={headImg} /> 
       <Button>
         <span>Get More</span>
       </Button>
