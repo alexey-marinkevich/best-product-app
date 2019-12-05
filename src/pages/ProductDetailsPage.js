@@ -30,10 +30,6 @@ const ProductDetailsPage = ({
     return 'NOTHING FOUND';
   }
 
-  const renderImg = currProduct.gallery.map((img, id) => {
-    return <img src={img} key={id} alt="Product Gallery Item" />;
-  });
-
   const handleClose = () => (!isPreview ? history.push('/') : history.push('/suggest-form'));
 
   return (
@@ -50,7 +46,7 @@ const ProductDetailsPage = ({
           <h1>{currProduct.prodName}</h1>
         </SideName>
       </ContentWrapper>
-      <ImageGallery>{renderImg}</ImageGallery>
+      <ImageGallery images={currProduct.gallery} />
     </Container>
   );
 };
@@ -69,7 +65,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), withRouter)(ProductDetailsPage);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
+)(ProductDetailsPage);
 
 const Container = styled.div`
   position: relative;

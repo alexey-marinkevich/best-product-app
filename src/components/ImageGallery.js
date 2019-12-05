@@ -1,6 +1,18 @@
+import React from 'react'
 import styled from 'styled-components';
 
-const ImageGallery = styled.div`
+const ImageGallery = ({images}) => {
+  const Images = images.map((img, id) => {
+    return <img src={img} key={id} alt="Product Gallery Item" />;
+  });
+  return(
+    <Wrapper>
+      {Images}
+    </Wrapper>
+  )
+}
+
+const Wrapper = styled.div`
   display: flex;
   width: 100%;
   overflow: overlay;

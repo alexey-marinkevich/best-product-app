@@ -5,8 +5,12 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 
-import { updateFormFieldAction, flushFieldsAction, suggestProductAction } from '../reducers/formReducer';
-import ImageGallery from '../components/ImageGallery';
+import {
+  updateFormFieldAction,
+  flushFieldsAction,
+  suggestProductAction,
+} from '../reducers/formReducer';
+import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
 
 const SuggestProductPage = ({
   updateFormField,
@@ -125,13 +129,7 @@ const SuggestProductPage = ({
           <Button onClick={handleAddImage} disabled={isLoading}>
             Add
           </Button>
-          <StyledImageGallery>
-            {gallery.map((image, id) => (
-              <ImageWrapper onClick={() => handleDeleteImage(id)}>
-                <img src={image} key={id} alt="Gallery photo item" />
-              </ImageWrapper>
-            ))}
-          </StyledImageGallery>
+          <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} />
         </Gallery>
         {!!error && <div style={{ color: 'red' }}>{error}</div>}
         <Button type="submit" disabled={isLoading}>
@@ -252,42 +250,6 @@ const Gallery = styled.div`
     margin: 0;
     max-width: 400px;
     font-size: 14px;
-  }
-`;
-
-const StyledImageGallery = styled(ImageGallery)`
-  padding: 25px 0 0 0;
-  & img {
-    max-height: 200px;
-  }
-`;
-
-const ImageWrapper = styled.div`
-  position: relative;
-  margin-right: 25px;
-  cursor: pointer;
-
-  &:last-child {
-    margin-right: 0px;
-  }
-
-  &::after {
-    content: 'Remove';
-    opacity: 0;
-    font-size: 25px;
-    color: #fff;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -100%);
-    text-shadow: 1px 1px #808080, 1px 0px #808080, 0px 0 #808080, -1px 1px #808080;
-    transition: 0.3s;
-    -webkit-user-select: none;
-  }
-  &:hover {
-    &::after {
-      opacity: 1;
-    }
   }
 `;
 
