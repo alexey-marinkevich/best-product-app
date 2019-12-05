@@ -44,8 +44,8 @@ export const suggestProductAction = () => async (dispatch, getState) => {
     const myInit = {
       body: product,
     };
-    const req = await API.post(apiName, path, myInit);
-    console.log(req);
+    // const req = await API.post(apiName, path, myInit);
+    // console.log(req);
     dispatch(setLoadingStatusAction(false));
   } catch (err) {
     console.log(err);

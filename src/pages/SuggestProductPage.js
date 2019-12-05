@@ -26,17 +26,25 @@ const SuggestProductPage = ({
   error,
   history,
 }) => {
+  
+
   const handleSubmit = e => {
     e.preventDefault();
     suggestProduct();
   };
 
-  const handleAddImage = e => {
-    e.preventDefault();
-    if (imageGalleryInput !== '') {
+  const validateImageLink = () => {    
+    const pattern = /^https?:\/{2}[\d\w\/\.\-]{7,}/;
+    if (pattern.test(imageGalleryInput)) {
       updateFormField('gallery', [imageGalleryInput, ...gallery]);
       updateFormField('imageGalleryInput', '');
     }
+    updateFormField('imageGalleryInput', '');
+  };
+
+  const handleAddImage = e => {
+    e.preventDefault();
+    validateImageLink();
   };
 
   const handleDeleteImage = id => {
