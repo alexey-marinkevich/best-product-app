@@ -51,4 +51,4 @@ export default connect(
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
