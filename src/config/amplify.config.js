@@ -1,11 +1,19 @@
-export default {
-  common: {
-    REGION: process.env.REACT_APP_REGION,
+import constants from './constants.config';
+
+const amplifyConfig = {
+  Auth: {
+    region: constants.common.REGION,
+    identityPoolId: constants.cognito.IDENTITY_POOL_ID,
   },
-  apiGateway: {
-    BASE_PRODUCT_URL: process.env.REACT_APP_BASE_PRODUCT_URL,
+  API: {
+    endpoints: [
+      {
+        name: constants.apiGateway.products.NAME,
+        endpoint: constants.apiGateway.products.ENDPOINT,
+        region: constants.common.REGION,
+      },
+    ],
   },
-  cognito: {
-    IDENTITY_POOL_ID: process.env.REACT_APP_IDENTITY_POOL_ID,
-  }
 };
+
+export default amplifyConfig;
