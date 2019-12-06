@@ -1,16 +1,22 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-const ImageGallery = ({images}) => {
-  const Images = images.map((img, id) => {
-    return <img src={img} key={id} alt="Product Gallery Item" />;
-  });
-  return(
+const ImageGallery = ({ images }) => {
+  const Images = images.map((img) => <img src={img} key={img} alt="Product Gallery Item" />);
+
+  return (
     <Wrapper>
       {Images}
     </Wrapper>
-  )
-}
+  );
+};
+
+ImageGallery.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+export default ImageGallery;
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,5 +45,3 @@ const Wrapper = styled.div`
     display: none;
   }
 `;
-
-export default ImageGallery;

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-import Product from '../components/Product';
+import Product from './Product';
 import { setProductsAction } from '../reducers/coreReducer';
 
 const ProductsList = ({ products, isProductsLoading, setProducts }) => {
@@ -16,31 +17,31 @@ const ProductsList = ({ products, isProductsLoading, setProducts }) => {
 
   return (
     <Wrapper>
-      {products.map(product => {
-        return (
-          <Product
-            id={product.id}
-            prodName={product.prodName}
-            headImg={product.headImg}
-            shortDescription={product.shortDescription}
-          />
-        );
-      })}
+      {products.map((product) => (
+        <Product
+          id={product.id}
+          prodName={product.prodName}
+          headImg={product.headImg}
+          shortDescription={product.shortDescription}
+        />
+      ))}
     </Wrapper>
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    products: state.core.products,
-    isProductsLoading: state.core.isProductsLoading,
-  };
-};
+const mapStateToProps = (state) => ({
+  products: state.core.products,
+  isProductsLoading: state.core.isProductsLoading,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setProducts: () => dispatch(setProductsAction()),
-  };
+const mapDispatchToProps = (dispatch) => ({
+  setProducts: () => dispatch(setProductsAction()),
+});
+
+ProductsList.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  isProductsLoading: PropTypes.bool.isRequired,
+  setProducts: PropTypes.func.isRequired,
 };
 
 export default connect(

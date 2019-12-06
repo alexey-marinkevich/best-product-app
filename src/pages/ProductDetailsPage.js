@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { loadProductByIdAction } from '../reducers/coreReducer';
@@ -53,18 +54,34 @@ const ProductDetailsPage = ({
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    formFields: state.form,
-    activeProduct: state.core.activeProduct,
-    isActiveProductLoading: state.core.isActiveProductLoading,
-  };
-};
+const mapStateToProps = (state) => ({
+  formFields: state.form,
+  activeProduct: state.core.activeProduct,
+  isActiveProductLoading: state.core.isActiveProductLoading,
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadProductById: id => dispatch(loadProductByIdAction(id)),
-  };
+const mapDispatchToProps = (dispatch) => ({
+  loadProductById: (id) => dispatch(loadProductByIdAction(id)),
+});
+
+ProductDetailsPage.propTypes = {
+  match: PropTypes.shape({ params: PropTypes.shape({ id: PropTypes.string }) }).isRequired,
+  formFields: PropTypes.shape({
+    headImg: PropTypes.string,
+    fullDescription: PropTypes.string,
+    prodName: PropTypes.string,
+    gallery: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+  isPreview: PropTypes.bool.isRequired,
+  history: PropTypes.shape({ push: PropTypes.object }).isRequired,
+  loadProductById: PropTypes.func.isRequired,
+  activeProduct: PropTypes.shape({
+    headImg: PropTypes.string,
+    fullDescription: PropTypes.string,
+    prodName: PropTypes.string,
+    gallery: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
+  isActiveProductLoading: PropTypes.bool.isRequired,
 };
 
 export default compose(
@@ -111,7 +128,7 @@ const CloseButton = styled.button`
 
 const ProductImage = styled.div`
   width: 100%;
-  background-image: url(${props => props.img});
+  background-image: url(${(props) => props.img});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

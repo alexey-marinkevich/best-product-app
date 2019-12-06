@@ -1,16 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const SuggestedImagesPreview = ({ images, deleteAction }) => {
-  const Images = images.map((img, id) => {
-    return (
-      <DeleteLayer onClick={() => deleteAction(id)}>
-        <img src={img} key={id} alt="Gallery photo item" /> 
-        {/* Todo: Don't show key prop */}
-      </DeleteLayer>
-    );
-  });
+  const Images = images.map((img, id) => (
+    <DeleteLayer onClick={() => deleteAction(id)} key={img}>
+      <img src={img} alt="Gallery item" />
+    </DeleteLayer>
+  ));
   return <Wrapper>{Images}</Wrapper>;
+};
+
+SuggestedImagesPreview.propTypes = {
+  images: PropTypes.arrayOf(PropTypes.string).isRequired,
+  deleteAction: PropTypes.func.isRequired,
 };
 
 export default SuggestedImagesPreview;

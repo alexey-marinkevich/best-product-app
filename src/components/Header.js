@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 
-const Header = () => {
-  return (
-    <NavBarContainer>
-      <OpenSpace />
-      <Logo href="#">BEST PRODUCT</Logo>
-      {/* <NavBar>
+const Header = () => (
+  <NavBarContainer>
+    <OpenSpace />
+    <Logo href="#">BEST PRODUCT</Logo>
+    {/* <NavBar>
         <li className="nav-item">
           <Link href="#">Most Popular</Link>
         </li>
@@ -16,10 +15,9 @@ const Header = () => {
           <Link href="#">Categories</Link>
         </li>
       </NavBar> */}
-      <StyledLink to="/suggest-form">Suggest Product</StyledLink>
-    </NavBarContainer>
-  );
-};
+    <StyledLink to="/suggest-form">Suggest Product</StyledLink>
+  </NavBarContainer>
+);
 
 export default Header;
 

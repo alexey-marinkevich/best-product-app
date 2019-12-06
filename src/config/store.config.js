@@ -1,5 +1,4 @@
-/* global window, module, process */
-import {createStore, applyMiddleware, compose} from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import reducers from './reducers.config';

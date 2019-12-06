@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
+import PropTypes from 'prop-types';
 import ProductDetailsPage from './ProductDetailsPage';
 
 const PreviewProductPage = ({ form }) => {
@@ -18,11 +19,19 @@ const PreviewProductPage = ({ form }) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { form } = state;
   return {
     form,
   };
+};
+
+PreviewProductPage.propTypes = {
+  form: PropTypes.shape({
+    prodName: PropTypes.string,
+    headImg: PropTypes.string,
+    fullDescription: PropTypes.string,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps)(PreviewProductPage);

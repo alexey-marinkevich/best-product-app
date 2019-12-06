@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Footer = () => {
-  return (
-    <StyledFooter>
-      <p>All rights reserved 2019</p>
-    </StyledFooter>
-  );
-};
+const Footer = () => (
+  <StyledFooter>
+    <p>All rights reserved 2019</p>
+  </StyledFooter>
+);
 
 export default Footer;
 

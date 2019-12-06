@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -26,15 +27,14 @@ const SuggestProductPage = ({
   error,
   history,
 }) => {
-  
-
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     suggestProduct();
   };
 
-  const validateImageLink = () => {    
-    const pattern = /^https?:\/{2}[\d\w\/\.\-]{7,}/;
+  const validateImageLink = () => {
+    const pattern = /^https?:\/{2}[\d\w/.-]{7,}/;
+
     if (pattern.test(imageGalleryInput)) {
       updateFormField('gallery', [imageGalleryInput, ...gallery]);
       updateFormField('imageGalleryInput', '');
@@ -42,12 +42,12 @@ const SuggestProductPage = ({
     updateFormField('imageGalleryInput', '');
   };
 
-  const handleAddImage = e => {
+  const handleAddImage = (e) => {
     e.preventDefault();
     validateImageLink();
   };
 
-  const handleDeleteImage = id => {
+  const handleDeleteImage = (id) => {
     const modGallery = [...gallery];
     modGallery.splice(id, 1);
     updateFormField('gallery', modGallery);
@@ -67,8 +67,8 @@ const SuggestProductPage = ({
       <ContainerTopSection>
         <CloseButton onClick={handlePageClose}>🠐</CloseButton>
         <LeadText>
-          Place where you can suggest interest and good quality products of small or less popular
-          companies to share with other people and get to know about it more range of pepople
+        Place where you can suggest interest and good quality products of small or less popular
+        companies to share with other people and get to know about it more range of pepople
         </LeadText>
       </ContainerTopSection>
       <Form onSubmit={handleSubmit}>
@@ -137,7 +137,7 @@ const SuggestProductPage = ({
           <Button onClick={handleAddImage} disabled={isLoading}>
             Add
           </Button>
-          <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} /> 
+          <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} />
           {/*  Todo: Have problem with every tipe rerender complete component, how to solve the problem */}
         </Gallery>
         {!!error && <div style={{ color: 'red' }}>{error}</div>}
@@ -153,16 +153,29 @@ const SuggestProductPage = ({
   );
 };
 
-const mapStateToProps = state => {
-  return state.form;
-};
+const mapStateToProps = (state) => state.form;
 
-const mapDispatchToProps = dispatch => {
-  return {
-    updateFormField: (fieldName, value) => dispatch(updateFormFieldAction(fieldName, value)),
-    flushFields: () => dispatch(flushFieldsAction()),
-    suggestProduct: () => dispatch(suggestProductAction()),
-  };
+const mapDispatchToProps = (dispatch) => ({
+  updateFormField: (fieldName, value) => dispatch(updateFormFieldAction(fieldName, value)),
+  flushFields: () => dispatch(flushFieldsAction()),
+  suggestProduct: () => dispatch(suggestProductAction()),
+});
+
+SuggestProductPage.propTypes = {
+  updateFormField: PropTypes.func.isRequired,
+  suggestProduct: PropTypes.func.isRequired,
+  prodName: PropTypes.string.isRequired,
+  headImg: PropTypes.string.isRequired,
+  shortDescription: PropTypes.string.isRequired,
+  fullDescription: PropTypes.string.isRequired,
+  gallery: PropTypes.arrayOf(PropTypes.string).isRequired,
+  flushFields: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  imageGalleryInput: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default compose(

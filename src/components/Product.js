@@ -1,20 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
-const Product = ({ id, prodName, headImg, shortDescription }) => {
-  return (
-    <ItemHeader to={`/product/${id}`}>
-      <Description>
-        <ProductName>{prodName}</ProductName>
-        <ProductDescription>{shortDescription}</ProductDescription>
-      </Description>
-      <ProductImage img={headImg} />
-      <Button>
-        <span>Get More</span>
-      </Button>
-    </ItemHeader>
-  );
+const Product = ({
+  id, prodName, headImg, shortDescription,
+}) => (
+  <ItemHeader to={`/product/${id}`}>
+    <Description>
+      <ProductName>{prodName}</ProductName>
+      <ProductDescription>{shortDescription}</ProductDescription>
+    </Description>
+    <ProductImage img={headImg} />
+    <Button>
+      <span>Get More</span>
+    </Button>
+  </ItemHeader>
+);
+
+Product.propTypes = {
+  id: PropTypes.string.isRequired,
+  prodName: PropTypes.string.isRequired,
+  headImg: PropTypes.string.isRequired,
+  shortDescription: PropTypes.string.isRequired,
 };
 
 export default Product;
@@ -82,7 +90,7 @@ const ProductDescription = styled.p`
 
 const ProductImage = styled.div`
   width: 100%;
-  background-image: url(${props => props.img});
+  background-image: url(${(props) => props.img});
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
