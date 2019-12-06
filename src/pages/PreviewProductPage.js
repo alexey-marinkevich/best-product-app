@@ -1,20 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-
 import styled from 'styled-components';
 
-import ProductPage from './ProductPage';
+import ProductDetailsPage from './ProductDetailsPage';
 
-const FullProductPreviewPage = ({ form }) => {
-  const { productName, productHeadImage, fullDescription } = form;
+const PreviewProductPage = ({ form }) => {
+  const { prodName, headImg, fullDescription } = form;
 
-  if (!productName || !productHeadImage || !fullDescription) {
-    return <Redirect to="/proposal-form" />;
+  if (!prodName || !headImg || !fullDescription) {
+    return <Redirect to="/suggest-form" />;
   }
   return (
     <Container>
-      <ProductPage isPreview />
+      <ProductDetailsPage isPreview />
     </Container>
   );
 };
@@ -26,7 +25,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(FullProductPreviewPage);
+export default connect(mapStateToProps)(PreviewProductPage);
 
 const Container = styled.div`
   display: flex;

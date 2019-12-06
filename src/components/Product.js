@@ -1,16 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import styled from 'styled-components';
 
-const ProductItem = ({ id, productName, productHeadImage, shortDescription }) => {
+const Product = ({ id, prodName, headImg, shortDescription }) => {
   return (
     <ItemHeader to={`/product/${id}`}>
       <Description>
-        <ProductName>{productName}</ProductName>
+        <ProductName>{prodName}</ProductName>
         <ProductDescription>{shortDescription}</ProductDescription>
       </Description>
-      <ProductImage img={productHeadImage} />
+      <ProductImage img={headImg} />
       <Button>
         <span>Get More</span>
       </Button>
@@ -18,7 +17,7 @@ const ProductItem = ({ id, productName, productHeadImage, shortDescription }) =>
   );
 };
 
-export default ProductItem;
+export default Product;
 
 const ItemHeader = styled(Link)`
   display: flex;
