@@ -19,7 +19,9 @@ const ProductDetailsPage = ({
   const currProduct = isPreview ? formFields : activeProduct;
   useEffect(() => {
     window.scrollTo(0, 0);
-    loadProductById(match.params.id);
+    if (!isPreview) {
+      loadProductById(match.params.id);
+    }
   }, []);
 
   if (isActiveProductLoading) {

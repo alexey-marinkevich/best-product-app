@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const SuggestedImagesPreview = ({ images, deleteAction }) => {
   const Images = images.map((img, id) => {
-    console.log(id) // Todo: Ask About this mistake
     return (
       <DeleteLayer onClick={() => deleteAction(id)}>
         <img src={img} key={id} alt="Gallery photo item" /> 

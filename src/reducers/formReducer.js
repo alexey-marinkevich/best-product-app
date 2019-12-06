@@ -38,17 +38,27 @@ export const suggestProductAction = () => async (dispatch, getState) => {
   try {
     dispatch(setLoadingStatusAction(true));
     const state = getState();
-    const product = state.form;
+    const {
+      prodName,
+      headImg,
+      shortDescription,
+      fullDescription,
+      gallery,
+    } = state.form;
     const apiName = 'products';
     const path = '/product';
     const myInit = {
-      body: product,
+      body: {
+        prodName,
+        headImg,
+        shortDescription,
+        fullDescription,
+        gallery,
+      },
     };
-    // const req = await API.post(apiName, path, myInit);
-    // console.log(req);
+    await API.post(apiName, path, myInit);
     dispatch(setLoadingStatusAction(false));
   } catch (err) {
-    console.log(err);
     dispatch(setLoadingStatusAction(false));
   }
 };

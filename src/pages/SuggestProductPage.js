@@ -137,7 +137,8 @@ const SuggestProductPage = ({
           <Button onClick={handleAddImage} disabled={isLoading}>
             Add
           </Button>
-          <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} />
+          <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} /> 
+          {/*  Todo: Have problem with every tipe rerender complete component, how to solve the problem */}
         </Gallery>
         {!!error && <div style={{ color: 'red' }}>{error}</div>}
         <Button type="submit" disabled={isLoading}>

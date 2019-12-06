@@ -1,21 +1,7 @@
 import { API } from 'aws-amplify';
 
 const initState = {
-  products: [
-    {
-      "id": "bp-prod-12345",
-      "prodName": "Atoms shoes",
-      "headImg": "https: //cdn2.shopify.com/s/files/1/0231/2060/9358/files/Home_Packaging_1024x.jpg?v=1556841297",
-      "shortDescription": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque",
-      "fullDescription": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium iure esse tempore, mollitia cum illo cumque est molestias eligendi unde minima, impedit voluptate maiores  numquam neque",
-      "siteUrl": "https: //atoms.com/",
-      "gallery": [
-        "https: //cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_BW_Closeup_1024x.jpg?v=1556563118",
-        "https: //cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_Gray_Loft_600x.jpg?v=1557771826",
-        "https: //cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_White_Wide_1024x.jpg?v=1556563138"
-      ]
-    }
-  ],
+  products: [],
   activeProduct: null,
   isActiveProductLoading: false,
   isProductsLoadoing: false,
@@ -27,18 +13,27 @@ const SET_ACTIVE_PRODUCT_LOADING_STATUS = 'SET_ACTIVE_PRODUCT_LOADING_STATUS';
 const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
 
 export const updateProductsAction = (products = []) => ({ type: SET_PRODUCTS, payload: products });
-export const toggleLoadingProductsAction = status => ({ type: TOGGLE_LOADING_PRODUCTS, payload: status });
+export const toggleLoadingProductsAction = status => ({
+  type: TOGGLE_LOADING_PRODUCTS,
+  payload: status,
+});
 export const setActiveProductLoadingStatusAction = status => ({
   type: SET_ACTIVE_PRODUCT_LOADING_STATUS,
   payload: status,
 });
 export const setActiveProductAction = product => ({ type: SET_ACTIVE_PRODUCT, payload: product });
 
-export const loadProductByIdAction = id => async dispatch => {
+export const loadProductByIdAction = id => async (dispatch, getState) => {
   dispatch(setActiveProductLoadingStatusAction(true));
   try {
-    // const res = await API.get('products', `/product/${id}`);
-    // dispatch(setActiveProductAction(res));
+    const { products } = getState().core;
+    let activeProductLoaded = products.find(product => product.id === id);
+
+    if (!activeProductLoaded) {
+      activeProductLoaded = await API.get('products', `/product/${id}`);
+    }
+
+    dispatch(setActiveProductAction(activeProductLoaded));
   } catch (e) {
     console.log(e);
   }
@@ -48,8 +43,8 @@ export const loadProductByIdAction = id => async dispatch => {
 
 export const setProductsAction = () => async dispatch => {
   dispatch(toggleLoadingProductsAction(true));
-  // const res = await API.get('products', '/product');
-  // dispatch(updateProductsAction(res));
+  const res = await API.get('products', '/product');
+  dispatch(updateProductsAction(res));
   dispatch(toggleLoadingProductsAction(false));
 };
 
