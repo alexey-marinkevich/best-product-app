@@ -23,7 +23,7 @@ const ProductDetailsPage = ({
     if (!isPreview) {
       loadProductById(match.params.id);
     }
-  }, []);
+  }, [loadProductById, match.params.id, isPreview]);
 
   if (isActiveProductLoading) {
     return 'LOADING';

@@ -9,7 +9,7 @@ import { setProductsAction } from '../reducers/coreReducer';
 const ProductsList = ({ products, isProductsLoading, setProducts }) => {
   useEffect(() => {
     setProducts();
-  }, []);
+  }, [setProducts]);
 
   if (isProductsLoading) {
     return 'LOADING...';
@@ -19,6 +19,7 @@ const ProductsList = ({ products, isProductsLoading, setProducts }) => {
     <Wrapper>
       {products.map((product) => (
         <Product
+          key={product.id}
           id={product.id}
           prodName={product.prodName}
           headImg={product.headImg}

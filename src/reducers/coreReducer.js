@@ -4,7 +4,7 @@ const initState = {
   products: [],
   activeProduct: null,
   isActiveProductLoading: false,
-  isProductsLoadoing: false,
+  isProductsLoading: false,
 };
 
 const SET_PRODUCTS = 'SET_PRODUCTS';
