@@ -1,55 +1,65 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import styled from 'styled-components';
 import TextField from '@material-ui/core/TextField';
 
-import { updateFormField, submitForm, flushFields } from './reducers/formReducer';
+import {
+  updateFormFieldAction,
+  flushFieldsAction,
+  suggestProductAction,
+} from '../reducers/formReducer';
+import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
 
-import ImageGallery from './ImageGallery';
-
-const ProductProposalForm = ({
-  updateField,
-  productName,
-  productHeadImage,
+const SuggestProductPage = ({
+  updateFormField,
+  suggestProduct,
+  prodName,
+  headImg,
   shortDescription,
   fullDescription,
   gallery,
-  submit,
-  flush,
+  flushFields,
   isLoading,
   imageGalleryInput,
   error,
-  history
+  history,
 }) => {
+  
+
   const handleSubmit = e => {
     e.preventDefault();
-    submit();
+    suggestProduct();
+  };
+
+  const validateImageLink = () => {    
+    const pattern = /^https?:\/{2}[\d\w\/\.\-]{7,}/;
+    if (pattern.test(imageGalleryInput)) {
+      updateFormField('gallery', [imageGalleryInput, ...gallery]);
+      updateFormField('imageGalleryInput', '');
+    }
+    updateFormField('imageGalleryInput', '');
   };
 
   const handleAddImage = e => {
     e.preventDefault();
-    if (imageGalleryInput !== '') {
-      updateField('gallery', [...gallery, imageGalleryInput]);
-      updateField('imageGalleryInput', '');
-    }
+    validateImageLink();
   };
 
   const handleDeleteImage = id => {
     const modGallery = [...gallery];
     modGallery.splice(id, 1);
-    updateField('gallery', modGallery);
+    updateFormField('gallery', modGallery);
   };
 
-  const handlePageClose = () => { 
-    flush();
+  const handlePageClose = () => {
+    flushFields();
     history.push('/');
   };
 
   const handleShowPreview = () => {
-    history.push('/proposal-form/product-preview')
+    history.push('/suggest-form/product-preview');
   };
 
   return (
@@ -68,19 +78,19 @@ const ProductProposalForm = ({
             <TextField
               required
               label="Product Name"
-              value={productName}
+              value={prodName}
               margin="normal"
-              onChange={({ target }) => updateField('productName', target.value)}
+              onChange={({ target }) => updateFormField('prodName', target.value)}
               disabled={isLoading}
             />
             <TextField
               required
               label="Main Image"
-              value={productHeadImage}
+              value={headImg}
               margin="normal"
               placeholder="Paste URL"
               helperText="Add image that clearly shows the product is"
-              onChange={({ target }) => updateField('productHeadImage', target.value)}
+              onChange={({ target }) => updateFormField('headImg', target.value)}
               disabled={isLoading}
             />
           </MainDataTopSection>
@@ -95,7 +105,7 @@ const ProductProposalForm = ({
             inputProps={{
               maxLength: 150,
             }}
-            onChange={({ target }) => updateField('shortDescription', target.value)}
+            onChange={({ target }) => updateFormField('shortDescription', target.value)}
             disabled={isLoading}
           />
           <TextField
@@ -105,7 +115,7 @@ const ProductProposalForm = ({
             value={fullDescription}
             margin="normal"
             helperText="Provide full description here"
-            onChange={({ target }) => updateField('fullDescription', target.value)}
+            onChange={({ target }) => updateFormField('fullDescription', target.value)}
             disabled={isLoading}
           />
         </MainData>
@@ -121,22 +131,23 @@ const ProductProposalForm = ({
             placeholder="Paste URL"
             margin="normal"
             helperText=""
-            onChange={({ target }) => updateField('imageGalleryInput', target.value)}
+            onChange={({ target }) => updateFormField('imageGalleryInput', target.value)}
             disabled={isLoading}
           />
-          <Button onClick={handleAddImage} disabled={isLoading}>Add</Button>
-          <StyledImageGallery>
-            {gallery.map((image, idx) => (
-              <ImageWrapper onClick={() => handleDeleteImage(idx)}>
-                <img src={image} key={idx} />
-              </ImageWrapper>
-            ))}
-          </StyledImageGallery>
+          <Button onClick={handleAddImage} disabled={isLoading}>
+            Add
+          </Button>
+          <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} /> 
+          {/*  Todo: Have problem with every tipe rerender complete component, how to solve the problem */}
         </Gallery>
         {!!error && <div style={{ color: 'red' }}>{error}</div>}
-        <Button type="submit" disabled={isLoading}>{isLoading ? 'Submitting...' : 'Submit'}</Button>
-        
-        <Button onClick={handleShowPreview} disabled={isLoading}>Show Preview</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? 'Submitting...' : 'Submit'}
+        </Button>
+
+        <Button onClick={handleShowPreview} disabled={isLoading}>
+          Show Preview
+        </Button>
       </Form>
     </Container>
   );
@@ -148,19 +159,16 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateField: (fieldName, value) => dispatch(updateFormField(fieldName, value)),
-    submit: () => dispatch(submitForm()),
-    flush: () => dispatch(flushFields()),
+    updateFormField: (fieldName, value) => dispatch(updateFormFieldAction(fieldName, value)),
+    flushFields: () => dispatch(flushFieldsAction()),
+    suggestProduct: () => dispatch(suggestProductAction()),
   };
 };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   withRouter,
-)(ProductProposalForm);
+)(SuggestProductPage);
 
 const Container = styled.div`
   display: flex;
@@ -251,42 +259,6 @@ const Gallery = styled.div`
     margin: 0;
     max-width: 400px;
     font-size: 14px;
-  }
-`;
-
-const StyledImageGallery = styled(ImageGallery)`
-  padding: 25px 0 0 0;
-  & img {
-    max-height: 200px;
-  }
-`;
-
-const ImageWrapper = styled.div`
-  position: relative;
-  margin-right: 25px;
-  cursor: pointer;
-
-  &:last-child {
-    margin-right: 0px;
-  }
-
-  &::after {
-    content: 'Remove';
-    opacity: 0;
-    font-size: 25px;
-    color: #fff;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -100%);
-    text-shadow: 1px 1px #808080, 1px 0px #808080, 0px 0 #808080, -1px 1px #808080;
-    transition: 0.3s;
-    -webkit-user-select: none;
-  }
-  &:hover {
-    &::after {
-      opacity: 1;
-    }
   }
 `;
 

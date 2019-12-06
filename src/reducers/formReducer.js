@@ -1,10 +1,10 @@
-import axios from 'axios';
+import { API } from 'aws-amplify';
 
 const initState = {
   error: null,
   isLoading: false,
-  productName: 'Monument Valley',
-  productHeadImage:
+  prodName: 'Monument Valley',
+  headImg:
     'https://images.ctfassets.net/gw5wr8vzz44g/5GtxNkxKOCScNl9ybSl3lG/477f02ca7e20c94c257449bb7582cbce/ustwo-casestudy-monument-valley-games.jpg?w=4000&q=70&fm=jpg',
   shortDescription:
     'Feel good, from the ground up. Atoms are designed to be your ideal everyday shoes. They are beautiful in their simplicity, with clean lines and thoughtful details.',
@@ -18,48 +18,49 @@ const initState = {
   ],
 };
 
-export const UPDATE_FORM_FIELD = 'UPDATE_FORM_FIELD';
-export const FLUSH_FORM_FIELD = 'FLUSH_FORM_FIELD';
-export const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
-export const SET_ERROR = 'SET_ERROR';
+const UPDATE_FORM_FIELD = 'UPDATE_FORM_FIELD';
+const FLUSH_FORM_FIELD = 'FLUSH_FORM_FIELD';
+const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
+const SET_ERROR = 'SET_ERROR';
 
-export const updateFormField = (fieldName, value) => ({
+export const updateFormFieldAction = (fieldName, value) => ({
   type: UPDATE_FORM_FIELD,
   payload: {
     [fieldName]: value,
   },
 });
 
-export const flushFields = () => ({ type: FLUSH_FORM_FIELD });
-export const setLoadingStatus = status => ({ type: SET_LOADING_STATUS, payload: status });
-export const setError = error => ({ type: SET_ERROR, payload: error });
+export const flushFieldsAction = () => ({ type: FLUSH_FORM_FIELD });
+export const setLoadingStatusAction = status => ({ type: SET_LOADING_STATUS, payload: status });
+export const setErrorAction = error => ({ type: SET_ERROR, payload: error });
 
-export const submitForm = () => async (dispatch, getState) => {
-  dispatch(setError(null));
-  dispatch(setLoadingStatus(true));
-
+export const suggestProductAction = () => async (dispatch, getState) => {
   try {
-    const { form } = getState();
-    const { fullDescription, gallery, productHeadImage, productName, shortDescription } = form;
-
-    const body = {
+    dispatch(setLoadingStatusAction(true));
+    const state = getState();
+    const {
+      prodName,
+      headImg,
+      shortDescription,
       fullDescription,
       gallery,
-      productHeadImage,
-      productName,
-      shortDescription,
+    } = state.form;
+    const apiName = 'products';
+    const path = '/product';
+    const myInit = {
+      body: {
+        prodName,
+        headImg,
+        shortDescription,
+        fullDescription,
+        gallery,
+      },
     };
-
-    const response = await axios.post('http://localhost:3001/create-product', body);
-
-    console.log(response);
-
-    dispatch(flushFields());
-  } catch (e) {
-    dispatch(setError('Failed to submit form'));
+    await API.post(apiName, path, myInit);
+    dispatch(setLoadingStatusAction(false));
+  } catch (err) {
+    dispatch(setLoadingStatusAction(false));
   }
-
-  dispatch(setLoadingStatus(false));
 };
 
 export default (state = initState, action) => {

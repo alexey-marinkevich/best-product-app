@@ -16,7 +16,7 @@ const Header = () => {
           <Link href="#">Categories</Link>
         </li>
       </NavBar> */}
-      <StyledLink to="/proposal-form">Suggest Product</StyledLink>
+      <StyledLink to="/suggest-form">Suggest Product</StyledLink>
     </NavBarContainer>
   );
 };
@@ -39,7 +39,6 @@ const StyledLink = styled(Link)`
   font-size: 16px;
   position: relative;
   padding: 25px 0;
-
   &::after {
     content: '';
     position: absolute;
@@ -51,7 +50,6 @@ const StyledLink = styled(Link)`
     transform: translate(150px, 0);
     transition: transform 0.3s;
   }
-
   :hover {
     &::after {
       transform: translate(0, 0);
@@ -67,11 +65,11 @@ const NavBarContainer = styled.div`
   overflow: hidden;
 `;
 
-const NavBar = styled.ul`
-  display: flex;
-  justify-content: space-between;
-  width: 200px;
-  & li {
-    display: flex;
-  }
-`;
+// const NavBar = styled.ul`
+//   display: flex;
+//   justify-content: space-between;
+//   width: 200px;
+//   & li {
+//     display: flex;
+//   }
+// `;

@@ -1,52 +1,76 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-
+import { compose } from 'redux';
+import { withRouter } from 'react-router';
 import styled from 'styled-components';
-import ImageGallery from './ImageGallery';
 
-const ProductPage = ({ product, match, formFields, isPreview, history }) => {
-  const matchId = match.params.id
-  const currProduct = isPreview ? formFields : product[matchId];
+import { loadProductByIdAction } from '../reducers/coreReducer';
+import ImageGallery from '../components/ImageGallery';
 
-  
+const ProductDetailsPage = ({
+  match,
+  formFields,
+  isPreview,
+  history,
+  loadProductById,
+  activeProduct,
+  isActiveProductLoading,
+}) => {
+  const currProduct = isPreview ? formFields : activeProduct;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (!isPreview) {
+      loadProductById(match.params.id);
+    }
+  }, []);
+
+  if (isActiveProductLoading) {
+    return 'LOADING';
+  }
+
   if (!currProduct) {
     return 'NOTHING FOUND';
   }
 
-  const renderImg = currProduct.gallery.map(img => {
-    return <img src={img} />;
-  });
-
-  const handleClose = () => (!isPreview ? history.push('/') : history.push('/proposal-form'));
+  const handleClose = () => (!isPreview ? history.push('/') : history.push('/suggest-form'));
 
   return (
     <Container>
       <ContentWrapper>
         <ItemHeader>
           <CloseButton onClick={handleClose}>🠐</CloseButton>
-          <ProductImage img={currProduct.productHeadImage} />
+          <ProductImage img={currProduct.headImg} />
         </ItemHeader>
         <Content>
           <p>{currProduct.fullDescription}</p>
         </Content>
         <SideName>
-          <h1>{currProduct.productName}</h1>
+          <h1>{currProduct.prodName}</h1>
         </SideName>
       </ContentWrapper>
-      <ImageGallery>{renderImg}</ImageGallery>
+      <ImageGallery images={currProduct.gallery} />
     </Container>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    product: state.core.products,
     formFields: state.form,
+    activeProduct: state.core.activeProduct,
+    isActiveProductLoading: state.core.isActiveProductLoading,
   };
 };
 
-export default withRouter(connect(mapStateToProps)(ProductPage));
+const mapDispatchToProps = dispatch => {
+  return {
+    loadProductById: id => dispatch(loadProductByIdAction(id)),
+  };
+};
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withRouter,
+)(ProductDetailsPage);
 
 const Container = styled.div`
   position: relative;
