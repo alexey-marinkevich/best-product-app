@@ -1,34 +1,44 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import './index.css';
-import { Provider } from 'react-redux';
-import createReduxStore from './reducers/createReduxStore';
 import Amplify from 'aws-amplify';
-import amplifyConfig from './config/amplify.config';
+import { Provider } from 'react-redux';
+import { CssBaseline } from '@material-ui/core';
+import { createMuiTheme, ThemeProvider, withStyles } from '@material-ui/core/styles';
 
-Amplify.configure({
-  Auth: {
-    mandatorySignIn: false,
-    region: amplifyConfig.common.REGION,
-    identityPoolId: amplifyConfig.cognito.IDENTITY_POOL_ID,
+import App from './App';
+import { amplifyConfig, createStore } from './config';
+
+const GlobalCss = withStyles({
+  '@global': {
+    'body::-webkit-scrollbar': {
+      width: '.5em',
+    },
+    'body::-webkit-scrollbar-thumb': {
+      backgroundColor: '#bebebe',
+      borderRadius: 50,
+    },
+    'body::-webkit-scrollbar-button': {
+      display: 'none',
+    },
   },
-  API: {
-    endpoints: [
-      {
-        name: 'products',
-        endpoint: amplifyConfig.apiGateway.BASE_PRODUCT_URL,
-        region: amplifyConfig.common.REGION,
-      },
-    ],
+})(() => null);
+
+Amplify.configure(amplifyConfig);
+
+const store = createStore();
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "'Segoe UI', 'Roboto', sans-serif",
   },
 });
 
-const store = createReduxStore();
-
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <ThemeProvider theme={theme}>
+    <Provider store={store}>
+      <CssBaseline />
+      <GlobalCss />
+      <App />
+    </Provider>
+  </ThemeProvider>,
   document.getElementById('root'),
 );
