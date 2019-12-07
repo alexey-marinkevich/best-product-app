@@ -30,7 +30,7 @@ export const loadProductByIdAction = (id) => async (dispatch, getState) => {
     let activeProductLoaded = products.find((product) => product.id === id);
 
     if (!activeProductLoaded) {
-      activeProductLoaded = await API.get('products', `/product/${id}`);
+      activeProductLoaded = await API.get('products', `/product/${id}`, null);
     }
 
     dispatch(setActiveProductAction(activeProductLoaded));
@@ -43,7 +43,7 @@ export const loadProductByIdAction = (id) => async (dispatch, getState) => {
 
 export const setProductsAction = () => async (dispatch) => {
   dispatch(toggleLoadingProductsAction(true));
-  const res = await API.get('products', '/product');
+  const res = await API.get('products', '/product', null);
   dispatch(updateProductsAction(res));
   dispatch(toggleLoadingProductsAction(false));
 };
@@ -58,7 +58,7 @@ export default (state = initState, action) => {
     case TOGGLE_LOADING_PRODUCTS:
       return {
         ...state,
-        isProductsLoadoing: action.payload,
+        isProductsLoading: action.payload,
       };
     case SET_ACTIVE_PRODUCT_LOADING_STATUS:
       return {
