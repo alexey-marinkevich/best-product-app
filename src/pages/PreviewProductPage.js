@@ -1,21 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
 
 import PropTypes from 'prop-types';
 import ProductDetailsPage from './ProductDetailsPage';
 
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+});
+
 const PreviewProductPage = ({ form }) => {
   const { prodName, headImg, fullDescription } = form;
+  const classes = useStyles();
 
   if (!prodName || !headImg || !fullDescription) {
     return <Redirect to="/suggest-form" />;
   }
   return (
-    <Container>
+    <div className={classes.root}>
       <ProductDetailsPage isPreview />
-    </Container>
+    </div>
   );
 };
 
@@ -35,8 +43,3 @@ PreviewProductPage.propTypes = {
 };
 
 export default connect(mapStateToProps)(PreviewProductPage);
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;

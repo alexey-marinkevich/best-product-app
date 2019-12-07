@@ -3,10 +3,93 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
+
 
 import { loadProductByIdAction } from '../reducers/coreReducer';
 import ImageGallery from '../components/ImageGallery';
+
+const useStyles = makeStyles({
+  root: {
+    position: 'relative',
+    backgroundColor: '#fff',
+    zIndex: '99999',
+  },
+  innerRoot: {
+    position: 'relative',
+  },
+  itemHeader: {
+    display: 'flex',
+    width: '100%',
+    height: '500px',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  closeBtn: {
+    position: 'absolute',
+    left: '10px',
+    top: '10px',
+    fontSize: '60px',
+    background: 'none',
+    border: 'none',
+    outline: 'none',
+    padding: '0 30px 30px 30px',
+    cursor: 'pointer',
+    transition: '0.3s',
+    color: '#fff',
+
+    '&:hover': {
+      transform: 'translate(-10px, 0)',
+    },
+  },
+  prodImg: (props) => ({
+    width: '100%',
+    backgroundImage: `url(${props.img})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    transform: 'scale(1)',
+    transition: 'transform 10s, filter 1s',
+    filter: 'brightness(0.9)',
+    zIndex: '-100',
+  }),
+  content: {
+    display: 'flex',
+    minHeight: '300px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '50px 25px',
+    textAlign: 'center',
+    margin: '0 auto',
+    '& p': {
+      maxWidth: '600px',
+      fontSize: '18px',
+      backgroundColor: '#fff',
+      zIndex: 100,
+    },
+  },
+  sideName: {
+    display: 'flex',
+    position: 'absolute',
+    height: '100%',
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '30px',
+    boxSizing: 'border-box',
+    userSelect: 'none',
+    right: '50px',
+    top: 0,
+    maxHeight: '1000px',
+    maxWidth: '140px',
+
+    '& h1': {
+      writingMode: 'vertical-lr',
+      fontSize: '60px',
+      margin: 0,
+    },
+  },
+});
 
 const ProductDetailsPage = ({
   match,
@@ -18,6 +101,8 @@ const ProductDetailsPage = ({
   isActiveProductLoading,
 }) => {
   const currProduct = isPreview ? formFields : activeProduct;
+  const classes = useStyles({ img: (currProduct && currProduct.headImg) || null });
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!isPreview) {
@@ -36,21 +121,21 @@ const ProductDetailsPage = ({
   const handleClose = () => (!isPreview ? history.push('/') : history.push('/suggest-form'));
 
   return (
-    <Container>
-      <ContentWrapper>
-        <ItemHeader>
-          <CloseButton onClick={handleClose}>🠐</CloseButton>
-          <ProductImage img={currProduct.headImg} />
-        </ItemHeader>
-        <Content>
+    <div className={classes.root}>
+      <div className={classes.innerRoot}>
+        <div className={classes.itemHeader}>
+          <button className={classes.closeBtn} type="button" onClick={handleClose}>🠐</button>
+          <div className={classes.prodImg} />
+        </div>
+        <div className={classes.content}>
           <p>{currProduct.fullDescription}</p>
-        </Content>
-        <SideName>
+        </div>
+        <div className={classes.sideName}>
           <h1>{currProduct.prodName}</h1>
-        </SideName>
-      </ContentWrapper>
+        </div>
+      </div>
       <ImageGallery images={currProduct.gallery} />
-    </Container>
+    </div>
   );
 };
 
@@ -72,106 +157,24 @@ ProductDetailsPage.propTypes = {
     prodName: PropTypes.string,
     gallery: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-  isPreview: PropTypes.bool.isRequired,
-  history: PropTypes.shape({ push: PropTypes.object }).isRequired,
+  isPreview: PropTypes.bool,
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   loadProductById: PropTypes.func.isRequired,
   activeProduct: PropTypes.shape({
     headImg: PropTypes.string,
     fullDescription: PropTypes.string,
     prodName: PropTypes.string,
     gallery: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired,
+  }),
   isActiveProductLoading: PropTypes.bool.isRequired,
+};
+
+ProductDetailsPage.defaultProps = {
+  isPreview: false,
+  activeProduct: null,
 };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withRouter,
 )(ProductDetailsPage);
-
-const Container = styled.div`
-  position: relative;
-  background-color: #fff;
-  z-index: 99999;
-`;
-
-const ContentWrapper = styled.div`
-  position: relative;
-`;
-
-const ItemHeader = styled.div`
-  display: flex;
-  width: 100%;
-  height: 500px;
-  overflow: hidden;
-  position: relative;
-  }
-`;
-
-const CloseButton = styled.button`
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  font-size: 60px;
-  background: none;
-  border: none;
-  outline: none;
-  padding: 0 30px 30px 30px;
-  cursor: pointer;
-  transition: 0.3s;
-  color: #fff
-
-  :hover {
-    transform: translate(-10px, 0);
-  }
-`;
-
-const ProductImage = styled.div`
-  width: 100%;
-  background-image: url(${(props) => props.img});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  transform: scale(1);
-  transition: transform 10s, filter 1s;
-  filter: brightness(0.9);
-  z-index: -100;
-`;
-
-const Content = styled.div`
-  display: flex;
-  min-height: 300px;
-  justify-content: center;
-  align-items: center;
-  padding: 50px 25px;
-  text-align: center;
-  margin: 0 auto;
-  & p {
-    max-width: 600px;
-    font-size: 18px;
-    background-color: #fff;
-    z-index: 100;
-  }
-`;
-
-const SideName = styled.div`
-  display: flex;
-  position: absolute;
-  height: 100%;
-  background-color: #fff;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-  box-sizing: border-box;
-  user-select: none;
-  right: 50px;
-  top: 0;
-  max-height: 1000px;
-  max-width: 140px;
-
-  h1 {
-    writing-mode: vertical-lr;
-    font-size: 60px;
-    margin: 0;
-  }
-`;

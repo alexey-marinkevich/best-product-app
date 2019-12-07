@@ -1,20 +1,25 @@
 import React from 'react';
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
 
-const Footer = () => (
-  <StyledFooter>
-    <p>All rights reserved 2019</p>
-  </StyledFooter>
-);
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: '25px',
+  },
+  content: {
+    fontSize: '16px',
+  },
+});
+
+const Footer = () => {
+  const classes = useStyles();
+
+  return (
+    <footer className={classes.root}>
+      <p className={classes.content}>All rights reserved 2019</p>
+    </footer>
+  );
+};
 
 export default Footer;
-
-const StyledFooter = styled.footer`
-  display: flex;
-  justify-content: center;
-  padding: 25px;
-
-  p {
-    font-size: 16px;
-  }
-`;

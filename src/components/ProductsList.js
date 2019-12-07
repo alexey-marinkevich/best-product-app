@@ -1,12 +1,22 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
+import { makeStyles } from '@material-ui/core/styles';
 
 import Product from './Product';
 import { setProductsAction } from '../reducers/coreReducer';
 
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+});
+
 const ProductsList = ({ products, isProductsLoading, setProducts }) => {
+  const classes = useStyles();
+
   useEffect(() => {
     setProducts();
   }, [setProducts]);
@@ -16,7 +26,7 @@ const ProductsList = ({ products, isProductsLoading, setProducts }) => {
   }
 
   return (
-    <Wrapper>
+    <div className={classes.root}>
       {products.map((product) => (
         <Product
           key={product.id}
@@ -26,7 +36,7 @@ const ProductsList = ({ products, isProductsLoading, setProducts }) => {
           shortDescription={product.shortDescription}
         />
       ))}
-    </Wrapper>
+    </div>
   );
 };
 
@@ -49,8 +59,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ProductsList);
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;

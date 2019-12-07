@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 import {
@@ -12,6 +12,106 @@ import {
   suggestProductAction,
 } from '../reducers/formReducer';
 import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
+
+const useStyles = makeStyles({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    alignSelf: 'center',
+    maxWidth: '1280px',
+    margin: '0 auto',
+    '& h2': {
+      fontSize: '35px',
+      margin: '0',
+    },
+  },
+  containerTopSection: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
+  closeBtn: {
+    fontSize: '60px',
+    background: 'none',
+    border: 'none',
+    outline: 'none',
+    padding: '0 30px 30px',
+    cursor: 'pointer',
+    transition: '0.3s',
+    color: '#333',
+    '&:hover': {
+      transform: 'translate(-10px, 0)',
+    },
+  },
+  leadText: {
+    fontSize: '20px',
+    color: '#333',
+    width: [
+      '100%',
+      '500px',
+    ],
+    fontWeight: 'normal',
+    textAlign: 'right',
+    position: 'relative',
+    alignSelf: 'flex-end',
+    marginRight: '120px',
+    ':before': {
+      content: "'Suggest product",
+      fontSize: '95px',
+      fontWeight: '900',
+      position: 'absolute',
+      writingMode: 'vertical-lr',
+      whiteSpace: 'nowrap',
+      top: '0',
+      right: '-120px',
+    },
+  },
+  form: {
+    display: 'flex',
+    width: '70%',
+    maxWidth: '800px',
+    flexDirection: 'column',
+  },
+  mainData: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    paddingTop: '50px',
+  },
+  mainDataTopSection: {
+    display: 'flex',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  gallery: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    paddingTop: '50px',
+    marginBottom: '30px',
+    '& p': {
+      margin: '0',
+      maxWidth: '400px',
+      fontSize: '14px',
+    },
+  },
+  btn: {
+    width: '250px',
+    height: '50px',
+    backgroundColor: 'transparent',
+    border: '1px solid #333',
+    color: '#333',
+    fontSize: '18px',
+    cursor: 'pointer',
+    transition: '0.3s',
+    ': hover': {
+      backgroundColor: '#333',
+      color: '#fff',
+    },
+  },
+});
 
 const SuggestProductPage = ({
   updateFormField,
@@ -27,6 +127,8 @@ const SuggestProductPage = ({
   error,
   history,
 }) => {
+  const classes = useStyles();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     suggestProduct();
@@ -63,18 +165,18 @@ const SuggestProductPage = ({
   };
 
   return (
-    <Container>
-      <ContainerTopSection>
-        <CloseButton onClick={handlePageClose}>🠐</CloseButton>
-        <LeadText>
+    <div className={classes.root}>
+      <div className={classes.containerTopSection}>
+        <button type="button" className={classes.closeBtn} onClick={handlePageClose}>🠐</button>
+        <p className={classes.leadText}>
         Place where you can suggest interest and good quality products of small or less popular
         companies to share with other people and get to know about it more range of pepople
-        </LeadText>
-      </ContainerTopSection>
-      <Form onSubmit={handleSubmit}>
-        <MainData>
+        </p>
+      </div>
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <div className={classes.mainData}>
           <h2>Main Data</h2>
-          <MainDataTopSection>
+          <div className={classes.mainDataTopSection}>
             <TextField
               required
               label="Product Name"
@@ -93,7 +195,7 @@ const SuggestProductPage = ({
               onChange={({ target }) => updateFormField('headImg', target.value)}
               disabled={isLoading}
             />
-          </MainDataTopSection>
+          </div>
           <TextField
             required
             multiline
@@ -118,8 +220,8 @@ const SuggestProductPage = ({
             onChange={({ target }) => updateFormField('fullDescription', target.value)}
             disabled={isLoading}
           />
-        </MainData>
-        <Gallery>
+        </div>
+        <div className={classes.gallery}>
           <h2>Image Gallery</h2>
           <p>
             Additional images to show more about product. Recomend to paste image url directly from
@@ -134,22 +236,22 @@ const SuggestProductPage = ({
             onChange={({ target }) => updateFormField('imageGalleryInput', target.value)}
             disabled={isLoading}
           />
-          <Button onClick={handleAddImage} disabled={isLoading}>
+          <button className={classes.btn} type="button" onClick={handleAddImage} disabled={isLoading}>
             Add
-          </Button>
+          </button>
           <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} />
           {/*  Todo: Have problem with every tipe rerender complete component, how to solve the problem */}
-        </Gallery>
+        </div>
         {!!error && <div style={{ color: 'red' }}>{error}</div>}
-        <Button type="submit" disabled={isLoading}>
+        <button className={classes.btn} type="submit" disabled={isLoading}>
           {isLoading ? 'Submitting...' : 'Submit'}
-        </Button>
+        </button>
 
-        <Button onClick={handleShowPreview} disabled={isLoading}>
+        <button className={classes.btn} type="button" onClick={handleShowPreview} disabled={isLoading}>
           Show Preview
-        </Button>
-      </Form>
-    </Container>
+        </button>
+      </form>
+    </div>
   );
 };
 
@@ -182,111 +284,3 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withRouter,
 )(SuggestProductPage);
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-self: center;
-  max-width: 1280px;
-  margin: 0 auto;
-
-  & h2 {
-    font-size: 35px;
-    margin: 0;
-  }
-`;
-
-const ContainerTopSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-
-const CloseButton = styled.button`
-  font-size: 60px;
-  background: none;
-  border: none;
-  outline: none;
-  padding: 0 30px 30px 30px;
-  cursor: pointer;
-  transition: 0.3s;
-  color: #333
-
-  :hover {
-    transform: translate(-10px, 0);
-  }
-`;
-
-const LeadText = styled.h1`
-  font-size: 20px;
-  color: #333;
-  width: 100%;
-  font-weight: normal;
-  width: 500px;
-  text-align: right;
-  position: relative;
-  align-self: flex-end;
-  margin-right: 120px;
-
-  :before {
-    content: 'Suggest product';
-    font-size: 95px;
-    font-weight: 900;
-    position: absolute;
-    writing-mode: vertical-lr;
-    white-space: nowrap;
-    top: 0;
-    right: -120px;
-  }
-`;
-const Form = styled.form`
-  display: flex;
-  width: 70%;
-  max-width: 800px;
-  flex-direction: column;
-`;
-
-const MainData = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding-top: 50px;
-`;
-
-const MainDataTopSection = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-`;
-
-const Gallery = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding-top: 50px;
-  margin-bottom: 30px;
-
-  & p {
-    margin: 0;
-    max-width: 400px;
-    font-size: 14px;
-  }
-`;
-
-const Button = styled.button`
-  width: 250px;
-  height: 50px;
-  background-color: transparent;
-  border: 1px solid #333;
-  color: #333;
-  font-size: 18px;
-  cursor: pointer;
-  transition: 0.3s;
-
-  : hover {
-    background-color: #333;
-    color: #fff;
-  }
-`;
