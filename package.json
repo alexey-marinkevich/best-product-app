@@ -5,6 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^4.7.1",
     "aws-amplify": "^2.2.0",
+    "concurrently": "^5.0.0",
+    "json-server": "^0.15.1",
     "localforage": "^1.7.3",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
@@ -19,6 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "mock:start": "concurrently \"json-server --watch mocks/db.json --port 4000\" \"REACT_APP_DEV=true react-scripts start\"",
     "build": "react-scripts build",
     "test": "jest test",
     "eject": "react-scripts eject",
