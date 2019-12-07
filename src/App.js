@@ -9,14 +9,12 @@ import PreviewProductPage from './pages/PreviewProductPage';
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/product/:id" component={ProductDetailsPage} />
-          <Route exact path="/suggest-form" component={SuggestProductPage} />
-          <Route path="/suggest-form/product-preview" component={PreviewProductPage} />
-        </Switch>
-      </div>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/product/:id" component={ProductDetailsPage} />
+        <Route exact path="/suggest-form" component={SuggestProductPage} />
+        <Route path="/suggest-form/product-preview" component={PreviewProductPage} />
+      </Switch>
     </BrowserRouter>
   );
 }

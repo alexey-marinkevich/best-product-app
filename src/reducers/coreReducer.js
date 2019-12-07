@@ -4,7 +4,7 @@ const initState = {
   products: [],
   activeProduct: null,
   isActiveProductLoading: false,
-  isProductsLoadoing: false,
+  isProductsLoading: false,
 };
 
 const SET_PRODUCTS = 'SET_PRODUCTS';
@@ -13,37 +13,37 @@ const SET_ACTIVE_PRODUCT_LOADING_STATUS = 'SET_ACTIVE_PRODUCT_LOADING_STATUS';
 const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
 
 export const updateProductsAction = (products = []) => ({ type: SET_PRODUCTS, payload: products });
-export const toggleLoadingProductsAction = status => ({
+export const toggleLoadingProductsAction = (status) => ({
   type: TOGGLE_LOADING_PRODUCTS,
   payload: status,
 });
-export const setActiveProductLoadingStatusAction = status => ({
+export const setActiveProductLoadingStatusAction = (status) => ({
   type: SET_ACTIVE_PRODUCT_LOADING_STATUS,
   payload: status,
 });
-export const setActiveProductAction = product => ({ type: SET_ACTIVE_PRODUCT, payload: product });
+export const setActiveProductAction = (product) => ({ type: SET_ACTIVE_PRODUCT, payload: product });
 
-export const loadProductByIdAction = id => async (dispatch, getState) => {
+export const loadProductByIdAction = (id) => async (dispatch, getState) => {
   dispatch(setActiveProductLoadingStatusAction(true));
   try {
     const { products } = getState().core;
-    let activeProductLoaded = products.find(product => product.id === id);
+    let activeProductLoaded = products.find((product) => product.id === id);
 
     if (!activeProductLoaded) {
-      activeProductLoaded = await API.get('products', `/product/${id}`);
+      activeProductLoaded = await API.get('products', `/product/${id}`, null);
     }
 
     dispatch(setActiveProductAction(activeProductLoaded));
   } catch (e) {
-    console.log(e);
+    // TODO: Handle errors
   }
 
   dispatch(setActiveProductLoadingStatusAction(false));
 };
 
-export const setProductsAction = () => async dispatch => {
+export const setProductsAction = () => async (dispatch) => {
   dispatch(toggleLoadingProductsAction(true));
-  const res = await API.get('products', '/product');
+  const res = await API.get('products', '/product', null);
   dispatch(updateProductsAction(res));
   dispatch(toggleLoadingProductsAction(false));
 };
@@ -58,7 +58,7 @@ export default (state = initState, action) => {
     case TOGGLE_LOADING_PRODUCTS:
       return {
         ...state,
-        isProductsLoadoing: action.payload,
+        isProductsLoading: action.payload,
       };
     case SET_ACTIVE_PRODUCT_LOADING_STATUS:
       return {
