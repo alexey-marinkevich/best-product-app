@@ -165,7 +165,9 @@ const SuggestProductPage = ({
   return (
     <div className={classes.root}>
       <div className={classes.containerTopSection}>
-        <button type="button" className={classes.closeBtn} onClick={handlePageClose}><IoIosArrowRoundBack /></button>
+        <button type="button" className={classes.closeBtn} onClick={handlePageClose}>
+          <IoIosArrowRoundBack htmlFor={classes.closeBtn} />
+        </button>
         <p className={classes.leadText}>
         Place where you can suggest interest and good quality products of small or less popular
         companies to share with other people and get to know about it more range of pepople

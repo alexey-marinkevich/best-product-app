@@ -125,7 +125,9 @@ const ProductDetailsPage = ({
     <div className={classes.root}>
       <div className={classes.innerRoot}>
         <div className={classes.itemHeader}>
-          <button className={classes.closeBtn} type="button" onClick={handleClose}><IoIosArrowRoundBack /></button>
+          <button className={classes.closeBtn} type="button" onClick={handleClose}>
+            <IoIosArrowRoundBack htmlFor={classes.closeBtn} />
+          </button>
           <div className={classes.prodImg} />
         </div>
         <div className={classes.content}>
