@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { IoIosArrowRoundBack } from 'react-icons/io';
 
 
 import { loadProductByIdAction } from '../reducers/coreReducer';
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
     position: 'absolute',
     left: '10px',
     top: '10px',
-    fontSize: '60px',
+    fontSize: '70px',
     background: 'none',
     border: 'none',
     outline: 'none',
@@ -124,7 +125,7 @@ const ProductDetailsPage = ({
     <div className={classes.root}>
       <div className={classes.innerRoot}>
         <div className={classes.itemHeader}>
-          <button className={classes.closeBtn} type="button" onClick={handleClose}>🠐</button>
+          <button className={classes.closeBtn} type="button" onClick={handleClose}><IoIosArrowRoundBack /></button>
           <div className={classes.prodImg} />
         </div>
         <div className={classes.content}>
