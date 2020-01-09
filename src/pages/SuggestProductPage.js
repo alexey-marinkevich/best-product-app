@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import { IoIosArrowRoundBack } from 'react-icons/io';
 
 import {
   updateFormFieldAction,
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
     width: '100%',
   },
   closeBtn: {
-    fontSize: '60px',
+    fontSize: '70px',
     background: 'none',
     border: 'none',
     outline: 'none',
@@ -164,7 +165,7 @@ const SuggestProductPage = ({
   return (
     <div className={classes.root}>
       <div className={classes.containerTopSection}>
-        <button type="button" className={classes.closeBtn} onClick={handlePageClose}>🠐</button>
+        <button type="button" className={classes.closeBtn} onClick={handlePageClose}><IoIosArrowRoundBack /></button>
         <p className={classes.leadText}>
         Place where you can suggest interest and good quality products of small or less popular
         companies to share with other people and get to know about it more range of pepople
