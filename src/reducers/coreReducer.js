@@ -35,7 +35,6 @@ export const loadProductByIdAction = (id) => async (dispatch, getState) => {
 
     dispatch(setActiveProductAction(activeProductLoaded));
   } catch (e) {
-    // TODO: Handle errors
   }
 
   dispatch(setActiveProductLoadingStatusAction(false));

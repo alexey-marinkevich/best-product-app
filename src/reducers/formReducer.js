@@ -1,13 +1,14 @@
 import { API } from 'aws-amplify';
 
 const initState = {
-  error: null,
+  error: false,
   isLoading: false,
-  prodName: null,
-  headImg: null,
-  shortDescription: null,
-  fullDescription: null,
-  imageGalleryInput: null,
+  prodName: '',
+  prodUrl: '',
+  headImg: '',
+  shortDescription: '',
+  fullDescription: '',
+  imageGalleryInput: '',
   gallery: [],
 };
 
@@ -33,6 +34,7 @@ export const suggestProductAction = () => async (dispatch, getState) => {
     const state = getState();
     const {
       prodName,
+      prodUrl,
       headImg,
       shortDescription,
       fullDescription,
@@ -43,6 +45,7 @@ export const suggestProductAction = () => async (dispatch, getState) => {
     const myInit = {
       body: {
         prodName,
+        prodUrl,
         headImg,
         shortDescription,
         fullDescription,

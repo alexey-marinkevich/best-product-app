@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import { IoIosArrowRoundBack } from 'react-icons/io';
 
+import { makeStyles } from '@material-ui/core/styles';
+import { IoIosArrowRoundBack, IoIosGlobe } from 'react-icons/io';
 
 import { loadProductByIdAction } from '../reducers/coreReducer';
 import ImageGallery from '../components/ImageGallery';
+import Footer from '../components/Footer';
 
 const useStyles = makeStyles({
   root: {
@@ -28,19 +29,47 @@ const useStyles = makeStyles({
   },
   closeBtn: {
     position: 'absolute',
-    left: '10px',
-    top: '10px',
+    left: '0',
+    top: '0',
     fontSize: '70px',
     background: 'none',
     border: 'none',
     outline: 'none',
-    padding: '0 30px 30px 30px',
+    padding: '10px 60px 60px 40px',
     cursor: 'pointer',
     transition: '0.3s',
     color: '#fff',
 
     '&:hover': {
       transform: 'translate(-10px, 0)',
+    },
+  },
+  siteUrl: {
+    position: 'absolute',
+    left: '0',
+    bottom: '0',
+    padding: '40px 60px 10px 60px',
+    fontSize: '30px',
+    transform: 'scale(1)',
+    color: '#fff',
+    transition: '.2s .2s',
+    '&::before': {
+      content: "'Explore site'",
+      position: 'absolute',
+      fontSize: '15px',
+      left: '100px',
+      top: '47px',
+      whiteSpace: 'nowrap',
+      transform: 'translate(0, 45px)',
+      transition: '.2s',
+    },
+    '&:hover': {
+      transform: 'scale(1.1)',
+      transition: '.2s',
+      '&::before': {
+        transform: 'translate(0, 0)',
+        transition: '.2s .2s',
+      },
     },
   },
   prodImg: (props) => ({
@@ -103,7 +132,7 @@ const ProductDetailsPage = ({
 }) => {
   const currProduct = isPreview ? formFields : activeProduct;
   const classes = useStyles({ img: (currProduct && currProduct.headImg) || null });
-
+  console.log(activeProduct);
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!isPreview) {
@@ -129,6 +158,9 @@ const ProductDetailsPage = ({
             <IoIosArrowRoundBack htmlFor={classes.closeBtn} />
           </button>
           <div className={classes.prodImg} />
+          <a href={currProduct.siteUrl} className={classes.siteUrl} target="_blank" rel="noopener noreferrer">
+            <IoIosGlobe htmlFor={classes.siteUrl} />
+          </a>
         </div>
         <div className={classes.content}>
           <p>{currProduct.fullDescription}</p>
@@ -138,6 +170,7 @@ const ProductDetailsPage = ({
         </div>
       </div>
       <ImageGallery images={currProduct.gallery} />
+      <Footer />
     </div>
   );
 };
