@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { IoIosArrowRoundBack } from 'react-icons/io';
@@ -104,7 +105,7 @@ const useStyles = makeStyles({
     fontSize: '18px',
     cursor: 'pointer',
     transition: '0.3s',
-    ': hover': {
+    '&:hover': {
       backgroundColor: '#333',
       color: '#fff',
     },
@@ -115,6 +116,7 @@ const SuggestProductPage = ({
   updateFormField,
   suggestProduct,
   prodName,
+  prodUrl,
   headImg,
   shortDescription,
   fullDescription,
@@ -129,7 +131,7 @@ const SuggestProductPage = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    suggestProduct();
+    // suggestProduct();
   };
 
   const validateImageLink = () => {
@@ -169,8 +171,8 @@ const SuggestProductPage = ({
           <IoIosArrowRoundBack htmlFor={classes.closeBtn} />
         </button>
         <p className={classes.leadText}>
-        Place where you can suggest interest and good quality products of small or less popular
-        companies to share with other people and get to know about it more range of pepople
+          Place where you can suggest interest and good quality products of small or less popular
+          companies to share with other people and get to know about it more range of pepople
         </p>
       </div>
       <form className={classes.form} onSubmit={handleSubmit}>
@@ -183,6 +185,15 @@ const SuggestProductPage = ({
               value={prodName}
               margin="normal"
               onChange={({ target }) => updateFormField('prodName', target.value)}
+              disabled={isLoading}
+            />
+            <TextField
+              required
+              label="Product Site"
+              value={prodUrl}
+              margin="normal"
+              helperText="Add origin site URL"
+              onChange={({ target }) => updateFormField('prodUrl', target.value)}
               disabled={isLoading}
             />
             <TextField
@@ -236,18 +247,27 @@ const SuggestProductPage = ({
             onChange={({ target }) => updateFormField('imageGalleryInput', target.value)}
             disabled={isLoading}
           />
-          <button className={classes.btn} type="button" onClick={handleAddImage} disabled={isLoading}>
+          <button
+            className={classes.btn}
+            type="button"
+            onClick={handleAddImage}
+            disabled={isLoading}
+          >
             Add
           </button>
           <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} />
-          {/*  Todo: Have problem with every tipe rerender complete component, how to solve the problem */}
         </div>
         {!!error && <div style={{ color: 'red' }}>{error}</div>}
         <button className={classes.btn} type="submit" disabled={isLoading}>
           {isLoading ? 'Submitting...' : 'Submit'}
         </button>
 
-        <button className={classes.btn} type="button" onClick={handleShowPreview} disabled={isLoading}>
+        <button
+          className={classes.btn}
+          type="button"
+          onClick={handleShowPreview}
+          disabled={isLoading}
+        >
           Show Preview
         </button>
       </form>
@@ -274,7 +294,7 @@ SuggestProductPage.propTypes = {
   flushFields: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   imageGalleryInput: PropTypes.string.isRequired,
-  error: PropTypes.string.isRequired,
+  error: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
