@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     width: '100%',
@@ -14,6 +14,9 @@ const useStyles = makeStyles({
       maxHeight: '700px',
       width: 'auto',
       '-webkit-user-drag': 'none',
+      [theme.breakpoints.down('xs')]: {
+        maxHeight: '90vh',
+      },
 
       '&:last-child': {
         marginRight: 0,
@@ -31,17 +34,13 @@ const useStyles = makeStyles({
       display: 'none',
     },
   },
-});
+}));
 
 const ImageGallery = ({ images }) => {
   const Images = images.map((img) => <img src={img} key={img} alt="Product Gallery Item" />);
   const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      {Images}
-    </div>
-  );
+  return <div className={classes.root}>{Images}</div>;
 };
 
 ImageGallery.propTypes = {
