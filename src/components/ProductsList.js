@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     height: '500px',
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
 });
 
 const ProductsList = ({ products, isProductsLoading, setProducts }) => {
@@ -32,9 +32,9 @@ const ProductsList = ({ products, isProductsLoading, setProducts }) => {
   if (isProductsLoading) {
     return (
       <div className={classes.loaderWrapper}>
-        <CircularProgress/>
+        <CircularProgress />
       </div>
-    ) 
+    );
   }
 
   return (

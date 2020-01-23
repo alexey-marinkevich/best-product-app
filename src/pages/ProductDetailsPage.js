@@ -11,7 +11,7 @@ import { loadProductByIdAction } from '../reducers/coreReducer';
 import ImageGallery from '../components/ImageGallery';
 import Footer from '../components/Footer';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
     backgroundColor: '#fff',
@@ -23,9 +23,12 @@ const useStyles = makeStyles({
   itemHeader: {
     display: 'flex',
     width: '100%',
-    height: '500px',
+    height: '70vh',
     overflow: 'hidden',
     position: 'relative',
+    [theme.breakpoints.down('xs')]: {
+      height: '100vh',
+    },
   },
   closeBtn: {
     position: 'absolute',
@@ -39,20 +42,33 @@ const useStyles = makeStyles({
     cursor: 'pointer',
     transition: '0.3s',
     color: '#fff',
-
     '&:hover': {
       transform: 'translate(-10px, 0)',
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: '10px 5vw 60px 4vw',
     },
   },
   siteUrl: {
     position: 'absolute',
     left: '0',
     bottom: '0',
-    padding: '40px 60px 10px 60px',
+    padding: '40px 60px 20px 60px',
     fontSize: '30px',
     transform: 'scale(1)',
     color: '#fff',
     transition: '.2s .2s',
+    [theme.breakpoints.down('sm')]: {
+      padding: '40px 5vw 40px 6vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      left: '50%',
+      bottom: '50px',
+      padding: '20px',
+      fontSize: '40px',
+      transformOrigin: 'center left',
+      transform: 'scale(1) translate(-50%, 0)',
+    },
     '&::before': {
       content: "'Explore site'",
       position: 'absolute',
@@ -60,14 +76,20 @@ const useStyles = makeStyles({
       left: '100px',
       top: '47px',
       whiteSpace: 'nowrap',
-      transform: 'translate(0, 45px)',
+      transform: 'translate(0, 55px)',
       transition: '.2s',
+      [theme.breakpoints.down('sm')]: {
+        content: "''",
+      },
     },
     '&:hover': {
-      transform: 'scale(1.1)',
+      transform: 'scale(1.2)',
       transition: '.2s',
+      [theme.breakpoints.down('xs')]: {
+        transform: 'scale(1.3) translate(-50%, 0)',
+      },
       '&::before': {
-        transform: 'translate(0, 0)',
+        transform: 'translate(-5px, 0) scale(0.9)',
         transition: '.2s .2s',
       },
     },
@@ -85,17 +107,24 @@ const useStyles = makeStyles({
   }),
   content: {
     display: 'flex',
-    minHeight: '300px',
+    minHeight: '200px',
     justifyContent: 'center',
     alignItems: 'center',
     padding: '50px 25px',
     textAlign: 'center',
     margin: '0 auto',
+    [theme.breakpoints.down('xs')]: {
+      padding: '0 15px 25px 15px',
+      minHeight: 'auto',
+    },
     '& p': {
       maxWidth: '600px',
       fontSize: '18px',
       backgroundColor: '#fff',
       zIndex: 100,
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '16px',
+      },
     },
   },
   sideName: {
@@ -112,14 +141,40 @@ const useStyles = makeStyles({
     top: 0,
     maxHeight: '1000px',
     maxWidth: '140px',
+    [theme.breakpoints.down('sm')]: {
+      height: 'auto',
+      right: '0',
+      top: '0',
+      maxWidth: 'inherit',
+      textAlign: 'center',
+      position: 'relative',
+      width: '100%',
+      padding: '0',
+      maxHeight: '1000px',
+      backgroundColor: 'transparent',
+    },
+    [theme.breakpoints.down('xs')]: {
+      whiteSpace: 'inherit',
+    },
 
     '& h1': {
       writingMode: 'vertical-lr',
       fontSize: '60px',
       margin: 0,
+      [theme.breakpoints.down('sm')]: {
+        writingMode: 'horizontal-tb',
+        padding: '5px 30px 10px 30px',
+        backgroundColor: '#fff',
+        transform: 'translate(0, -6vh)',
+      },
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '10vw',
+        padding: '30px 0 0 0',
+        transform: 'translate(0, 0)',
+      },
     },
   },
-});
+}));
 
 const ProductDetailsPage = ({
   match,
@@ -158,15 +213,20 @@ const ProductDetailsPage = ({
             <IoIosArrowRoundBack htmlFor={classes.closeBtn} />
           </button>
           <div className={classes.prodImg} />
-          <a href={currProduct.siteUrl} className={classes.siteUrl} target="_blank" rel="noopener noreferrer">
+          <a
+            href={currProduct.siteUrl}
+            className={classes.siteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <IoIosGlobe htmlFor={classes.siteUrl} />
           </a>
         </div>
-        <div className={classes.content}>
-          <p>{currProduct.fullDescription}</p>
-        </div>
         <div className={classes.sideName}>
           <h1>{currProduct.prodName}</h1>
+        </div>
+        <div className={classes.content}>
+          <p>{currProduct.fullDescription}</p>
         </div>
       </div>
       <ImageGallery images={currProduct.gallery} />

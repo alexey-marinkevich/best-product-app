@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import cn from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
-import { GiTrashCan } from "react-icons/gi";
+import { GiTrashCan } from 'react-icons/gi';
 
 
 const useStyles = makeStyles({
