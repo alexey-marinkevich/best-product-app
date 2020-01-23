@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
@@ -15,7 +16,7 @@ import {
 } from '../reducers/formReducer';
 import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -23,6 +24,8 @@ const useStyles = makeStyles({
     alignSelf: 'center',
     maxWidth: '1280px',
     margin: '0 auto',
+    overflow: 'hidden',
+    paddingBottom: '70px',
     '& h2': {
       fontSize: '35px',
       margin: '0',
@@ -56,6 +59,16 @@ const useStyles = makeStyles({
     position: 'relative',
     alignSelf: 'flex-end',
     marginRight: '120px',
+    zIndex: '-9999',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '18px',
+      marginRight: '80px',
+      width: '490px',
+    },
+    [theme.breakpoints.down('xs')]: {
+      color: 'transparent',
+      fontSize: '0',
+    },
     '&::before': {
       content: "'Suggest product'",
       fontSize: '95px',
@@ -65,6 +78,14 @@ const useStyles = makeStyles({
       whiteSpace: 'nowrap',
       top: '0',
       right: '-120px',
+      [theme.breakpoints.down('sm')]: {
+        top: '4px',
+        fontSize: '80px',
+        marginRight: '20px',
+      },
+      [theme.breakpoints.down('xs')]: {
+        color: '#dcdcdc',
+      },
     },
   },
   form: {
@@ -72,6 +93,9 @@ const useStyles = makeStyles({
     width: '70%',
     maxWidth: '800px',
     flexDirection: 'column',
+    [theme.breakpoints.down('xs')]: {
+      width: '80%',
+    },
   },
   mainData: {
     display: 'flex',
@@ -83,6 +107,18 @@ const useStyles = makeStyles({
     display: 'flex',
     width: '100%',
     justifyContent: 'space-between',
+    [theme.breakpoints.down('sm')]: {
+      flexWrap: 'wrap',
+    },
+  },
+  formTopItem: {
+    width: '30%',
+    [theme.breakpoints.down('sm')]: {
+      width: '47%',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
   },
   gallery: {
     display: 'flex',
@@ -96,21 +132,60 @@ const useStyles = makeStyles({
       fontSize: '14px',
     },
   },
-  btn: {
+  formBottomSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+
+  submitBtn: {
     width: '250px',
     height: '50px',
+    color: '#fff',
+    backgroundColor: '#333',
+    fontSize: '14px',
+    transition: '0.3s',
+    borderRadius: '0',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
+    '&:hover': {
+      backgroundColor: '#000',
+      color: '#fff',
+    },
+  },
+  previewBtn: {
+    color: '#3336',
+    fontSize: '14px',
+    transition: '0.3s',
+    borderRadius: '0',
+    marginTop: '10px',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
+    '&:hover': {
+      color: '#333',
+    },
+  },
+
+  addImgBtn: {
     backgroundColor: 'transparent',
     border: '1px solid #333',
     color: '#333',
-    fontSize: '18px',
-    cursor: 'pointer',
     transition: '0.3s',
+    fontSize: '14px',
+    alignSelf: 'flex-start',
+    boxShadow: 'none',
+    borderRadius: '0',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+    },
     '&:hover': {
       backgroundColor: '#333',
       color: '#fff',
     },
   },
-});
+}));
 
 const SuggestProductPage = ({
   updateFormField,
@@ -129,7 +204,7 @@ const SuggestProductPage = ({
 }) => {
   const classes = useStyles();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     // suggestProduct();
   };
@@ -144,12 +219,12 @@ const SuggestProductPage = ({
     updateFormField('imageGalleryInput', '');
   };
 
-  const handleAddImage = (e) => {
+  const handleAddImage = e => {
     e.preventDefault();
     validateImageLink();
   };
 
-  const handleDeleteImage = (id) => {
+  const handleDeleteImage = id => {
     const modGallery = [...gallery];
     modGallery.splice(id, 1);
     updateFormField('gallery', modGallery);
@@ -181,6 +256,7 @@ const SuggestProductPage = ({
           <div className={classes.mainDataTopSection}>
             <TextField
               required
+              className={classes.formTopItem}
               label="Product Name"
               value={prodName}
               margin="normal"
@@ -189,6 +265,7 @@ const SuggestProductPage = ({
             />
             <TextField
               required
+              className={classes.formTopItem}
               label="Product Site"
               value={prodUrl}
               margin="normal"
@@ -198,6 +275,7 @@ const SuggestProductPage = ({
             />
             <TextField
               required
+              className={classes.formTopItem}
               label="Main Image"
               value={headImg}
               margin="normal"
@@ -247,37 +325,45 @@ const SuggestProductPage = ({
             onChange={({ target }) => updateFormField('imageGalleryInput', target.value)}
             disabled={isLoading}
           />
-          <button
-            className={classes.btn}
-            type="button"
-            onClick={handleAddImage}
+          <Button
+            variant="contained"
+            color="primary"
             disabled={isLoading}
+            onClick={handleAddImage}
+            className={classes.addImgBtn}
           >
-            Add
-          </button>
+            Add Image
+          </Button>
           <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} />
         </div>
         {!!error && <div style={{ color: 'red' }}>{error}</div>}
-        <button className={classes.btn} type="submit" disabled={isLoading}>
-          {isLoading ? 'Submitting...' : 'Submit'}
-        </button>
-
-        <button
-          className={classes.btn}
-          type="button"
-          onClick={handleShowPreview}
-          disabled={isLoading}
-        >
-          Show Preview
-        </button>
+        <div className={classes.formBottomSection}>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={isLoading}
+            className={classes.submitBtn}
+          >
+            {isLoading ? 'Submitting...' : 'Submit'}
+          </Button>
+          <Button
+            variant="text"
+            color="primary"
+            disabled={isLoading}
+            onClick={handleShowPreview}
+            className={classes.previewBtn}
+          >
+            Show Preview
+          </Button>
+        </div>
       </form>
     </div>
   );
 };
 
-const mapStateToProps = (state) => state.form;
+const mapStateToProps = state => state.form;
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   updateFormField: (fieldName, value) => dispatch(updateFormFieldAction(fieldName, value)),
   flushFields: () => dispatch(flushFieldsAction()),
   suggestProduct: () => dispatch(suggestProductAction()),

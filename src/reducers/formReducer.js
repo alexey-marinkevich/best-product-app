@@ -9,7 +9,7 @@ const initState = {
   shortDescription: '',
   fullDescription: '',
   imageGalleryInput: '',
-  gallery: [],
+  gallery: ['https://atoms.imgix.net/web/Atoms-Quarter-Size-Image-Thumbnail.png?w=873&auto=format&dpr=1', 'https://atoms.imgix.net/web/Atoms-Quarter-Size-Image-Thumbnail.png?w=873&auto=format&dpr=1',],
 };
 
 const UPDATE_FORM_FIELD = 'UPDATE_FORM_FIELD';
