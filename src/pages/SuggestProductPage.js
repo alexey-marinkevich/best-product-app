@@ -16,7 +16,7 @@ import {
 } from '../reducers/formReducer';
 import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -204,7 +204,7 @@ const SuggestProductPage = ({
 }) => {
   const classes = useStyles();
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // suggestProduct();
   };
@@ -219,12 +219,12 @@ const SuggestProductPage = ({
     updateFormField('imageGalleryInput', '');
   };
 
-  const handleAddImage = e => {
+  const handleAddImage = (e) => {
     e.preventDefault();
     validateImageLink();
   };
 
-  const handleDeleteImage = id => {
+  const handleDeleteImage = (id) => {
     const modGallery = [...gallery];
     modGallery.splice(id, 1);
     updateFormField('gallery', modGallery);
@@ -361,9 +361,9 @@ const SuggestProductPage = ({
   );
 };
 
-const mapStateToProps = state => state.form;
+const mapStateToProps = (state) => state.form;
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateFormField: (fieldName, value) => dispatch(updateFormFieldAction(fieldName, value)),
   flushFields: () => dispatch(flushFieldsAction()),
   suggestProduct: () => dispatch(suggestProductAction()),

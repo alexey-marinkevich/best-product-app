@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import cn from 'classnames';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     textDecoration: 'none',
@@ -52,6 +52,18 @@ const useStyles = makeStyles({
     maxWidth: '300px',
     padding: '20px',
     backgroundColor: '#fff',
+    [theme.breakpoints.down('sm')]: {
+      width: '95%',
+      display: 'flex',
+      maxWidth: 'initial',
+      padding: '20px',
+      flexDirection: 'column',
+      position: 'absolute',
+      left: '50%',
+      bottom: '5%',
+      transform: 'translate(-50%, 0)',
+      backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    },
   },
   productName: {
     fontSize: '32px',
@@ -76,6 +88,11 @@ const useStyles = makeStyles({
       transform: 'scale(1.1)',
       transition: 'transform 10s, filter 1s',
       filter: 'brightness(0.8)',
+      [theme.breakpoints.down('sm')]: {
+        filter: 'none',
+        transform: 'none',
+        transition: 'none',
+      },
     },
   }),
   button: {
@@ -125,9 +142,12 @@ const useStyles = makeStyles({
 
     '.root:hover &': {
       transform: 'translate(0, 0)',
+      [theme.breakpoints.down('sm')]: {
+        transform: 'translate(0, 75px)',
+      },
     },
   },
-});
+}));
 
 const Product = ({
   id, prodName, headImg, shortDescription,
