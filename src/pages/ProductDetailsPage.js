@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     background: 'none',
     border: 'none',
     outline: 'none',
-    padding: '14px 60px 60px 40px',
+    padding: '14px 60px 60px 20px',
     cursor: 'pointer',
     transition: '0.3s',
     color: '#333',
@@ -47,16 +47,17 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.down('sm')]: {
       padding: '10px 5vw 60px 4vw',
+      color: '#fff',
     },
   },
   siteUrl: {
     position: 'absolute',
     left: '0',
     bottom: '0',
-    padding: '40px 60px 20px 60px',
+    padding: '40px 60px 20px 35px',
     fontSize: '30px',
     transform: 'scale(1)',
-    color: '#333',
+    color: '#fff',
     transition: '.2s .2s',
     [theme.breakpoints.down('sm')]: {
       padding: '40px 5vw 40px 6vw',
@@ -95,9 +96,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   prodImg: (props) => ({
-    width: '80%',
-    height: '70%',
-    alignSelf: 'center',
+    width: '85%',
+    height: '85%',
+    alignSelf: 'flex-end',
     backgroundImage: `url(${props.img})`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
@@ -106,6 +107,11 @@ const useStyles = makeStyles((theme) => ({
     transition: 'transform 10s, filter 1s',
     filter: 'brightness(0.9)',
     zIndex: '-100',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    height: '100%',
+    alignSelf: 'flex-start',
+    }
   }),
   content: {
     display: 'flex',
@@ -133,7 +139,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     position: 'absolute',
     height: '100%',
-    width: '20%',
+    width: '15%',
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
