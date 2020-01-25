@@ -7,9 +7,9 @@ import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { IoIosArrowRoundBack, IoIosGlobe } from 'react-icons/io';
 
-import { loadProductByIdAction } from '../reducers/coreReducer';
 import ImageGallery from '../components/ImageGallery';
 import Footer from '../components/Footer';
+import { loadProductByIdAction } from '../reducers/coreReducer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -187,7 +187,7 @@ const ProductDetailsPage = ({
 }) => {
   const currProduct = isPreview ? formFields : activeProduct;
   const classes = useStyles({ img: (currProduct && currProduct.headImg) || null });
-  console.log(activeProduct);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     if (!isPreview) {
@@ -198,9 +198,11 @@ const ProductDetailsPage = ({
   if (isActiveProductLoading) {
     return 'LOADING';
   }
+  // todo: Change loading to spinner
 
   if (!currProduct) {
     return 'NOTHING FOUND';
+    // todo: make styles to this 
   }
 
   const handleClose = () => (!isPreview ? history.push('/') : history.push('/suggest-form'));

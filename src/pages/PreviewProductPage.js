@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
-import PropTypes from 'prop-types';
 import ProductDetailsPage from './ProductDetailsPage';
 
 const useStyles = makeStyles({
@@ -13,13 +13,13 @@ const useStyles = makeStyles({
   },
 });
 
-const PreviewProductPage = ({ form }) => {
-  const { prodName, headImg, fullDescription } = form;
+const PreviewProductPage = ({ prodName, headImg, fullDescription }) => {
   const classes = useStyles();
 
   if (!prodName || !headImg || !fullDescription) {
     return <Redirect to="/suggest-form" />;
   }
+  
   return (
     <div className={classes.root}>
       <ProductDetailsPage isPreview />
@@ -27,19 +27,12 @@ const PreviewProductPage = ({ form }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  const { form } = state;
-  return {
-    form,
-  };
-};
+const mapStateToProps = (state) => state.form;
 
 PreviewProductPage.propTypes = {
-  form: PropTypes.shape({
-    prodName: PropTypes.string,
-    headImg: PropTypes.string,
-    fullDescription: PropTypes.string,
-  }).isRequired,
+  prodName: PropTypes.string.isRequired,
+  headImg: PropTypes.string.isRequired,
+  fullDescription: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(PreviewProductPage);

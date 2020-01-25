@@ -37,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ImageGallery = ({ images }) => {
-  const Images = images.map((img) => <img src={img} key={img} alt="Product Gallery Item" />);
   const classes = useStyles();
+  const imageNodes = images.map((img) => <img src={img} key={img} alt="Product Gallery Item" />);
 
-  return <div className={classes.root}>{Images}</div>;
+  return <div className={classes.root}>{imageNodes}</div>;
 };
 
 ImageGallery.propTypes = {

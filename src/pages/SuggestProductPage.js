@@ -16,7 +16,7 @@ import {
 } from '../reducers/formReducer';
 import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -199,12 +199,11 @@ const SuggestProductPage = ({
   flushFields,
   isLoading,
   imageGalleryInput,
-  error,
   history,
 }) => {
   const classes = useStyles();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     // suggestProduct();
   };
@@ -214,17 +213,17 @@ const SuggestProductPage = ({
 
     if (pattern.test(imageGalleryInput)) {
       updateFormField('gallery', [imageGalleryInput, ...gallery]);
-      updateFormField('imageGalleryInput', '');
     }
+
     updateFormField('imageGalleryInput', '');
   };
 
-  const handleAddImage = (e) => {
+  const handleAddImage = e => {
     e.preventDefault();
     validateImageLink();
   };
 
-  const handleDeleteImage = (id) => {
+  const handleDeleteImage = id => {
     const modGallery = [...gallery];
     modGallery.splice(id, 1);
     updateFormField('gallery', modGallery);
@@ -238,6 +237,65 @@ const SuggestProductPage = ({
   const handleShowPreview = () => {
     history.push('/suggest-form/product-preview');
   };
+
+  const renderField = field => (
+    <TextField
+      required
+      key={field.label}
+      margin="normal"
+      disabled={isLoading}
+      {...field}
+    />
+  );
+
+  const fields = {
+    main: [
+      {
+        label: 'Product Name',
+        value: prodName,
+        onChange: ({ target }) => updateFormField('prodName', target.value),
+        className: classes.formTopItem
+      },
+      {
+        label: 'Product Site',
+        value: prodUrl,
+        onChange: ({ target }) => updateFormField('prodUrl', target.value),
+        helperText: 'Add origin site URL',
+        className: classes.formTopItem
+      },
+      {
+        label: 'Main Image',
+        value: headImg,
+        onChange: ({ target }) => updateFormField('headImg', target.value),
+        placeholder: 'Paste URL',
+        helperText: 'Add image that clearly shows the product is',
+        className: classes.formTopItem,
+      },
+    ],
+    description: [
+      {
+        label: 'Short Description',
+        value: shortDescription,
+        placeholder: '150 symbols max',
+        helperText: 'Will be available in product preview',
+        inputProps: { maxLength: 150 },
+        onChange: ({ target }) => updateFormField('shortDescription', target.value),
+        multiline: true,
+      },
+      {
+        label: 'Full Description',
+        value: fullDescription,
+        helperText: 'Provide full description here',
+        onChange: ({ target }) => updateFormField('fullDescription', target.value),
+        multiline: true,
+      },
+    ],
+  };
+
+  const fieldNodes = {
+    main: fields.main.map(renderField),
+    description: fields.description.map(renderField)
+  }
 
   return (
     <div className={classes.root}>
@@ -253,62 +311,8 @@ const SuggestProductPage = ({
       <form className={classes.form} onSubmit={handleSubmit}>
         <div className={classes.mainData}>
           <h2>Main Data</h2>
-          <div className={classes.mainDataTopSection}>
-            <TextField
-              required
-              className={classes.formTopItem}
-              label="Product Name"
-              value={prodName}
-              margin="normal"
-              onChange={({ target }) => updateFormField('prodName', target.value)}
-              disabled={isLoading}
-            />
-            <TextField
-              required
-              className={classes.formTopItem}
-              label="Product Site"
-              value={prodUrl}
-              margin="normal"
-              helperText="Add origin site URL"
-              onChange={({ target }) => updateFormField('prodUrl', target.value)}
-              disabled={isLoading}
-            />
-            <TextField
-              required
-              className={classes.formTopItem}
-              label="Main Image"
-              value={headImg}
-              margin="normal"
-              placeholder="Paste URL"
-              helperText="Add image that clearly shows the product is"
-              onChange={({ target }) => updateFormField('headImg', target.value)}
-              disabled={isLoading}
-            />
-          </div>
-          <TextField
-            required
-            multiline
-            label="Short Description"
-            value={shortDescription}
-            margin="normal"
-            placeholder="150 symbols max"
-            helperText="Will be available in product preview"
-            inputProps={{
-              maxLength: 150,
-            }}
-            onChange={({ target }) => updateFormField('shortDescription', target.value)}
-            disabled={isLoading}
-          />
-          <TextField
-            required
-            multiline
-            label="Full Description"
-            value={fullDescription}
-            margin="normal"
-            helperText="Provide full description here"
-            onChange={({ target }) => updateFormField('fullDescription', target.value)}
-            disabled={isLoading}
-          />
+          <div className={classes.mainDataTopSection}>{fieldNodes.main}</div>
+          {fieldNodes.description}
         </div>
         <div className={classes.gallery}>
           <h2>Image Gallery</h2>
@@ -336,7 +340,6 @@ const SuggestProductPage = ({
           </Button>
           <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} />
         </div>
-        {!!error && <div style={{ color: 'red' }}>{error}</div>}
         <div className={classes.formBottomSection}>
           <Button
             variant="contained"
@@ -361,9 +364,9 @@ const SuggestProductPage = ({
   );
 };
 
-const mapStateToProps = (state) => state.form;
+const mapStateToProps = state => state.form;
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   updateFormField: (fieldName, value) => dispatch(updateFormFieldAction(fieldName, value)),
   flushFields: () => dispatch(flushFieldsAction()),
   suggestProduct: () => dispatch(suggestProductAction()),

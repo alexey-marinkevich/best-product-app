@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
 import cn from 'classnames';
+import { makeStyles } from '@material-ui/core/styles';
 import { GoLogoGithub } from 'react-icons/go';
 import { FiGithub } from 'react-icons/fi';
 

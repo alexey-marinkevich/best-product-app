@@ -34,7 +34,10 @@ export const loadProductByIdAction = (id) => async (dispatch, getState) => {
     }
 
     dispatch(setActiveProductAction(activeProductLoaded));
-  } catch (e) {
+  } catch (err) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(err);
+    }
   }
 
   dispatch(setActiveProductLoadingStatusAction(false));
