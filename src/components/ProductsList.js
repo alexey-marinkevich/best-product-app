@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   },
   loaderWrapper: {
     display: 'flex',
-    height: '500px',
+    height: '50vh',
     justifyContent: 'center',
     alignItems: 'center',
   },

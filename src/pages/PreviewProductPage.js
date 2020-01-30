@@ -19,7 +19,7 @@ const PreviewProductPage = ({ prodName, headImg, fullDescription }) => {
   if (!prodName || !headImg || !fullDescription) {
     return <Redirect to="/suggest-form" />;
   }
-  
+
   return (
     <div className={classes.root}>
       <ProductDetailsPage isPreview />

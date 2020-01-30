@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     textDecoration: 'none',
     width: '100%',
-    height: '400px',
+    height: '40vh',
     overflow: 'hidden',
     position: 'relative',
     '&:hover': {

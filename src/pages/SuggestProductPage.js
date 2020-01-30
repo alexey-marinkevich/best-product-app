@@ -16,7 +16,7 @@ import {
 } from '../reducers/formReducer';
 import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -203,9 +203,11 @@ const SuggestProductPage = ({
 }) => {
   const classes = useStyles();
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // suggestProduct();
+    if (process.env.NODE_ENV !== 'development') {
+      suggestProduct();
+    }
   };
 
   const validateImageLink = () => {
@@ -218,12 +220,12 @@ const SuggestProductPage = ({
     updateFormField('imageGalleryInput', '');
   };
 
-  const handleAddImage = e => {
+  const handleAddImage = (e) => {
     e.preventDefault();
     validateImageLink();
   };
 
-  const handleDeleteImage = id => {
+  const handleDeleteImage = (id) => {
     const modGallery = [...gallery];
     modGallery.splice(id, 1);
     updateFormField('gallery', modGallery);
@@ -238,7 +240,7 @@ const SuggestProductPage = ({
     history.push('/suggest-form/product-preview');
   };
 
-  const renderField = field => (
+  const renderField = (field) => (
     <TextField
       required
       key={field.label}
@@ -254,14 +256,14 @@ const SuggestProductPage = ({
         label: 'Product Name',
         value: prodName,
         onChange: ({ target }) => updateFormField('prodName', target.value),
-        className: classes.formTopItem
+        className: classes.formTopItem,
       },
       {
         label: 'Product Site',
         value: prodUrl,
         onChange: ({ target }) => updateFormField('prodUrl', target.value),
         helperText: 'Add origin site URL',
-        className: classes.formTopItem
+        className: classes.formTopItem,
       },
       {
         label: 'Main Image',
@@ -294,8 +296,8 @@ const SuggestProductPage = ({
 
   const fieldNodes = {
     main: fields.main.map(renderField),
-    description: fields.description.map(renderField)
-  }
+    description: fields.description.map(renderField),
+  };
 
   return (
     <div className={classes.root}>
@@ -364,9 +366,9 @@ const SuggestProductPage = ({
   );
 };
 
-const mapStateToProps = state => state.form;
+const mapStateToProps = (state) => state.form;
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateFormField: (fieldName, value) => dispatch(updateFormFieldAction(fieldName, value)),
   flushFields: () => dispatch(flushFieldsAction()),
   suggestProduct: () => dispatch(suggestProductAction()),
@@ -376,6 +378,7 @@ SuggestProductPage.propTypes = {
   updateFormField: PropTypes.func.isRequired,
   suggestProduct: PropTypes.func.isRequired,
   prodName: PropTypes.string.isRequired,
+  prodUrl: PropTypes.string.isRequired,
   headImg: PropTypes.string.isRequired,
   shortDescription: PropTypes.string.isRequired,
   fullDescription: PropTypes.string.isRequired,
@@ -383,7 +386,6 @@ SuggestProductPage.propTypes = {
   flushFields: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   imageGalleryInput: PropTypes.string.isRequired,
-  error: PropTypes.bool.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,

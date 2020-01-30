@@ -5,7 +5,6 @@ import cn from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import { GiTrashCan } from 'react-icons/gi';
 
-
 const useStyles = makeStyles({
   root: {
     display: 'flex',
@@ -68,14 +67,15 @@ const SuggestedImagesPreview = ({ images, deleteAction }) => {
   const classes = useStyles();
 
   const Images = images.map((img, id) => (
-    <a
+    <div
+      role="button"
       className={cn(classes.imgContainer, 'imgContainer')}
       onClick={() => deleteAction(id)}
       key={img}
     >
       <img src={img} alt="Gallery item" />
       <GiTrashCan className={cn(classes.removeIcon, 'removeIcon')} />
-    </a>
+    </div>
   ));
   return <div className={classes.root}>{Images}</div>;
 };

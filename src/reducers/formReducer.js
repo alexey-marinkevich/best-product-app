@@ -8,7 +8,10 @@ const initState = {
   shortDescription: '',
   fullDescription: '',
   imageGalleryInput: '',
-  gallery: ['https://atoms.imgix.net/web/Atoms-Quarter-Size-Image-Thumbnail.png?w=873&auto=format&dpr=1', 'https://atoms.imgix.net/web/Atoms-Quarter-Size-Image-Thumbnail.png?w=873&auto=format&dpr=1'],
+  gallery: [
+    'https://atoms.imgix.net/web/Atoms-Quarter-Size-Image-Thumbnail.png?w=873&auto=format&dpr=1',
+    'https://atoms.imgix.net/web/Atoms-Quarter-Size-Image-Thumbnail.png?w=873&auto=format&dpr=1',
+  ],
 };
 
 const UPDATE_FORM_FIELD = 'UPDATE_FORM_FIELD';
@@ -30,12 +33,7 @@ export const suggestProductAction = () => async (dispatch, getState) => {
     dispatch(setLoadingStatusAction(true));
     const state = getState();
     const {
-      prodName,
-      prodUrl,
-      headImg,
-      shortDescription,
-      fullDescription,
-      gallery,
+      prodName, prodUrl, headImg, shortDescription, fullDescription, gallery,
     } = state.form;
     const apiName = 'products';
     const path = '/product';
