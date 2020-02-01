@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
+import { API } from 'aws-amplify';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import {
+  Snackbar, Button, TextField, CircularProgress,
+} from '@material-ui/core';
+import MuiAlert from '@material-ui/lab/Alert';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
-import {
-  updateFormFieldAction,
-  flushFieldsAction,
-  suggestProductAction,
-} from '../reducers/formReducer';
+import { updateFormFieldAction, suggestProductAction } from '../reducers/formReducer';
 import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
 
 const useStyles = makeStyles((theme) => ({
@@ -187,57 +187,85 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SuggestProductPage = ({
-  updateFormField,
-  suggestProduct,
-  prodName,
-  prodUrl,
-  headImg,
-  shortDescription,
-  fullDescription,
-  gallery,
-  flushFields,
-  isLoading,
-  imageGalleryInput,
-  history,
-}) => {
+const SuggestProductPage = ({ history }) => {
+  const [gallery, setGallery] = useState([]);
+  const [galleryInput, setGalleryInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRequestError, setIsRequestError] = useState(false);
+  const [isSnackOpen, setIsSnackOpen] = useState(false);
+  // const [snacks, setSnacks] = useState({
+  //   isSuccessOpen: false,
+  //   isErrorOpen: false,
+  // });
+
   const classes = useStyles();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (process.env.NODE_ENV !== 'development') {
-      suggestProduct();
+  const defaultValues = {
+    prodName: 'asdfasdfa',
+    prodUrl: 'sdfasa',
+    headImg: 'sdfasdf',
+    shortDescription: 'asdfasdfa',
+    fullDescription: 'asdf',
+  };
+
+  const {
+    register, handleSubmit, reset,
+  } = useForm({ defaultValues });
+
+  const onSubmit = async (data) => {
+    const combinedData = { ...data, gallery };
+    const apiName = 'products';
+    const path = '/product';
+    const myInit = {
+      body: combinedData,
+    };
+    try {
+      setIsLoading(true);
+
+      if (process.env.NODE_ENV !== 'development') {
+        await API.post(apiName, path, myInit);
+      }
+      console.log(combinedData);
+      setIsLoading(false);
+      reset({ defaultValues });
+      setIsSnackOpen({ isSnackOpen: true });
+      // history.push('/');
+    } catch (error) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.error(error);
+      }
+      setIsRequestError(true);
+      setIsLoading(false);
     }
   };
 
   const validateImageLink = () => {
     const pattern = /^https?:\/{2}[\d\w/.-]{7,}/;
 
-    if (pattern.test(imageGalleryInput)) {
-      updateFormField('gallery', [imageGalleryInput, ...gallery]);
+    if (pattern.test(galleryInput)) {
+      setGallery([galleryInput, ...gallery]);
     }
 
-    updateFormField('imageGalleryInput', '');
-  };
-
-  const handleAddImage = (e) => {
-    e.preventDefault();
-    validateImageLink();
+    setGalleryInput('');
   };
 
   const handleDeleteImage = (id) => {
     const modGallery = [...gallery];
     modGallery.splice(id, 1);
-    updateFormField('gallery', modGallery);
+    setGallery(modGallery);
   };
 
   const handlePageClose = () => {
-    flushFields();
     history.push('/');
   };
 
   const handleShowPreview = () => {
     history.push('/suggest-form/product-preview');
+  };
+
+  const handleChange = ({ target }) => {
+    setGalleryInput(target.value);
+    console.log(galleryInput);
   };
 
   const renderField = (field) => (
@@ -246,6 +274,7 @@ const SuggestProductPage = ({
       key={field.label}
       margin="normal"
       disabled={isLoading}
+      inputRef={register}
       {...field}
     />
   );
@@ -253,22 +282,19 @@ const SuggestProductPage = ({
   const fields = {
     main: [
       {
+        name: 'prodName',
         label: 'Product Name',
-        value: prodName,
-        onChange: ({ target }) => updateFormField('prodName', target.value),
         className: classes.formTopItem,
       },
       {
+        name: 'prodUrl',
         label: 'Product Site',
-        value: prodUrl,
-        onChange: ({ target }) => updateFormField('prodUrl', target.value),
         helperText: 'Add origin site URL',
         className: classes.formTopItem,
       },
       {
+        name: 'headImg',
         label: 'Main Image',
-        value: headImg,
-        onChange: ({ target }) => updateFormField('headImg', target.value),
         placeholder: 'Paste URL',
         helperText: 'Add image that clearly shows the product is',
         className: classes.formTopItem,
@@ -276,19 +302,17 @@ const SuggestProductPage = ({
     ],
     description: [
       {
+        name: 'shortDescription',
         label: 'Short Description',
-        value: shortDescription,
         placeholder: '150 symbols max',
         helperText: 'Will be available in product preview',
         inputProps: { maxLength: 150 },
-        onChange: ({ target }) => updateFormField('shortDescription', target.value),
         multiline: true,
       },
       {
+        name: 'fullDescription',
         label: 'Full Description',
-        value: fullDescription,
         helperText: 'Provide full description here',
-        onChange: ({ target }) => updateFormField('fullDescription', target.value),
         multiline: true,
       },
     ],
@@ -310,7 +334,7 @@ const SuggestProductPage = ({
           companies to share with other people and get to know about it more range of pepople
         </p>
       </div>
-      <form className={classes.form} onSubmit={handleSubmit}>
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={classes.mainData}>
           <h2>Main Data</h2>
           <div className={classes.mainDataTopSection}>{fieldNodes.main}</div>
@@ -324,32 +348,35 @@ const SuggestProductPage = ({
           </p>
           <TextField
             label="Gallery Image"
-            value={imageGalleryInput}
             placeholder="Paste URL"
             margin="normal"
-            helperText=""
-            onChange={({ target }) => updateFormField('imageGalleryInput', target.value)}
             disabled={isLoading}
+            onChange={handleChange}
           />
           <Button
             variant="contained"
             color="primary"
             disabled={isLoading}
-            onClick={handleAddImage}
+            onClick={validateImageLink}
             className={classes.addImgBtn}
           >
             Add Image
           </Button>
-          <SuggestedImagesPreview images={gallery} deleteAction={handleDeleteImage} />
+          <SuggestedImagesPreview
+            images={gallery}
+            inputRef={register}
+            deleteAction={handleDeleteImage}
+          />
         </div>
         <div className={classes.formBottomSection}>
           <Button
+            type="submit"
             variant="contained"
             color="primary"
             disabled={isLoading}
             className={classes.submitBtn}
           >
-            {isLoading ? 'Submitting...' : 'Submit'}
+            {!isLoading ? 'Submit' : <CircularProgress />}
           </Button>
           <Button
             variant="text"
@@ -362,6 +389,39 @@ const SuggestProductPage = ({
           </Button>
         </div>
       </form>
+      {isRequestError ? (
+        <Snackbar
+          open={isSnackOpen}
+          autoHideDuration={6000}
+          onClose={() => setIsSnackOpen(false)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        >
+          <MuiAlert
+            onClose={() => setIsSnackOpen(false)}
+            severity="error"
+            variant="filled"
+            elevation={6}
+          >
+            Request is failed, please try again
+          </MuiAlert>
+        </Snackbar>
+      ) : (
+        <Snackbar
+          open={isSnackOpen}
+          autoHideDuration={6000}
+          onClose={() => setIsSnackOpen(false)}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        >
+          <MuiAlert
+            onClose={() => setIsSnackOpen(false)}
+            severity="success"
+            variant="filled"
+            elevation={6}
+          >
+            Suggestion is successfully submited
+          </MuiAlert>
+        </Snackbar>
+      )}
     </div>
   );
 };
@@ -370,22 +430,10 @@ const mapStateToProps = (state) => state.form;
 
 const mapDispatchToProps = (dispatch) => ({
   updateFormField: (fieldName, value) => dispatch(updateFormFieldAction(fieldName, value)),
-  flushFields: () => dispatch(flushFieldsAction()),
   suggestProduct: () => dispatch(suggestProductAction()),
 });
 
 SuggestProductPage.propTypes = {
-  updateFormField: PropTypes.func.isRequired,
-  suggestProduct: PropTypes.func.isRequired,
-  prodName: PropTypes.string.isRequired,
-  prodUrl: PropTypes.string.isRequired,
-  headImg: PropTypes.string.isRequired,
-  shortDescription: PropTypes.string.isRequired,
-  fullDescription: PropTypes.string.isRequired,
-  gallery: PropTypes.arrayOf(PropTypes.string).isRequired,
-  flushFields: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  imageGalleryInput: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,

@@ -35,6 +35,9 @@ const theme = createMuiTheme({
       main: '#333',
     },
   },
+  shape: {
+    borderRadius: 0,
+  },
 });
 
 ReactDOM.render(
