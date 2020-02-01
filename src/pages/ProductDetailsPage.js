@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { IoIosArrowRoundBack, IoIosGlobe } from 'react-icons/io';
 
 import ImageGallery from '../components/ImageGallery';
@@ -12,6 +13,23 @@ import Footer from '../components/Footer';
 import { loadProductByIdAction } from '../reducers/coreReducer';
 
 const useStyles = makeStyles((theme) => ({
+  loaderWrapper: {
+    display: 'flex',
+    height: '100vh',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errMessage: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '50vh',
+    '& h1': {
+      fontSize: '40px',
+      margin: 0,
+    },
+  },
   root: {
     position: 'relative',
     backgroundColor: '#fff',
@@ -19,16 +37,6 @@ const useStyles = makeStyles((theme) => ({
   },
   innerRoot: {
     position: 'relative',
-  },
-  itemHeader: {
-    display: 'flex',
-    width: '100%',
-    height: '80vh',
-    overflow: 'hidden',
-    position: 'relative',
-    [theme.breakpoints.down('xs')]: {
-      height: '100vh',
-    },
   },
   closeBtn: {
     position: 'absolute',
@@ -38,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     background: 'none',
     border: 'none',
     outline: 'none',
-    padding: '14px 60px 60px 20px',
+    padding: '14px 60px 60px 30px',
     cursor: 'pointer',
     transition: '0.3s',
     color: '#333',
@@ -46,53 +54,18 @@ const useStyles = makeStyles((theme) => ({
       transform: 'translate(-10px, 0)',
     },
     [theme.breakpoints.down('sm')]: {
-      padding: '10px 5vw 60px 4vw',
+      padding: '20px 50px 6vh 4vw',
       color: '#fff',
     },
   },
-  siteUrl: {
-    position: 'absolute',
-    left: '0',
-    bottom: '0',
-    padding: '40px 60px 20px 35px',
-    fontSize: '30px',
-    transform: 'scale(1)',
-    color: '#fff',
-    transition: '.2s .2s',
-    [theme.breakpoints.down('sm')]: {
-      padding: '40px 5vw 40px 6vw',
-    },
+  itemHeader: {
+    display: 'flex',
+    width: '100%',
+    height: '80vh',
+    overflow: 'hidden',
+    position: 'relative',
     [theme.breakpoints.down('xs')]: {
-      left: '50%',
-      bottom: '50px',
-      padding: '20px',
-      fontSize: '40px',
-      transformOrigin: 'center left',
-      transform: 'scale(1) translate(-50%, 0)',
-    },
-    '&::before': {
-      content: "'Explore site'",
-      position: 'absolute',
-      fontSize: '15px',
-      left: '100px',
-      top: '47px',
-      whiteSpace: 'nowrap',
-      transform: 'translate(0, 55px)',
-      transition: '.2s',
-      [theme.breakpoints.down('sm')]: {
-        content: "''",
-      },
-    },
-    '&:hover': {
-      transform: 'scale(1.2)',
-      transition: '.2s',
-      [theme.breakpoints.down('xs')]: {
-        transform: 'scale(1.3) translate(-50%, 0)',
-      },
-      '&::before': {
-        transform: 'translate(-5px, 0) scale(0.9)',
-        transition: '.2s .2s',
-      },
+      height: '100vh',
     },
   },
   prodImg: (props) => ({
@@ -105,13 +78,13 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     transform: 'scale(1)',
     transition: 'transform 10s, filter 1s',
-    filter: 'brightness(0.9)',
+    filter: 'brightness(0.8)',
     zIndex: '-100',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
-    height: '100%',
-    alignSelf: 'flex-start',
-    }
+      height: '100%',
+      alignSelf: 'flex-start',
+    },
   }),
   content: {
     display: 'flex',
@@ -132,6 +105,51 @@ const useStyles = makeStyles((theme) => ({
       zIndex: 100,
       [theme.breakpoints.down('xs')]: {
         fontSize: '16px',
+      },
+    },
+  },
+  siteUrl: {
+    position: 'absolute',
+    left: '0',
+    bottom: '0',
+    padding: '40px 60px 20px 60px',
+    fontSize: '30px',
+    transform: 'scale(1)',
+    color: '#fff',
+    transition: '.2s .2s',
+    [theme.breakpoints.down('sm')]: {
+      padding: '40px 5vw 40px 6vw',
+    },
+    [theme.breakpoints.down('xs')]: {
+      left: '50%',
+      bottom: '50px',
+      padding: '20px',
+      fontSize: '40px',
+      transformOrigin: 'center left',
+      transform: 'scale(1) translate(-50%, 0)',
+    },
+    '&::before': {
+      content: "'Explore site'",
+      position: 'absolute',
+      fontSize: '15px',
+      left: '95px',
+      top: '47px',
+      whiteSpace: 'nowrap',
+      transform: 'translate(0, 55px)',
+      transition: '.2s',
+      [theme.breakpoints.down('sm')]: {
+        content: "''",
+      },
+    },
+    '&:hover': {
+      transform: 'scale(1.2)',
+      transition: '.2s',
+      [theme.breakpoints.down('xs')]: {
+        transform: 'scale(1.3) translate(-50%, 0)',
+      },
+      '&::before': {
+        transform: 'translate(-5px, 0) scale(0.9)',
+        transition: '.2s .2s',
       },
     },
   },
@@ -204,13 +222,20 @@ const ProductDetailsPage = ({
   }, [loadProductById, match.params.id, isPreview]);
 
   if (isActiveProductLoading) {
-    return 'LOADING';
+    return (
+      <div className={classes.loaderWrapper}>
+        <CircularProgress />
+      </div>
+    );
   }
-  // todo: Change loading to spinner
 
   if (!currProduct) {
-    return 'NOTHING FOUND';
-    // todo: make styles to this 
+    return (
+      <div className={classes.errMessage}>
+        <h1>PAGE NOT FOUND</h1>
+        <p>Please, reload the page</p>
+      </div>
+    );
   }
 
   const handleClose = () => (!isPreview ? history.push('/') : history.push('/suggest-form'));

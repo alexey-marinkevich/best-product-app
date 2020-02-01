@@ -30,6 +30,11 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: "'Segoe UI', 'Roboto', sans-serif",
   },
+  palette: {
+    primary: {
+      main: '#333',
+    },
+  },
 });
 
 ReactDOM.render(

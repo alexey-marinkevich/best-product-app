@@ -3,7 +3,7 @@ import { API } from 'aws-amplify';
 const initState = {
   products: [],
   activeProduct: null,
-  isActiveProductLoading: false,
+  isActiveProductLoading: true,
   isProductsLoading: false,
 };
 
