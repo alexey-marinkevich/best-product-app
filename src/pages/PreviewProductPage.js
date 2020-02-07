@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,10 +13,10 @@ const useStyles = makeStyles({
   },
 });
 
-const PreviewProductPage = ({ prodName, headImg, fullDescription }) => {
+const PreviewProductPage = ({ formFields }) => {
   const classes = useStyles();
 
-  if (!prodName || !headImg || !fullDescription) {
+  if (!formFields) {
     return <Redirect to="/suggest-form" />;
   }
 
@@ -26,13 +26,11 @@ const PreviewProductPage = ({ prodName, headImg, fullDescription }) => {
     </div>
   );
 };
+// todo: make sure setted propTypes all around
+const mapStateToProps = state => state.form;
 
-const mapStateToProps = (state) => state.form;
-
-PreviewProductPage.propTypes = {
-  prodName: PropTypes.string.isRequired,
-  headImg: PropTypes.string.isRequired,
-  fullDescription: PropTypes.string.isRequired,
-};
+// PreviewProductPage.propTypes = {
+//   formFields: PropTypes.object.isRequired,
+// };
 
 export default connect(mapStateToProps)(PreviewProductPage);

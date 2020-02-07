@@ -205,21 +205,22 @@ const useStyles = makeStyles((theme) => ({
 const ProductDetailsPage = ({
   match,
   formFields,
-  isPreview,
+  savedGallery,
+  isFormPreview,
   history,
   loadProductById,
   activeProduct,
   isActiveProductLoading,
 }) => {
-  const currProduct = isPreview ? formFields : activeProduct;
+  const previewData = { formFields, savedGallery };
+  const currProduct = isFormPreview ? previewData : activeProduct;
   const classes = useStyles({ img: (currProduct && currProduct.headImg) || null });
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!isPreview) {
+    if (!isFormPreview) {
       loadProductById(match.params.id);
     }
-  }, [loadProductById, match.params.id, isPreview]);
+  }, [loadProductById, match.params.id, isFormPreview]);
 
   if (isActiveProductLoading) {
     return (
@@ -238,7 +239,9 @@ const ProductDetailsPage = ({
     );
   }
 
-  const handleClose = () => (!isPreview ? history.push('/') : history.push('/suggest-form'));
+  const handleClose = () => (!isFormPreview ? history.push('/') : history.push('/suggest-form'));
+
+  const { siteUrl, prodName, fullDescription } = currProduct.formFields;
 
   return (
     <div className={classes.root}>
@@ -248,30 +251,27 @@ const ProductDetailsPage = ({
             <IoIosArrowRoundBack htmlFor={classes.closeBtn} />
           </button>
           <div className={classes.prodImg} />
-          <a
-            href={currProduct.siteUrl}
-            className={classes.siteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={siteUrl} className={classes.siteUrl} target="_blank" rel="noopener noreferrer">
             <IoIosGlobe htmlFor={classes.siteUrl} />
           </a>
         </div>
         <div className={classes.sideName}>
-          <h1>{currProduct.prodName}</h1>
+          <h1>{prodName}</h1>
         </div>
         <div className={classes.content}>
-          <p>{currProduct.fullDescription}</p>
+          <p>{fullDescription}</p>
         </div>
       </div>
-      <ImageGallery images={currProduct.gallery} />
+      <ImageGallery images={currProduct.savedGallery} />
       <Footer />
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  formFields: state.form,
+  formFields: state.form.formFields,
+  savedGallery: state.form.previewGallery,
+  isFormPreview: state.form.isFormPreview,
   activeProduct: state.core.activeProduct,
   isActiveProductLoading: state.core.isActiveProductLoading,
 });
@@ -288,7 +288,7 @@ ProductDetailsPage.propTypes = {
     prodName: PropTypes.string,
     gallery: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-  isPreview: PropTypes.bool,
+  isFormPreview: PropTypes.bool,
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   loadProductById: PropTypes.func.isRequired,
   activeProduct: PropTypes.shape({
@@ -301,7 +301,7 @@ ProductDetailsPage.propTypes = {
 };
 
 ProductDetailsPage.defaultProps = {
-  isPreview: false,
+  // isFormPreview: false,
   activeProduct: null,
 };
 
