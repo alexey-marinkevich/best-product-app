@@ -27,7 +27,7 @@ const PreviewProductPage = ({ formFields }) => {
   );
 };
 // todo: make sure setted propTypes all around
-const mapStateToProps = state => state.form;
+const mapStateToProps = (state) => state.form;
 
 // PreviewProductPage.propTypes = {
 //   formFields: PropTypes.object.isRequired,

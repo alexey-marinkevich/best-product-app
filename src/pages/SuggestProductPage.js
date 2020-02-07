@@ -228,8 +228,9 @@ const SuggestProductPage = ({
       if (process.env.NODE_ENV !== 'development') {
         await API.post(apiName, path, myInit);
       }
-      setIsLoading(false);
       reset();
+      setGallery([]);
+      setIsLoading(false);
       setIsSnackOpen({ isSnackOpen: true });
     } catch (error) {
       if (process.env.NODE_ENV !== 'production') {
@@ -266,6 +267,7 @@ const SuggestProductPage = ({
   const handlePageClose = () => {
     history.push('/');
     setFormPreview(false);
+    setGallery([]);
   };
 
   const handleChange = ({ target }) => {
@@ -378,7 +380,6 @@ const SuggestProductPage = ({
             className={classes.submitBtn}
           >
             {!isLoading ? 'Submit' : <CircularProgress />}
-            {/* todo: доделать */}
           </Button>
           <Button
             variant="text"

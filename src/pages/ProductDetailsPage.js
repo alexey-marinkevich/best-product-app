@@ -12,7 +12,7 @@ import ImageGallery from '../components/ImageGallery';
 import Footer from '../components/Footer';
 import { loadProductByIdAction } from '../reducers/coreReducer';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   loaderWrapper: {
     display: 'flex',
     height: '100vh',
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
       height: '100vh',
     },
   },
-  prodImg: (props) => ({
+  prodImg: props => ({
     width: '85%',
     height: '85%',
     alignSelf: 'flex-end',
@@ -212,8 +212,9 @@ const ProductDetailsPage = ({
   activeProduct,
   isActiveProductLoading,
 }) => {
-  const previewData = { formFields, savedGallery };
+  const previewData = { ...formFields, savedGallery };
   const currProduct = isFormPreview ? previewData : activeProduct;
+  console.log(currProduct)
   const classes = useStyles({ img: (currProduct && currProduct.headImg) || null });
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -240,8 +241,7 @@ const ProductDetailsPage = ({
   }
 
   const handleClose = () => (!isFormPreview ? history.push('/') : history.push('/suggest-form'));
-
-  const { siteUrl, prodName, fullDescription } = currProduct.formFields;
+  const { siteUrl, prodName, fullDescription } = currProduct;
 
   return (
     <div className={classes.root}>
@@ -268,7 +268,7 @@ const ProductDetailsPage = ({
   );
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   formFields: state.form.formFields,
   savedGallery: state.form.previewGallery,
   isFormPreview: state.form.isFormPreview,
@@ -276,8 +276,8 @@ const mapStateToProps = (state) => ({
   isActiveProductLoading: state.core.isActiveProductLoading,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  loadProductById: (id) => dispatch(loadProductByIdAction(id)),
+const mapDispatchToProps = dispatch => ({
+  loadProductById: id => dispatch(loadProductByIdAction(id)),
 });
 
 ProductDetailsPage.propTypes = {
