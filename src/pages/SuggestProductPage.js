@@ -7,9 +7,7 @@ import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Snackbar, Button, TextField, CircularProgress,
-} from '@material-ui/core';
+import { Snackbar, Button, TextField, CircularProgress } from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
@@ -20,7 +18,7 @@ import {
 } from '../reducers/formReducer';
 import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -205,18 +203,17 @@ const SuggestProductPage = ({
   const [isRequestError, setIsRequestError] = useState(false);
   const [isSnackOpen, setIsSnackOpen] = useState(false);
   const classes = useStyles();
+  const { register, handleSubmit, reset, getValues, setValue } = useForm();
 
-  const {
-    register, handleSubmit, reset, getValues, setValue,
-  } = useForm();
+  const autoHideTime = 3000;
 
   useEffect(() => {
     if (isFormPreview) {
-      Object.keys(savedFields).map((key) => setValue(key, savedFields[key]));
+      Object.keys(savedFields).map(key => setValue(key, savedFields[key]));
     }
   }, [savedFields]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     const apiName = 'products';
     const path = '/product';
     const myInit = {
@@ -231,7 +228,8 @@ const SuggestProductPage = ({
       reset();
       setGallery([]);
       setIsLoading(false);
-      setIsSnackOpen({ isSnackOpen: true });
+      setIsSnackOpen(true);
+      setTimeout(() => history.push('/'), autoHideTime + 500);
     } catch (error) {
       if (process.env.NODE_ENV !== 'production') {
         console.error(error);
@@ -258,7 +256,7 @@ const SuggestProductPage = ({
     setGalleryInput('');
   };
 
-  const handleDeleteImage = (id) => {
+  const handleDeleteImage = id => {
     const modGallery = [...savedGallery];
     modGallery.splice(id, 1);
     setGallery(modGallery);
@@ -274,7 +272,7 @@ const SuggestProductPage = ({
     setGalleryInput(target.value);
   };
 
-  const renderField = (field) => (
+  const renderField = field => (
     <TextField
       required
       key={field.label}
@@ -395,7 +393,7 @@ const SuggestProductPage = ({
       {isRequestError ? (
         <Snackbar
           open={isSnackOpen}
-          autoHideDuration={6000}
+          autoHideDuration={autoHideTime}
           onClose={() => setIsSnackOpen(false)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
@@ -411,7 +409,7 @@ const SuggestProductPage = ({
       ) : (
         <Snackbar
           open={isSnackOpen}
-          autoHideDuration={6000}
+          autoHideDuration={autoHideTime}
           onClose={() => setIsSnackOpen(false)}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         >
@@ -428,15 +426,15 @@ const SuggestProductPage = ({
     </div>
   );
 };
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isFormPreview: state.form.isFormPreview,
   savedFields: state.form.formFields,
   savedGallery: state.form.previewGallery,
 });
-const mapDispatchToProps = (dispatch) => ({
-  setFormFields: (formFields) => dispatch(setFormFieldsAction(formFields)),
-  setFormPreview: (status) => dispatch(setFormPreviewAction(status)),
-  setGallery: (images) => dispatch(setGalleryAction(images)),
+const mapDispatchToProps = dispatch => ({
+  setFormFields: formFields => dispatch(setFormFieldsAction(formFields)),
+  setFormPreview: status => dispatch(setFormPreviewAction(status)),
+  setGallery: images => dispatch(setGalleryAction(images)),
 });
 
 SuggestProductPage.propTypes = {
