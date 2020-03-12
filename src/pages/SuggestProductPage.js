@@ -225,10 +225,7 @@ const SuggestProductPage = ({
     };
     try {
       setIsLoading(true);
-
-      if (process.env.NODE_ENV !== 'development') {
-        await API.post(apiName, path, myInit);
-      }
+      await API.post(apiName, path, myInit);
       reset();
       setGallery([]);
       setIsLoading(false);

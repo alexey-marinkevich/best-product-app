@@ -1,9 +1,9 @@
 const DEV_ENDPOINT = 'http://localhost:4000';
 
 function withMocker(target, mock) {
-  const isDev = !!process.env.REACT_APP_DEV;
+  const isDev = process.env.REACT_APP_DEV;
 
-  return isDev ? mock : null;
+  return isDev ? mock : target;
 }
 
 const constants = {
