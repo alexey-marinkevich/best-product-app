@@ -13,10 +13,10 @@ const useStyles = makeStyles({
   },
 });
 
-const PreviewProductPage = ({ prodName, headImg, fullDescription }) => {
+const PreviewProductPage = ({ formFields }) => {
   const classes = useStyles();
 
-  if (!prodName || !headImg || !fullDescription) {
+  if (!formFields) {
     return <Redirect to="/suggest-form" />;
   }
 
@@ -26,13 +26,16 @@ const PreviewProductPage = ({ prodName, headImg, fullDescription }) => {
     </div>
   );
 };
-
 const mapStateToProps = (state) => state.form;
 
 PreviewProductPage.propTypes = {
-  prodName: PropTypes.string.isRequired,
-  headImg: PropTypes.string.isRequired,
-  fullDescription: PropTypes.string.isRequired,
+  formFields: PropTypes.shape({
+    prodName: PropTypes.string,
+    prodUrl: PropTypes.string,
+    headImg: PropTypes.string,
+    shortDescription: PropTypes.string,
+    fullDescription: PropTypes.string,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps)(PreviewProductPage);

@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '100%',
     height: '80vh',
+    maxHeight: '700px',
     overflow: 'hidden',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
@@ -112,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     left: '0',
     bottom: '0',
-    padding: '40px 60px 20px 60px',
+    padding: '40px 60px 20px 40px',
     fontSize: '30px',
     transform: 'scale(1)',
     color: '#fff',
@@ -132,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
       content: "'Explore site'",
       position: 'absolute',
       fontSize: '15px',
-      left: '95px',
+      left: '75px',
       top: '47px',
       whiteSpace: 'nowrap',
       transform: 'translate(0, 55px)',
@@ -161,7 +162,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '30px',
+    padding: '30px 10px 30px 30px',
     boxSizing: 'border-box',
     userSelect: 'none',
     right: 0,
@@ -205,21 +206,22 @@ const useStyles = makeStyles((theme) => ({
 const ProductDetailsPage = ({
   match,
   formFields,
-  isPreview,
+  savedGallery,
+  isFormPreview,
   history,
   loadProductById,
   activeProduct,
   isActiveProductLoading,
 }) => {
-  const currProduct = isPreview ? formFields : activeProduct;
+  const previewData = { ...formFields, savedGallery };
+  const currProduct = isFormPreview ? previewData : activeProduct;
   const classes = useStyles({ img: (currProduct && currProduct.headImg) || null });
-
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!isPreview) {
+    if (!isFormPreview) {
       loadProductById(match.params.id);
     }
-  }, [loadProductById, match.params.id, isPreview]);
+  }, [loadProductById, match.params.id, isFormPreview]);
 
   if (isActiveProductLoading) {
     return (
@@ -238,7 +240,8 @@ const ProductDetailsPage = ({
     );
   }
 
-  const handleClose = () => (!isPreview ? history.push('/') : history.push('/suggest-form'));
+  const handleClose = () => (!isFormPreview ? history.push('/') : history.push('/suggest-form'));
+  const { siteUrl, prodName, fullDescription } = currProduct;
 
   return (
     <div className={classes.root}>
@@ -248,30 +251,27 @@ const ProductDetailsPage = ({
             <IoIosArrowRoundBack htmlFor={classes.closeBtn} />
           </button>
           <div className={classes.prodImg} />
-          <a
-            href={currProduct.siteUrl}
-            className={classes.siteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={siteUrl} className={classes.siteUrl} target="_blank" rel="noopener noreferrer">
             <IoIosGlobe htmlFor={classes.siteUrl} />
           </a>
         </div>
         <div className={classes.sideName}>
-          <h1>{currProduct.prodName}</h1>
+          <h1>{prodName}</h1>
         </div>
         <div className={classes.content}>
-          <p>{currProduct.fullDescription}</p>
+          <p>{fullDescription}</p>
         </div>
       </div>
-      <ImageGallery images={currProduct.gallery} />
+      <ImageGallery images={currProduct.savedGallery} />
       <Footer />
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  formFields: state.form,
+  formFields: state.form.formFields,
+  savedGallery: state.form.previewGallery,
+  isFormPreview: state.form.isFormPreview,
   activeProduct: state.core.activeProduct,
   isActiveProductLoading: state.core.isActiveProductLoading,
 });
@@ -288,7 +288,7 @@ ProductDetailsPage.propTypes = {
     prodName: PropTypes.string,
     gallery: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-  isPreview: PropTypes.bool,
+  isFormPreview: PropTypes.bool.isRequired,
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   loadProductById: PropTypes.func.isRequired,
   activeProduct: PropTypes.shape({
@@ -298,11 +298,12 @@ ProductDetailsPage.propTypes = {
     gallery: PropTypes.arrayOf(PropTypes.string),
   }),
   isActiveProductLoading: PropTypes.bool.isRequired,
+  savedGallery: PropTypes.arrayOf(PropTypes.string),
 };
 
 ProductDetailsPage.defaultProps = {
-  isPreview: false,
   activeProduct: null,
+  savedGallery: [],
 };
 
 export default compose(

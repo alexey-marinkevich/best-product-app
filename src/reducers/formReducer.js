@@ -1,77 +1,46 @@
-import { API } from 'aws-amplify';
-
 const initState = {
-  isLoading: false,
-  prodName: '',
-  prodUrl: '',
-  headImg: '',
-  shortDescription: '',
-  fullDescription: '',
-  imageGalleryInput: '',
-  gallery: [
-    'https://atoms.imgix.net/web/Atoms-Quarter-Size-Image-Thumbnail.png?w=873&auto=format&dpr=1',
-    'https://atoms.imgix.net/web/Atoms-Quarter-Size-Image-Thumbnail.png?w=873&auto=format&dpr=1',
-  ],
+  formFields: {
+    prodName: '',
+    prodUrl: '',
+    headImg: '',
+    shortDescription: '',
+    fullDescription: '',
+  },
+  previewGallery: [],
+  isFormPreview: false,
 };
 
-const UPDATE_FORM_FIELD = 'UPDATE_FORM_FIELD';
-const FLUSH_FORM_FIELD = 'FLUSH_FORM_FIELD';
-const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
+const SET_FORM_FIELDS = 'SET_FORM_FIELDS';
+const SET_GALLERY = 'SET_GALLERY';
+const IS_FORM_PREVIEW = 'IS_FORM_PREVIEW';
 
-export const updateFormFieldAction = (fieldName, value) => ({
-  type: UPDATE_FORM_FIELD,
-  payload: {
-    [fieldName]: value,
-  },
+export const setFormFieldsAction = (formFields) => ({
+  type: SET_FORM_FIELDS,
+  payload: formFields,
 });
 
-export const flushFieldsAction = () => ({ type: FLUSH_FORM_FIELD });
-export const setLoadingStatusAction = (status) => ({ type: SET_LOADING_STATUS, payload: status });
+export const setGalleryAction = (data) => ({ type: SET_GALLERY, payload: data });
 
-export const suggestProductAction = () => async (dispatch, getState) => {
-  try {
-    dispatch(setLoadingStatusAction(true));
-    const state = getState();
-    const {
-      prodName, prodUrl, headImg, shortDescription, fullDescription, gallery,
-    } = state.form;
-    const apiName = 'products';
-    const path = '/product';
-    const myInit = {
-      body: {
-        prodName,
-        prodUrl,
-        headImg,
-        shortDescription,
-        fullDescription,
-        gallery,
-      },
-    };
-    await API.post(apiName, path, myInit);
-    dispatch(setLoadingStatusAction(false));
-  } catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(err);
-    }
-
-    dispatch(setLoadingStatusAction(false));
-  }
-};
+export const setFormPreviewAction = (status) => ({ type: IS_FORM_PREVIEW, payload: status });
 
 export default (state = initState, action) => {
   switch (action.type) {
-    case UPDATE_FORM_FIELD:
+    case SET_FORM_FIELDS:
       return {
         ...state,
-        ...action.payload,
+        formFields: action.payload,
       };
-    case FLUSH_FORM_FIELD:
-      return initState;
-    case SET_LOADING_STATUS:
+    case SET_GALLERY:
       return {
         ...state,
-        isLoading: action.payload,
+        previewGallery: action.payload,
       };
+    case IS_FORM_PREVIEW:
+      return {
+        ...state,
+        isFormPreview: action.payload,
+      };
+
     default:
       return state;
   }

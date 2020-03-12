@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { API } from 'aws-amplify';
@@ -13,7 +13,11 @@ import {
 import MuiAlert from '@material-ui/lab/Alert';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
-import { updateFormFieldAction, suggestProductAction } from '../reducers/formReducer';
+import {
+  setFormFieldsAction,
+  setFormPreviewAction,
+  setGalleryAction,
+} from '../reducers/formReducer';
 import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
 
 const useStyles = makeStyles((theme) => ({
@@ -187,37 +191,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SuggestProductPage = ({ history }) => {
-  const [gallery, setGallery] = useState([]);
+const SuggestProductPage = ({
+  history,
+  savedFields,
+  savedGallery,
+  setFormFields,
+  setFormPreview,
+  setGallery,
+  isFormPreview,
+}) => {
   const [galleryInput, setGalleryInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isRequestError, setIsRequestError] = useState(false);
   const [isSnackOpen, setIsSnackOpen] = useState(false);
-  // const [snacks, setSnacks] = useState({
-  //   isSuccessOpen: false,
-  //   isErrorOpen: false,
-  // });
-
   const classes = useStyles();
-
-  const defaultValues = {
-    prodName: 'asdfasdfa',
-    prodUrl: 'sdfasa',
-    headImg: 'sdfasdf',
-    shortDescription: 'asdfasdfa',
-    fullDescription: 'asdf',
-  };
-
   const {
-    register, handleSubmit, reset,
-  } = useForm({ defaultValues });
+    register, handleSubmit, reset, getValues, setValue,
+  } = useForm();
+
+  const autoHideTime = 3000;
+
+  useEffect(() => {
+    if (isFormPreview) {
+      Object.keys(savedFields).map((key) => setValue(key, savedFields[key]));
+    }
+  }, [savedFields]);
 
   const onSubmit = async (data) => {
-    const combinedData = { ...data, gallery };
     const apiName = 'products';
     const path = '/product';
     const myInit = {
-      body: combinedData,
+      body: data,
     };
     try {
       setIsLoading(true);
@@ -225,11 +229,14 @@ const SuggestProductPage = ({ history }) => {
       if (process.env.NODE_ENV !== 'development') {
         await API.post(apiName, path, myInit);
       }
-      console.log(combinedData);
+      reset();
+      setGallery([]);
       setIsLoading(false);
-      reset({ defaultValues });
-      setIsSnackOpen({ isSnackOpen: true });
-      // history.push('/');
+      setIsSnackOpen(true);
+      setTimeout(() => {
+        setFormPreview(false);
+        history.push('/');
+      }, autoHideTime + 500);
     } catch (error) {
       if (process.env.NODE_ENV !== 'production') {
         console.error(error);
@@ -239,33 +246,37 @@ const SuggestProductPage = ({ history }) => {
     }
   };
 
+  const onPreview = () => {
+    setFormPreview(true);
+    const formFields = getValues({ nest: true });
+    setFormFields(formFields);
+    history.push('/suggest-form/product-preview');
+  };
+
   const validateImageLink = () => {
     const pattern = /^https?:\/{2}[\d\w/.-]{7,}/;
 
     if (pattern.test(galleryInput)) {
-      setGallery([galleryInput, ...gallery]);
+      setGallery([galleryInput, ...savedGallery]);
     }
 
     setGalleryInput('');
   };
 
   const handleDeleteImage = (id) => {
-    const modGallery = [...gallery];
+    const modGallery = [...savedGallery];
     modGallery.splice(id, 1);
     setGallery(modGallery);
   };
 
   const handlePageClose = () => {
     history.push('/');
-  };
-
-  const handleShowPreview = () => {
-    history.push('/suggest-form/product-preview');
+    setFormPreview(false);
+    setGallery([]);
   };
 
   const handleChange = ({ target }) => {
     setGalleryInput(target.value);
-    console.log(galleryInput);
   };
 
   const renderField = (field) => (
@@ -330,7 +341,7 @@ const SuggestProductPage = ({ history }) => {
           <IoIosArrowRoundBack htmlFor={classes.closeBtn} />
         </button>
         <p className={classes.leadText}>
-          Place where you can suggest interest and good quality products of small or less popular
+          Place where you can suggest interesting and good quality products of small or less popular
           companies to share with other people and get to know about it more range of pepople
         </p>
       </div>
@@ -351,6 +362,7 @@ const SuggestProductPage = ({ history }) => {
             placeholder="Paste URL"
             margin="normal"
             disabled={isLoading}
+            value={galleryInput}
             onChange={handleChange}
           />
           <Button
@@ -362,81 +374,86 @@ const SuggestProductPage = ({ history }) => {
           >
             Add Image
           </Button>
-          <SuggestedImagesPreview
-            images={gallery}
-            inputRef={register}
-            deleteAction={handleDeleteImage}
-          />
+          <SuggestedImagesPreview images={savedGallery} deleteAction={handleDeleteImage} />
         </div>
         <div className={classes.formBottomSection}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            disabled={isLoading}
-            className={classes.submitBtn}
-          >
-            {!isLoading ? 'Submit' : <CircularProgress />}
-          </Button>
+          {isLoading ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isLoading}
+              className={classes.submitBtn}
+            >
+              Submit
+            </Button>
+          )}
           <Button
             variant="text"
             color="primary"
             disabled={isLoading}
-            onClick={handleShowPreview}
+            onClick={onPreview}
             className={classes.previewBtn}
           >
             Show Preview
           </Button>
         </div>
       </form>
-      {isRequestError ? (
-        <Snackbar
-          open={isSnackOpen}
-          autoHideDuration={6000}
+      <Snackbar
+        open={isSnackOpen}
+        autoHideDuration={autoHideTime}
+        onClose={() => setIsSnackOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <MuiAlert
           onClose={() => setIsSnackOpen(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          severity={isRequestError ? 'error' : 'success'}
+          variant="filled"
+          elevation={6}
         >
-          <MuiAlert
-            onClose={() => setIsSnackOpen(false)}
-            severity="error"
-            variant="filled"
-            elevation={6}
-          >
-            Request is failed, please try again
-          </MuiAlert>
-        </Snackbar>
-      ) : (
-        <Snackbar
-          open={isSnackOpen}
-          autoHideDuration={6000}
-          onClose={() => setIsSnackOpen(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        >
-          <MuiAlert
-            onClose={() => setIsSnackOpen(false)}
-            severity="success"
-            variant="filled"
-            elevation={6}
-          >
-            Suggestion is successfully submited
-          </MuiAlert>
-        </Snackbar>
-      )}
+          {isRequestError
+            ? 'Request is failed, please try again'
+            : 'Suggestion is successfully submited'}
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 };
 
-const mapStateToProps = (state) => state.form;
+const mapStateToProps = (state) => ({
+  isFormPreview: state.form.isFormPreview,
+  savedFields: state.form.formFields,
+  savedGallery: state.form.previewGallery,
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  updateFormField: (fieldName, value) => dispatch(updateFormFieldAction(fieldName, value)),
-  suggestProduct: () => dispatch(suggestProductAction()),
+  setFormFields: (formFields) => dispatch(setFormFieldsAction(formFields)),
+  setFormPreview: (status) => dispatch(setFormPreviewAction(status)),
+  setGallery: (images) => dispatch(setGalleryAction(images)),
 });
 
 SuggestProductPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  savedFields: PropTypes.shape({
+    prodName: PropTypes.string,
+    prodUrl: PropTypes.string,
+    headImg: PropTypes.string,
+    shortDescription: PropTypes.string,
+    fullDescription: PropTypes.string,
+  }).isRequired,
+  savedGallery: PropTypes.arrayOf(PropTypes.string),
+  isFormPreview: PropTypes.bool.isRequired,
+  setFormFields: PropTypes.func.isRequired,
+  setFormPreview: PropTypes.func.isRequired,
+  setGallery: PropTypes.func.isRequired,
+};
+
+SuggestProductPage.defaultProps = {
+  savedGallery: [],
 };
 
 export default compose(
