@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { Snackbar, Button, TextField, CircularProgress } from '@material-ui/core';
+import {
+  Snackbar, Button, TextField, CircularProgress,
+} from '@material-ui/core';
 import MuiAlert from '@material-ui/lab/Alert';
 import { IoIosArrowRoundBack } from 'react-icons/io';
 
@@ -18,7 +20,7 @@ import {
 } from '../reducers/formReducer';
 import SuggestedImagesPreview from '../components/SuggestedImagesPreview';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -203,17 +205,19 @@ const SuggestProductPage = ({
   const [isRequestError, setIsRequestError] = useState(false);
   const [isSnackOpen, setIsSnackOpen] = useState(false);
   const classes = useStyles();
-  const { register, handleSubmit, reset, getValues, setValue } = useForm();
+  const {
+    register, handleSubmit, reset, getValues, setValue,
+  } = useForm();
 
   const autoHideTime = 3000;
 
   useEffect(() => {
     if (isFormPreview) {
-      Object.keys(savedFields).map(key => setValue(key, savedFields[key]));
+      Object.keys(savedFields).map((key) => setValue(key, savedFields[key]));
     }
   }, [savedFields]);
 
-  const onSubmit = async data => {
+  const onSubmit = async (data) => {
     const apiName = 'products';
     const path = '/product';
     const myInit = {
@@ -229,7 +233,10 @@ const SuggestProductPage = ({
       setGallery([]);
       setIsLoading(false);
       setIsSnackOpen(true);
-      setTimeout(() => history.push('/'), autoHideTime + 500);
+      setTimeout(() => {
+        setFormPreview(false);
+        history.push('/');
+      }, autoHideTime + 500);
     } catch (error) {
       if (process.env.NODE_ENV !== 'production') {
         console.error(error);
@@ -256,7 +263,7 @@ const SuggestProductPage = ({
     setGalleryInput('');
   };
 
-  const handleDeleteImage = id => {
+  const handleDeleteImage = (id) => {
     const modGallery = [...savedGallery];
     modGallery.splice(id, 1);
     setGallery(modGallery);
@@ -272,7 +279,7 @@ const SuggestProductPage = ({
     setGalleryInput(target.value);
   };
 
-  const renderField = field => (
+  const renderField = (field) => (
     <TextField
       required
       key={field.label}
@@ -334,7 +341,7 @@ const SuggestProductPage = ({
           <IoIosArrowRoundBack htmlFor={classes.closeBtn} />
         </button>
         <p className={classes.leadText}>
-          Place where you can suggest interest and good quality products of small or less popular
+          Place where you can suggest interesting and good quality products of small or less popular
           companies to share with other people and get to know about it more range of pepople
         </p>
       </div>
@@ -370,15 +377,19 @@ const SuggestProductPage = ({
           <SuggestedImagesPreview images={savedGallery} deleteAction={handleDeleteImage} />
         </div>
         <div className={classes.formBottomSection}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            disabled={isLoading}
-            className={classes.submitBtn}
-          >
-            {!isLoading ? 'Submit' : <CircularProgress />}
-          </Button>
+          {isLoading ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={isLoading}
+              className={classes.submitBtn}
+            >
+              Submit
+            </Button>
+          )}
           <Button
             variant="text"
             color="primary"
@@ -390,57 +401,59 @@ const SuggestProductPage = ({
           </Button>
         </div>
       </form>
-      {isRequestError ? (
-        <Snackbar
-          open={isSnackOpen}
-          autoHideDuration={autoHideTime}
+      <Snackbar
+        open={isSnackOpen}
+        autoHideDuration={autoHideTime}
+        onClose={() => setIsSnackOpen(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+      >
+        <MuiAlert
           onClose={() => setIsSnackOpen(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          severity={isRequestError ? 'error' : 'success'}
+          variant="filled"
+          elevation={6}
         >
-          <MuiAlert
-            onClose={() => setIsSnackOpen(false)}
-            severity="error"
-            variant="filled"
-            elevation={6}
-          >
-            Request is failed, please try again
-          </MuiAlert>
-        </Snackbar>
-      ) : (
-        <Snackbar
-          open={isSnackOpen}
-          autoHideDuration={autoHideTime}
-          onClose={() => setIsSnackOpen(false)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        >
-          <MuiAlert
-            onClose={() => setIsSnackOpen(false)}
-            severity="success"
-            variant="filled"
-            elevation={6}
-          >
-            Suggestion is successfully submited
-          </MuiAlert>
-        </Snackbar>
-      )}
+          {isRequestError
+            ? 'Request is failed, please try again'
+            : 'Suggestion is successfully submited'}
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 };
-const mapStateToProps = state => ({
+
+const mapStateToProps = (state) => ({
   isFormPreview: state.form.isFormPreview,
   savedFields: state.form.formFields,
   savedGallery: state.form.previewGallery,
 });
-const mapDispatchToProps = dispatch => ({
-  setFormFields: formFields => dispatch(setFormFieldsAction(formFields)),
-  setFormPreview: status => dispatch(setFormPreviewAction(status)),
-  setGallery: images => dispatch(setGalleryAction(images)),
+
+const mapDispatchToProps = (dispatch) => ({
+  setFormFields: (formFields) => dispatch(setFormFieldsAction(formFields)),
+  setFormPreview: (status) => dispatch(setFormPreviewAction(status)),
+  setGallery: (images) => dispatch(setGalleryAction(images)),
 });
 
 SuggestProductPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  savedFields: PropTypes.shape({
+    prodName: PropTypes.string,
+    prodUrl: PropTypes.string,
+    headImg: PropTypes.string,
+    shortDescription: PropTypes.string,
+    fullDescription: PropTypes.string,
+  }).isRequired,
+  savedGallery: PropTypes.arrayOf(PropTypes.string),
+  isFormPreview: PropTypes.bool.isRequired,
+  setFormFields: PropTypes.func.isRequired,
+  setFormPreview: PropTypes.func.isRequired,
+  setGallery: PropTypes.func.isRequired,
+};
+
+SuggestProductPage.defaultProps = {
+  savedGallery: [],
 };
 
 export default compose(

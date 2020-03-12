@@ -12,7 +12,7 @@ import ImageGallery from '../components/ImageGallery';
 import Footer from '../components/Footer';
 import { loadProductByIdAction } from '../reducers/coreReducer';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   loaderWrapper: {
     display: 'flex',
     height: '100vh',
@@ -62,13 +62,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     width: '100%',
     height: '80vh',
+    maxHeight: '700px',
     overflow: 'hidden',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
       height: '100vh',
     },
   },
-  prodImg: props => ({
+  prodImg: (props) => ({
     width: '85%',
     height: '85%',
     alignSelf: 'flex-end',
@@ -112,7 +113,7 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     left: '0',
     bottom: '0',
-    padding: '40px 60px 20px 60px',
+    padding: '40px 60px 20px 40px',
     fontSize: '30px',
     transform: 'scale(1)',
     color: '#fff',
@@ -132,7 +133,7 @@ const useStyles = makeStyles(theme => ({
       content: "'Explore site'",
       position: 'absolute',
       fontSize: '15px',
-      left: '95px',
+      left: '75px',
       top: '47px',
       whiteSpace: 'nowrap',
       transform: 'translate(0, 55px)',
@@ -161,7 +162,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '30px',
+    padding: '30px 10px 30px 30px',
     boxSizing: 'border-box',
     userSelect: 'none',
     right: 0,
@@ -214,7 +215,6 @@ const ProductDetailsPage = ({
 }) => {
   const previewData = { ...formFields, savedGallery };
   const currProduct = isFormPreview ? previewData : activeProduct;
-  console.log(currProduct)
   const classes = useStyles({ img: (currProduct && currProduct.headImg) || null });
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -268,7 +268,7 @@ const ProductDetailsPage = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   formFields: state.form.formFields,
   savedGallery: state.form.previewGallery,
   isFormPreview: state.form.isFormPreview,
@@ -276,8 +276,8 @@ const mapStateToProps = state => ({
   isActiveProductLoading: state.core.isActiveProductLoading,
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadProductById: id => dispatch(loadProductByIdAction(id)),
+const mapDispatchToProps = (dispatch) => ({
+  loadProductById: (id) => dispatch(loadProductByIdAction(id)),
 });
 
 ProductDetailsPage.propTypes = {
@@ -288,7 +288,7 @@ ProductDetailsPage.propTypes = {
     prodName: PropTypes.string,
     gallery: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
-  isFormPreview: PropTypes.bool,
+  isFormPreview: PropTypes.bool.isRequired,
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   loadProductById: PropTypes.func.isRequired,
   activeProduct: PropTypes.shape({
@@ -298,11 +298,12 @@ ProductDetailsPage.propTypes = {
     gallery: PropTypes.arrayOf(PropTypes.string),
   }),
   isActiveProductLoading: PropTypes.bool.isRequired,
+  savedGallery: PropTypes.arrayOf(PropTypes.string),
 };
 
 ProductDetailsPage.defaultProps = {
-  // isFormPreview: false,
   activeProduct: null,
+  savedGallery: [],
 };
 
 export default compose(

@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,11 +26,16 @@ const PreviewProductPage = ({ formFields }) => {
     </div>
   );
 };
-// todo: make sure setted propTypes all around
 const mapStateToProps = (state) => state.form;
 
-// PreviewProductPage.propTypes = {
-//   formFields: PropTypes.object.isRequired,
-// };
+PreviewProductPage.propTypes = {
+  formFields: PropTypes.shape({
+    prodName: PropTypes.string,
+    prodUrl: PropTypes.string,
+    headImg: PropTypes.string,
+    shortDescription: PropTypes.string,
+    fullDescription: PropTypes.string,
+  }).isRequired,
+};
 
 export default connect(mapStateToProps)(PreviewProductPage);

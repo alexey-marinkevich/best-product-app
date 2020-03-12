@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     width: '40%',
-    maxWidth: '300px',
+    maxWidth: '400px',
     padding: '20px',
     backgroundColor: '#fff',
     [theme.breakpoints.down('sm')]: {

@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   root: {
     display: 'flex',
     justifyContent: 'center',
-    padding: '80px 70px 70px 70px',
+    padding: '80px 70px 60px 70px',
     backgroundColor: '#fff',
   },
   content: {
