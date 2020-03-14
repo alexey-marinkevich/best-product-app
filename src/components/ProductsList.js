@@ -16,13 +16,15 @@ const useStyles = makeStyles({
   },
   loaderWrapper: {
     display: 'flex',
-    height: '50vh',
+    height: '90vh',
     justifyContent: 'center',
     alignItems: 'center',
   },
 });
 
-const ProductsList = ({ products, isProductsLoading, setProducts }) => {
+const ProductsList = ({
+  products, isProductsLoading, setProducts, isError,
+}) => {
   const classes = useStyles();
 
   useEffect(() => {
@@ -33,6 +35,22 @@ const ProductsList = ({ products, isProductsLoading, setProducts }) => {
     return (
       <div className={classes.loaderWrapper}>
         <CircularProgress />
+      </div>
+    );
+  }
+
+  if (!products.length) {
+    return (
+      <div className={classes.loaderWrapper}>
+        <h2>Products not found</h2>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className={classes.loaderWrapper}>
+        <h2>Something went wrong</h2>
       </div>
     );
   }
@@ -55,6 +73,7 @@ const ProductsList = ({ products, isProductsLoading, setProducts }) => {
 const mapStateToProps = (state) => ({
   products: state.core.products,
   isProductsLoading: state.core.isProductsLoading,
+  isError: state.core.isError,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -65,9 +84,7 @@ ProductsList.propTypes = {
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
   isProductsLoading: PropTypes.bool.isRequired,
   setProducts: PropTypes.func.isRequired,
+  isError: PropTypes.bool.isRequired,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProductsList);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsList);

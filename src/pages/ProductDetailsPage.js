@@ -241,7 +241,7 @@ const ProductDetailsPage = ({
   }
 
   const handleClose = () => (!isFormPreview ? history.push('/') : history.push('/suggest-form'));
-  const { siteUrl, prodName, fullDescription } = currProduct;
+  const { prodUrl, prodName, fullDescription } = currProduct;
 
   return (
     <div className={classes.root}>
@@ -251,7 +251,7 @@ const ProductDetailsPage = ({
             <IoIosArrowRoundBack htmlFor={classes.closeBtn} />
           </button>
           <div className={classes.prodImg} />
-          <a href={siteUrl} className={classes.siteUrl} target="_blank" rel="noopener noreferrer">
+          <a href={prodUrl} className={classes.siteUrl} target="_blank" rel="noopener noreferrer">
             <IoIosGlobe htmlFor={classes.siteUrl} />
           </a>
         </div>
@@ -262,7 +262,7 @@ const ProductDetailsPage = ({
           <p>{fullDescription}</p>
         </div>
       </div>
-      <ImageGallery images={currProduct.savedGallery} />
+      <ImageGallery images={isFormPreview ? currProduct.savedGallery : currProduct.gallery} />
       <Footer />
     </div>
   );

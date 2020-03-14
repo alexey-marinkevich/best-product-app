@@ -1,8 +1,7 @@
 const DEV_ENDPOINT = 'http://localhost:4000';
 
 function withMocker(target, mock) {
-  const isDev = process.env.REACT_APP_DEV;
-
+  const isDev = process.env.NODE_ENV !== 'production';
   return isDev ? mock : target;
 }
 
@@ -12,7 +11,7 @@ const constants = {
   },
   apiGateway: {
     products: {
-      ENDPOINT: withMocker(process.env.REACT_APP_API_GATEWAY_PRODUCTS_URL, DEV_ENDPOINT),
+      ENDPOINT: withMocker(process.env.REACT_APP_BASE_PRODUCT_URL, DEV_ENDPOINT),
       NAME: 'products',
     },
   },

@@ -5,13 +5,16 @@ const initState = {
   activeProduct: null,
   isActiveProductLoading: false,
   isProductsLoading: false,
+  isError: false,
 };
 
 const SET_PRODUCTS = 'SET_PRODUCTS';
 const TOGGLE_LOADING_PRODUCTS = 'TOGGLE_LOADING_PRODUCTS';
 const SET_ACTIVE_PRODUCT_LOADING_STATUS = 'SET_ACTIVE_PRODUCT_LOADING_STATUS';
 const SET_ACTIVE_PRODUCT = 'SET_ACTIVE_PRODUCT';
+const SET_ERROR = 'SET_ERROR';
 
+export const setErrorAction = (status) => ({ type: SET_ERROR, payload: status });
 export const updateProductsAction = (products = []) => ({ type: SET_PRODUCTS, payload: products });
 export const toggleLoadingProductsAction = (status) => ({
   type: TOGGLE_LOADING_PRODUCTS,
@@ -44,10 +47,17 @@ export const loadProductByIdAction = (id) => async (dispatch, getState) => {
 };
 
 export const setProductsAction = () => async (dispatch) => {
-  dispatch(toggleLoadingProductsAction(true));
-  const res = await API.get('products', '/product', null);
-  dispatch(updateProductsAction(res));
-  dispatch(toggleLoadingProductsAction(false));
+  try {
+    dispatch(toggleLoadingProductsAction(true));
+    const res = await API.get('products', '/product', null);
+    dispatch(updateProductsAction(res));
+    dispatch(toggleLoadingProductsAction(false));
+  } catch (err) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(err);
+    }
+    dispatch(toggleLoadingProductsAction(false));
+  }
 };
 
 export default (state = initState, action) => {
@@ -71,6 +81,11 @@ export default (state = initState, action) => {
       return {
         ...state,
         activeProduct: action.payload,
+      };
+    case SET_ERROR:
+      return {
+        ...state,
+        isError: action.payload,
       };
     default:
       return state;

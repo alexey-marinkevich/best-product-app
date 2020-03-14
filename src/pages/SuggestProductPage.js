@@ -209,7 +209,7 @@ const SuggestProductPage = ({
     register, handleSubmit, reset, getValues, setValue,
   } = useForm();
 
-  const autoHideTime = 3000;
+  const autoHideTime = 2500;
 
   useEffect(() => {
     if (isFormPreview) {
@@ -221,7 +221,10 @@ const SuggestProductPage = ({
     const apiName = 'products';
     const path = '/product';
     const myInit = {
-      body: data,
+      body: {
+        ...data,
+        gallery: savedGallery,
+      },
     };
     try {
       setIsLoading(true);
@@ -229,16 +232,18 @@ const SuggestProductPage = ({
       reset();
       setGallery([]);
       setIsLoading(false);
+      setIsRequestError(false);
       setIsSnackOpen(true);
       setTimeout(() => {
         setFormPreview(false);
         history.push('/');
       }, autoHideTime + 500);
-    } catch (error) {
+    } catch (err) {
       if (process.env.NODE_ENV !== 'production') {
-        console.error(error);
+        console.log(err);
       }
       setIsRequestError(true);
+      setIsSnackOpen(true);
       setIsLoading(false);
     }
   };
