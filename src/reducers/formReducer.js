@@ -6,7 +6,11 @@ const initState = {
     shortDescription: '',
     fullDescription: '',
   },
-  previewGallery: [],
+  previewGallery: [
+    'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_BW_Closeup_1024x.jpg?v=1556563118',
+    'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_Gray_Loft_600x.jpg?v=1557771826',
+    'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_White_Wide_1024x.jpg?v=1556563138',
+  ],
   isFormPreview: false,
 };
 

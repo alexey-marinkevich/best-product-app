@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
@@ -46,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     background: 'none',
     border: 'none',
     outline: 'none',
-    padding: '0 30px 30px',
+    padding: '0 30px 30px 10px',
     cursor: 'pointer',
     transition: '0.3s',
     color: '#333',
@@ -88,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: '20px',
       },
       [theme.breakpoints.down('xs')]: {
-        color: '#dcdcdc',
+        color: '#e8e8e8',
       },
     },
   },
@@ -296,17 +297,21 @@ const SuggestProductPage = ({
     main: [
       {
         name: 'prodName',
+        defaultValue: 'Atoms shoes',
         label: 'Product Name',
         className: classes.formTopItem,
       },
       {
         name: 'prodUrl',
+        defaultValue: 'https://atoms.com/',
         label: 'Product Site',
         helperText: 'Add origin site URL',
         className: classes.formTopItem,
       },
       {
         name: 'headImg',
+        defaultValue:
+          'https://cdn2.shopify.com/s/files/1/0231/2060/9358/files/Home_Packaging_1024x.jpg?v=1556841297',
         label: 'Main Image',
         placeholder: 'Paste URL',
         helperText: 'Add image that clearly shows the product is',
@@ -316,6 +321,8 @@ const SuggestProductPage = ({
     description: [
       {
         name: 'shortDescription',
+        defaultValue:
+          'Our desire to make the most comfortable shoes combined with stretchy laces, proprietary midsole, copper lining, and premium TPU yarn resulted in really comfortable shoes.',
         label: 'Short Description',
         placeholder: '250 symbols max',
         helperText: 'Will be available in product preview',
@@ -324,6 +331,8 @@ const SuggestProductPage = ({
       },
       {
         name: 'fullDescription',
+        defaultValue:
+          'Atoms may look simple, but they’re packed with features. Our elastic laces mean you only have to tie your shoes once. We developed a custom foam midsole that molds to your feet, making them even more comfortable with every wear. Insoles are lined with antimicrobial copper to kill bacteria and prevent odor. All materials are extra lightweight & soft for cloud-like cushioning.',
         label: 'Full Description',
         helperText: 'Provide full description here',
         multiline: true,

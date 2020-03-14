@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     textDecoration: 'none',
     width: '100%',
-    height: '40vh',
+    height: '45vh',
     overflow: 'hidden',
     position: 'relative',
     '&:hover': {
@@ -54,15 +54,15 @@ const useStyles = makeStyles((theme) => ({
     padding: '20px',
     backgroundColor: '#fff',
     [theme.breakpoints.down('sm')]: {
-      width: '95%',
-      display: 'flex',
-      maxWidth: 'initial',
-      padding: '20px',
-      flexDirection: 'column',
-      position: 'absolute',
       left: '50%',
-      bottom: '5%',
+      width: '98%',
+      bottom: '2%',
+      display: 'flex',
+      padding: '10px 20px 14px 20px',
+      position: 'absolute',
+      maxWidth: 'initial',
       transform: 'translate(-50%, 0)',
+      flexDirection: 'column',
       backgroundColor: 'rgba(255, 255, 255, 0.8)',
     },
   },
@@ -70,10 +70,16 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '32px',
     color: '#333',
     margin: 0,
+    [theme.breakpoints.down('xs')]: {
+      textAlign: 'center',
+    },
   },
   productDescription: {
     fontSize: '16px',
     color: '#333',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
   productImage: (props) => ({
     width: '100%',

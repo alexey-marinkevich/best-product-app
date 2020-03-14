@@ -10,7 +10,8 @@ const useStyles = makeStyles({
     display: 'flex',
     width: '100%',
     padding: '25px 0',
-    overflow: 'overlay',
+    overflowX: 'overlay',
+    overflowY: 'hidden',
     alignItems: 'baseline',
     '&::-webkit-scrollbar': {
       height: '0.5em',
