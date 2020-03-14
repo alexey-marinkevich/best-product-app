@@ -317,9 +317,9 @@ const SuggestProductPage = ({
       {
         name: 'shortDescription',
         label: 'Short Description',
-        placeholder: '150 symbols max',
+        placeholder: '250 symbols max',
         helperText: 'Will be available in product preview',
-        inputProps: { maxLength: 150 },
+        inputProps: { maxLength: 250 },
         multiline: true,
       },
       {

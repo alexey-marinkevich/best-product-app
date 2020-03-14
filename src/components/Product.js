@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
       left: '50%',
       bottom: '5%',
       transform: 'translate(-50%, 0)',
-      backgroundColor: 'rgba(255, 255, 255, 0.6)',
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
     },
   },
   productName: {
