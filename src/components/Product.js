@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     width: '40%',
     maxWidth: '400px',
-    padding: '20px',
+    padding: '20px 30px',
     backgroundColor: '#fff',
     [theme.breakpoints.down('sm')]: {
       left: '50%',
@@ -69,7 +69,11 @@ const useStyles = makeStyles((theme) => ({
   productName: {
     fontSize: '32px',
     color: '#333',
-    margin: 0,
+    marginBottom: '10px',
+    fontWeight: '100',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: 0,
+    },
     [theme.breakpoints.down('xs')]: {
       textAlign: 'center',
     },

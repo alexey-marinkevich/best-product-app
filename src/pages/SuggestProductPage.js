@@ -47,10 +47,13 @@ const useStyles = makeStyles((theme) => ({
     background: 'none',
     border: 'none',
     outline: 'none',
-    padding: '0 30px 30px 10px',
+    padding: '0 30px 30px 30px',
     cursor: 'pointer',
     transition: '0.3s',
     color: '#333',
+    [theme.breakpoints.down('xs')]: {
+      padding: '0 30px 30px 10px',
+    },
     '&:hover': {
       transform: 'translate(-10px, 0)',
     },

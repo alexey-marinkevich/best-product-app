@@ -15,6 +15,7 @@ const useStyles = makeStyles({
     textDecoration: 'none',
     color: '#333',
     fontSize: '20px',
+    fontWeight: '100',
   },
   formLink: {
     textDecoration: 'none',
