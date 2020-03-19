@@ -11,11 +11,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'baseline',
     '& img': {
       margin: '0 30px 25px 0',
-      maxHeight: '700px',
+      maxHeight: '600px',
       width: 'auto',
       '-webkit-user-drag': 'none',
       [theme.breakpoints.down('xs')]: {
-        maxHeight: '90vh',
+        maxHeight: '80vh',
       },
 
       '&:last-child': {

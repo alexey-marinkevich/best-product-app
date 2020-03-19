@@ -118,16 +118,25 @@ const useStyles = makeStyles((theme) => ({
     transform: 'scale(1)',
     color: '#fff',
     transition: '.2s .2s',
+    cursor: 'pointer',
     [theme.breakpoints.down('sm')]: {
-      padding: '40px 5vw 40px 6vw',
-    },
-    [theme.breakpoints.down('xs')]: {
       left: '50%',
       bottom: '50px',
       padding: '20px',
       fontSize: '40px',
       transformOrigin: 'center left',
       transform: 'scale(1) translate(-50%, 0)',
+    },
+    '&:hover': {
+      transform: 'scale(1.2)',
+      transition: '.2s',
+      [theme.breakpoints.down('sm')]: {
+        transform: 'scale(1.3) translate(-50%, 0)',
+      },
+      '&::before': {
+        transform: 'translate(-5px, 0) scale(0.9)',
+        transition: '.2s .2s',
+      },
     },
     '&::before': {
       content: "'Explore site'",
@@ -140,17 +149,6 @@ const useStyles = makeStyles((theme) => ({
       transition: '.2s',
       [theme.breakpoints.down('sm')]: {
         content: "''",
-      },
-    },
-    '&:hover': {
-      transform: 'scale(1.2)',
-      transition: '.2s',
-      [theme.breakpoints.down('xs')]: {
-        transform: 'scale(1.3) translate(-50%, 0)',
-      },
-      '&::before': {
-        transform: 'translate(-5px, 0) scale(0.9)',
-        transition: '.2s .2s',
       },
     },
   },
