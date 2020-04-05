@@ -1,10 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import HomePage from './pages/HomePage';
-import ProductDetailsPage from './pages/ProductDetailsPage';
-import SuggestProductPage from './pages/SuggestProductPage';
-import PreviewProductPage from './pages/PreviewProductPage';
+import {
+  HomePage,
+  ProductDetailsPage,
+  SuggestProductPage,
+  PreviewProductPage,
+} from './pages';
 
 function App() {
   return (
