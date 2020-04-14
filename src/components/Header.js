@@ -3,26 +3,43 @@ import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
+import Logo from './Logo';
+
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    padding: '0 25px',
+    width: '50%',
+    transform: 'translate(100%, 0)',
     justifyContent: 'space-between',
     alignItems: 'center',
-    overflow: 'hidden',
+    [theme.breakpoints.down('sm')]: {
+      padding: '0 25px 0 0',
+      width: '100%',
+      transform: 'translate(0, 0)',
+      overflow: 'hidden',
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: '0 25px',
+    },
   },
-  logo: {
-    textDecoration: 'none',
-    color: '#333',
-    fontSize: '20px',
-    fontWeight: '100',
+  formLinkWrapper: {
+    overflow: 'hidden',
+    padding: '25px 0',
+    [theme.breakpoints.down('sm')]: {
+      overflow: 'visible',
+    },
   },
   formLink: {
     textDecoration: 'none',
     color: '#333',
     fontSize: '16px',
+    fontWeight: '300',
     position: 'relative',
     padding: '25px 0',
+    marginRight: '25px',
+    [theme.breakpoints.down('sm')]: {
+      marginRight: '0',
+    },
     '&::after': {
       content: "''",
       position: 'absolute',
@@ -40,15 +57,19 @@ const useStyles = makeStyles({
       },
     },
   },
-});
+}));
 
 const Header = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <Link to="/" className={classes.logo}>BEST PRODUCT</Link>
-      <Link to="/suggest-form" className={classes.formLink}>Suggest Product</Link>
+      <Logo />
+      <div className={classes.formLinkWrapper}>
+        <Link to="/suggest-form" className={classes.formLink}>
+          Suggest Product
+        </Link>
+      </div>
     </div>
   );
 };
