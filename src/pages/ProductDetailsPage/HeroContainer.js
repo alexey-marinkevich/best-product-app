@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
     position: 'relative',
     [theme.breakpoints.down('xs')]: {
-      height: '80vh',
+      height: '85vh',
     },
   },
   closeBtn: {
