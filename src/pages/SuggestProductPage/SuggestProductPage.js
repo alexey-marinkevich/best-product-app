@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     '& h2': {
       fontSize: '35px',
       margin: '0',
+      fontWeight: '600',
     },
   },
   containerTopSection: {
@@ -50,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     transition: '0.3s',
     color: '#333',
+    [theme.breakpoints.down('sm')]: {
+      padding: '10px 30px 30px 30px',
+    },
     [theme.breakpoints.down('xs')]: {
       padding: '0 30px 30px 10px',
     },
