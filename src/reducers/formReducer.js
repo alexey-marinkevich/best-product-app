@@ -44,7 +44,7 @@ export const setFormFieldAction = (formName, formField) => ({
 });
 export const setGalleryAction = (data) => ({ type: SET_GALLERY, payload: data });
 export const setFormPreviewAction = (status) => ({ type: SET_IS_FORM_PREVIEW, payload: status });
-export const setFlushAction = () => ({ type: FLUSH_ACTION, payload: initState.formFields });
+export const setFlushAction = () => ({ type: FLUSH_ACTION, payload: initState });
 
 export const submitFormAction = (history, autoHideTime) => async (dispatch, getState) => {
   const state = getState();
@@ -59,12 +59,9 @@ export const submitFormAction = (history, autoHideTime) => async (dispatch, getS
   try {
     dispatch(setIsLoadingAction(true));
     await API.post(apiName, path, myInit);
-    dispatch(setGalleryAction([]));
-    dispatch(setIsLoadingAction(false));
-    dispatch(setIsRequestErrorAction(false));
+    dispatch(setFlushAction());
     dispatch(setIsSnackOpenAction(true));
     setTimeout(() => {
-      dispatch(setFormPreviewAction(false));
       history.push('/');
     }, autoHideTime + 500);
   } catch (err) {
@@ -125,8 +122,7 @@ export default (state = initState, action) => {
       };
     case FLUSH_ACTION:
       return {
-        ...state,
-        formFields: action.payload,
+        ...action.payload,
       };
 
     default:
