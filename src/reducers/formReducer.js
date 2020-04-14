@@ -10,7 +10,7 @@ const initState = {
     fullDescription: 'Atoms may look simple, but they’re packed with features. Our elastic laces mean you only have to tie your shoes once. We developed a custom foam midsole that molds to your feet, making them even more comfortable with every wear. Insoles are lined with antimicrobial copper to kill bacteria and prevent odor. All materials are extra lightweight & soft for cloud-like cushioning.',
   },
   productGallery: {
-    input: '',
+    input: 'https://atoms.imgix.net/web/home_header.jpg?w=700&auto=format&dpr=1',
     gallery: [
       'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_BW_Closeup_1024x.jpg?v=1556563118',
       'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_Gray_Loft_600x.jpg?v=1557771826',
