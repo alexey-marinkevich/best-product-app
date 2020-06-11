@@ -28,7 +28,7 @@ Amplify.configure(amplifyConfig);
 const store = createStore();
 const theme = createMuiTheme({
   typography: {
-    fontFamily: "'Segoe UI', 'Roboto', sans-serif",
+    fontFamily: "'Nunito Sans', sans-serif",
   },
   palette: {
     primary: {

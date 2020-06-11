@@ -1,15 +1,16 @@
+/* eslint-disable max-len */
 import { API } from 'aws-amplify';
 
 const initState = {
   formFields: {
-    prodName: '',
-    prodUrl: '',
-    headImg: '',
-    shortDescription: '',
-    fullDescription: '',
+    prodName: 'Atoms shoes',
+    prodUrl: 'https://atoms.com/',
+    headImg: 'https://cdn2.shopify.com/s/files/1/0231/2060/9358/files/Home_Packaging_1024x.jpg?v=1556841297',
+    shortDescription: 'Our desire to make the most comfortable shoes combined with stretchy laces, proprietary midsole, copper lining, and premium TPU yarn resulted in really comfortable shoes.',
+    fullDescription: 'Atoms may look simple, but they’re packed with features. Our elastic laces mean you only have to tie your shoes once. We developed a custom foam midsole that molds to your feet, making them even more comfortable with every wear. Insoles are lined with antimicrobial copper to kill bacteria and prevent odor. All materials are extra lightweight & soft for cloud-like cushioning.',
   },
   productGallery: {
-    input: '',
+    input: 'https://atoms.imgix.net/web/home_header.jpg?w=700&auto=format&dpr=1',
     gallery: [
       'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_BW_Closeup_1024x.jpg?v=1556563118',
       'https://cdn.shopify.com/s/files/1/0231/2060/9358/files/Home_Gray_Loft_600x.jpg?v=1557771826',
@@ -44,7 +45,7 @@ export const setFormFieldAction = (formName, formField) => ({
 });
 export const setGalleryAction = (data) => ({ type: SET_GALLERY, payload: data });
 export const setFormPreviewAction = (status) => ({ type: SET_IS_FORM_PREVIEW, payload: status });
-export const setFlushAction = () => ({ type: FLUSH_ACTION, payload: initState.formFields });
+export const setFlushAction = () => ({ type: FLUSH_ACTION, payload: initState });
 
 export const submitFormAction = (history, autoHideTime) => async (dispatch, getState) => {
   const state = getState();
@@ -59,12 +60,9 @@ export const submitFormAction = (history, autoHideTime) => async (dispatch, getS
   try {
     dispatch(setIsLoadingAction(true));
     await API.post(apiName, path, myInit);
-    dispatch(setGalleryAction([]));
-    dispatch(setIsLoadingAction(false));
-    dispatch(setIsRequestErrorAction(false));
+    dispatch(setFlushAction());
     dispatch(setIsSnackOpenAction(true));
     setTimeout(() => {
-      dispatch(setFormPreviewAction(false));
       history.push('/');
     }, autoHideTime + 500);
   } catch (err) {
@@ -125,8 +123,7 @@ export default (state = initState, action) => {
       };
     case FLUSH_ACTION:
       return {
-        ...state,
-        formFields: action.payload,
+        ...action.payload,
       };
 
     default:

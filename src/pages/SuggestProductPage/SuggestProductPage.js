@@ -12,7 +12,6 @@ import { IoIosArrowRoundBack } from 'react-icons/io';
 
 import {
   setFormPreviewAction,
-  setGalleryAction,
   setIsSnackOpenAction,
   submitFormAction,
   setFlushAction,
@@ -34,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
     '& h2': {
       fontSize: '35px',
       margin: '0',
+      fontWeight: '600',
     },
   },
   containerTopSection: {
@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     transition: '0.3s',
     color: '#333',
+    [theme.breakpoints.down('sm')]: {
+      padding: '10px 30px 30px 30px',
+    },
     [theme.breakpoints.down('xs')]: {
       padding: '0 30px 30px 10px',
     },
@@ -129,7 +132,6 @@ const propTypes = {
   isLoading: PropTypes.bool,
   isSnackOpen: PropTypes.bool,
   isRequestError: PropTypes.bool,
-  setGallery: PropTypes.func.isRequired,
   setFormPreview: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
   setIsSnackOpen: PropTypes.func.isRequired,
@@ -145,7 +147,6 @@ const defaultProps = {
 const SuggestProductPage = ({
   history,
   setFormPreview,
-  setGallery,
   setFlush,
   isLoading,
   isSnackOpen,
@@ -169,9 +170,7 @@ const SuggestProductPage = ({
 
   const handlePageClose = () => {
     history.push('/');
-    setFormPreview(false);
     setFlush();
-    setGallery([]);
   };
 
   return (
@@ -249,7 +248,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setFormPreview: (status) => dispatch(setFormPreviewAction(status)),
-  setGallery: (data) => dispatch(setGalleryAction(data)),
   setIsSnackOpen: (status) => dispatch(setIsSnackOpenAction(status)),
   submitForm: (history, autoHideTime) => dispatch(submitFormAction(history, autoHideTime)),
   setFlush: () => dispatch(setFlushAction()),

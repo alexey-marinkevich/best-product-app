@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '30px 10px 30px 30px',
+    padding: '30px 10px',
     boxSizing: 'border-box',
     userSelect: 'none',
     right: 0,
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
       writingMode: 'vertical-lr',
       fontSize: '60px',
       margin: 0,
+      fontWeight: '100',
       [theme.breakpoints.down('sm')]: {
         writingMode: 'horizontal-tb',
         padding: '5px 30px 10px 30px',

@@ -5,21 +5,15 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { loadProductByIdAction } from '../../reducers/coreReducer';
 import HeroContainer from './HeroContainer';
 import SideName from './SideName';
 import ImageGallery from '../../components/ImageGallery';
 import Footer from '../../components/Footer';
+import Loader from '../../components/Loader';
 
 const useStyles = makeStyles((theme) => ({
-  loaderWrapper: {
-    display: 'flex',
-    height: '100vh',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   errMessage: {
     display: 'flex',
     flexDirection: 'column',
@@ -110,11 +104,7 @@ const ProductDetailsPage = ({
   }, [loadProductById, match.params.id, isFormPreview]);
 
   if (isActiveProductLoading) {
-    return (
-      <div className={classes.loaderWrapper}>
-        <CircularProgress />
-      </div>
-    );
+    return <Loader />;
   }
 
   if (!currProduct) {
