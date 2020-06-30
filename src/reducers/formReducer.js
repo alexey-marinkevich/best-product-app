@@ -1,13 +1,18 @@
 /* eslint-disable max-len */
 import { API } from 'aws-amplify';
 
+import { setProductsAction } from './coreReducer';
+
 const initState = {
   formFields: {
     prodName: 'Atoms shoes',
     prodUrl: 'https://atoms.com/',
-    headImg: 'https://cdn2.shopify.com/s/files/1/0231/2060/9358/files/Home_Packaging_1024x.jpg?v=1556841297',
-    shortDescription: 'Our desire to make the most comfortable shoes combined with stretchy laces, proprietary midsole, copper lining, and premium TPU yarn resulted in really comfortable shoes.',
-    fullDescription: 'Atoms may look simple, but they’re packed with features. Our elastic laces mean you only have to tie your shoes once. We developed a custom foam midsole that molds to your feet, making them even more comfortable with every wear. Insoles are lined with antimicrobial copper to kill bacteria and prevent odor. All materials are extra lightweight & soft for cloud-like cushioning.',
+    headImg:
+      'https://cdn2.shopify.com/s/files/1/0231/2060/9358/files/Home_Packaging_1024x.jpg?v=1556841297',
+    shortDescription:
+      'Our desire to make the most comfortable shoes combined with stretchy laces, proprietary midsole, copper lining, and premium TPU yarn resulted in really comfortable shoes.',
+    fullDescription:
+      'Atoms may look simple, but they’re packed with features. Our elastic laces mean you only have to tie your shoes once. We developed a custom foam midsole that molds to your feet, making them even more comfortable with every wear. Insoles are lined with antimicrobial copper to kill bacteria and prevent odor. All materials are extra lightweight & soft for cloud-like cushioning.',
   },
   productGallery: {
     input: 'https://atoms.imgix.net/web/home_header.jpg?w=700&auto=format&dpr=1',
@@ -32,10 +37,16 @@ const SET_GALLERY = 'SET_GALLERY';
 const SET_IS_FORM_PREVIEW = 'SET_IS_FORM_PREVIEW';
 const FLUSH_ACTION = 'FLUSH_ACTION';
 
-export const setGalleryInputAction = (inputText) => ({ type: SET_GALLERY_INPUT, payload: inputText });
+export const setGalleryInputAction = (inputText) => ({
+  type: SET_GALLERY_INPUT,
+  payload: inputText,
+});
 export const setIsLoadingAction = (status) => ({ type: SET_IS_LOADING, payload: status });
 export const setIsSnackOpenAction = (status) => ({ type: SET_IS_SNACK_OPEN, payload: status });
-export const setIsRequestErrorAction = (status) => ({ type: SET_IS_REQUEST_ERROR, payload: status });
+export const setIsRequestErrorAction = (status) => ({
+  type: SET_IS_REQUEST_ERROR,
+  payload: status,
+});
 export const setFormFieldAction = (formName, formField) => ({
   type: SET_FORM_FIELD,
   payload: {
@@ -62,6 +73,7 @@ export const submitFormAction = (history, autoHideTime) => async (dispatch, getS
     await API.post(apiName, path, myInit);
     dispatch(setFlushAction());
     dispatch(setIsSnackOpenAction(true));
+    dispatch(setProductsAction(true));
     setTimeout(() => {
       history.push('/');
     }, autoHideTime + 500);

@@ -46,17 +46,21 @@ export const loadProductByIdAction = (id) => async (dispatch, getState) => {
   dispatch(setActiveLoadingAction(false));
 };
 
-export const setProductsAction = () => async (dispatch) => {
-  try {
-    dispatch(toggleLoadingProductsAction(true));
-    const res = await API.get('products', '/product', null);
-    dispatch(updateProductsAction(res));
-    dispatch(toggleLoadingProductsAction(false));
-  } catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(err);
+export const setProductsAction = (forced = false) => async (dispatch, getState) => {
+  const { core } = getState();
+
+  if (forced || !core.products.length) {
+    try {
+      dispatch(toggleLoadingProductsAction(true));
+      const res = await API.get('products', '/product', null);
+      dispatch(updateProductsAction(res));
+      dispatch(toggleLoadingProductsAction(false));
+    } catch (err) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(err);
+      }
+      dispatch(toggleLoadingProductsAction(false));
     }
-    dispatch(toggleLoadingProductsAction(false));
   }
 };
 
