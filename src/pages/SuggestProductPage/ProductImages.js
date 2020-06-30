@@ -6,7 +6,7 @@ import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { setGalleryAction, setGalleryInputAction } from '../../reducers/formReducer';
-import SuggestedImagesPreview from '../../components/SuggestedImagesPreview';
+import SuggestedImagesPreview from './SuggestedImagesPreview';
 
 const useStyles = makeStyles((theme) => ({
   addImgBtn: {

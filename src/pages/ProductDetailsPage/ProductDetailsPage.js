@@ -27,11 +27,15 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     position: 'relative',
+    width: '100%',
+    margin: '0 auto',
     backgroundColor: '#fff',
     zIndex: '99999',
   },
   innerRoot: {
     position: 'relative',
+    margin: '0 auto',
+    maxWidth: '1920px',
   },
   content: {
     display: 'flex',

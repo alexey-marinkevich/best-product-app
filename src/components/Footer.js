@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     color: '#333',
     transform: 'translate(0, 0)',
     transition: '.3s',
-    '&:hover': {
+    '&:hover, &:focus': {
       transform: 'translate(50%, 0)',
     },
   },
@@ -31,7 +31,7 @@ const useStyles = makeStyles({
     position: 'absolute',
     transition: '.3s',
 
-    '.gitHubLink:hover &': {
+    '.gitHubLink:hover &, .gitHubLink:focus &': {
       transform: 'translate(-100%, 0)',
     },
   },

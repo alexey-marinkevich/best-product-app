@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
       transform: 'translate(150px, 0)',
       transition: 'transform 0.3s',
     },
-    '&:hover': {
+    '&:hover, &:focus': {
       '&::after': {
         transform: 'translate(0, 0)',
       },

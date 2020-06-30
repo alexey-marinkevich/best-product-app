@@ -41,9 +41,6 @@ const useStyles = makeStyles((theme) => ({
       transform: 'translate(14%, -30%) rotate(0)',
       transition: 'transform .3s',
     },
-    [theme.breakpoints.down('sm')]: {
-      transform: 'translate(0, 0) rotate(45deg)',
-    },
     [theme.breakpoints.down('xs')]: {
       '.logoContainer:hover &': {
         transform: 'translate(0, 0) rotate(45deg)',
@@ -56,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     transition: 'width .3s .3s, color 2s 1.5s',
     '.logoContainer:hover &': {
       width: '50px',
-      color: 'red',
+      color: '#ff2d2d',
       transition: 'width .3s .6s, color 1s 1s',
     },
     [theme.breakpoints.down('xs')]: {
@@ -69,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
       content: "'est'",
       color: '#333',
       left: '0',
-      top: 0,
+      top: '0',
     },
   },
   secondWord: {
@@ -79,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
     transition: 'width .3s .3s, transform .3s .6s, color 2s 1.5s',
     '.logoContainer:hover &': {
       width: '85px',
-      color: 'red',
+      color: '#ff2d2d',
       transform: 'translate(-35px, 20px)',
       transition: 'transform .3s .3s, width .3s .6s, color 1s 1.3s',
     },
@@ -94,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
       content: "'roduct'",
       color: '#333',
       left: '0',
-      top: 0,
+      top: '0',
     },
   },
 }));

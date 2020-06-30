@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     transition: '0.3s',
     color: '#333',
-    '&:hover': {
+    '&:hover, &:focus': {
       transform: 'translate(-10px, 0)',
     },
     [theme.breakpoints.down('sm')]: {
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
       transformOrigin: 'center left',
       transform: 'scale(1) translate(-50%, 0)',
     },
-    '&:hover': {
+    '&:hover, &:focus': {
       transform: 'scale(1.2)',
       transition: '.2s',
       [theme.breakpoints.down('sm')]: {
@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
       position: 'absolute',
       fontSize: '15px',
       left: '75px',
-      top: '47px',
+      top: '45px',
       whiteSpace: 'nowrap',
       transform: 'translate(0, 55px)',
       transition: '.2s',

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     '& h2': {
       fontSize: '35px',
       margin: '0',
-      fontWeight: '600',
+      fontWeight: '700',
     },
   },
   containerTopSection: {
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('xs')]: {
       padding: '0 30px 30px 10px',
     },
-    '&:hover': {
+    '&:hover, &:focus': {
       transform: 'translate(-10px, 0)',
     },
   },

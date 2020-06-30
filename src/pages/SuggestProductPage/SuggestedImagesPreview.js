@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 import { GiTrashCan } from 'react-icons/gi';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     width: '100%',
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     position: 'relative',
     marginRight: '30px',
     cursor: 'pointer',
-    '&:hover': {
+    '&:hover , &:focus': {
       '& img': {
         filter: 'brightness(0.6)',
       },
@@ -47,6 +47,9 @@ const useStyles = makeStyles({
       '&:last-child': {
         marginRight: 0,
       },
+      [theme.breakpoints.down('sm')]: {
+        filter: 'brightness(0.8)',
+      },
     },
   },
   removeIcon: {
@@ -59,10 +62,13 @@ const useStyles = makeStyles({
     transform: 'translate(-50%, -50%)',
     transition: '0.3s',
     '.imgContainer:hover &': {
-      opacity: 1,
+      opacity: '1',
+    },
+    [theme.breakpoints.down('sm')]: {
+      opacity: '1',
     },
   },
-});
+}));
 
 const SuggestedImagesPreview = ({ images, deleteAction }) => {
   const classes = useStyles();

@@ -20,14 +20,14 @@ export const toggleLoadingProductsAction = (status) => ({
   type: TOGGLE_LOADING_PRODUCTS,
   payload: status,
 });
-export const setActiveProductLoadingStatusAction = (status) => ({
+export const setActiveLoadingAction = (status) => ({
   type: SET_ACTIVE_PRODUCT_LOADING_STATUS,
   payload: status,
 });
 export const setActiveProductAction = (product) => ({ type: SET_ACTIVE_PRODUCT, payload: product });
 
 export const loadProductByIdAction = (id) => async (dispatch, getState) => {
-  dispatch(setActiveProductLoadingStatusAction(true));
+  dispatch(setActiveLoadingAction(true));
   try {
     const { products } = getState().core;
     let activeProductLoaded = products.find((product) => product.id === id);
@@ -43,7 +43,7 @@ export const loadProductByIdAction = (id) => async (dispatch, getState) => {
     }
   }
 
-  dispatch(setActiveProductLoadingStatusAction(false));
+  dispatch(setActiveLoadingAction(false));
 };
 
 export const setProductsAction = () => async (dispatch) => {
