@@ -9,9 +9,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     height: '100%',
     width: '15%',
+    textAlign: 'center',
     backgroundColor: '#fff',
     justifyContent: 'center',
-    alignItems: 'center',
     padding: '30px 10px',
     boxSizing: 'border-box',
     userSelect: 'none',
@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
       right: '0',
       top: '0',
       maxWidth: 'inherit',
-      textAlign: 'center',
       position: 'relative',
       width: '100%',
       padding: '0',
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     '& h1': {
-      writingMode: 'vertical-lr',
+      writingMode: 'vertical-rl',
       fontSize: '60px',
       margin: 0,
       fontWeight: '100',
