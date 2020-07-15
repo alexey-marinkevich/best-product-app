@@ -52,6 +52,7 @@ const FormMainSection = ({ isLoading, formFields, setFormField }) => {
         name: 'prodName',
         label: 'Product Name',
         className: classes.formTopItem,
+        inputProps: { maxLength: 80 },
       },
       {
         name: 'prodUrl',

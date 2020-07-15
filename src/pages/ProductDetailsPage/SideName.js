@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     position: 'absolute',
     height: '100%',
-    width: '15%',
+    minWidth: '15%',
     textAlign: 'center',
     backgroundColor: '#fff',
     justifyContent: 'center',
@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '60px',
       margin: 0,
       fontWeight: '100',
+      lineHeight: '1.1',
       [theme.breakpoints.down('sm')]: {
         writingMode: 'horizontal-tb',
         padding: '5px 30px 10px 30px',
